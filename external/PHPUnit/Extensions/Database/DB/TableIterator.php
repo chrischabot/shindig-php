@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: TableIterator.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -55,31 +56,33 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Provides iterative access to tables from a database instance.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions_Database_DataSet_ITableIterator {
-  
-  /**
+class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions_Database_DataSet_ITableIterator
+{
+    /**
    * An array of tablenames.
    *
-   * @var Array
+   * @var array
    */
   protected $tableNames;
-  
+
   /**
-   * If this property is true then the tables will be iterated in reverse 
+   * If this property is true then the tables will be iterated in reverse
    * order.
-   * 
+   *
    * @var bool
    */
   protected $reverse;
-  
+
   /**
    * The database dataset that this iterator iterates over.
    *
@@ -87,21 +90,23 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
    */
   protected $dataSet;
 
-  public function __construct($tableNames, PHPUnit_Extensions_Database_DB_DataSet $dataSet, $reverse = false) {
-    $this->tableNames = $tableNames;
-    $this->dataSet = $dataSet;
-    $this->reverse = $reverse;
-    
-    $this->rewind();
-  }
+    public function __construct($tableNames, PHPUnit_Extensions_Database_DB_DataSet $dataSet, $reverse = false)
+    {
+        $this->tableNames = $tableNames;
+        $this->dataSet = $dataSet;
+        $this->reverse = $reverse;
+
+        $this->rewind();
+    }
 
   /**
    * Returns the current table.
    *
    * @return PHPUnit_Extensions_Database_DataSet_ITable
    */
-  public function getTable() {
-    $this->current();
+  public function getTable()
+  {
+      $this->current();
   }
 
   /**
@@ -109,8 +114,9 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
    *
    * @return PHPUnit_Extensions_Database_DataSet_ITableMetaData
    */
-  public function getTableMetaData() {
-    $this->current()->getTableMetaData();
+  public function getTableMetaData()
+  {
+      $this->current()->getTableMetaData();
   }
 
   /**
@@ -118,9 +124,11 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
    *
    * @return PHPUnit_Extensions_Database_DataSet_ITable
    */
-  public function current() {
-    $tableName = current($this->tableNames);
-    return $this->dataSet->getTable($tableName);
+  public function current()
+  {
+      $tableName = current($this->tableNames);
+
+      return $this->dataSet->getTable($tableName);
   }
 
   /**
@@ -128,40 +136,42 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
    *
    * @return string
    */
-  public function key() {
-    return $this->current()->getTableMetaData()->getTableName();
+  public function key()
+  {
+      return $this->current()->getTableMetaData()->getTableName();
   }
 
   /**
    * advances to the next element.
+   */
+  public function next()
+  {
+      if ($this->reverse) {
+          prev($this->tableNames);
+      } else {
+          next($this->tableNames);
+      }
+  }
+
+  /**
+   * Rewinds to the first element.
+   */
+  public function rewind()
+  {
+      if ($this->reverse) {
+          end($this->tableNames);
+      } else {
+          reset($this->tableNames);
+      }
+  }
+
+  /**
+   * Returns true if the current index is valid.
    *
-   */
-  public function next() {
-    if ($this->reverse) {
-      prev($this->tableNames);
-    } else {
-      next($this->tableNames);
-    }
-  }
-
-  /**
-   * Rewinds to the first element
-   */
-  public function rewind() {
-    if ($this->reverse) {
-      end($this->tableNames);
-    } else {
-      reset($this->tableNames);
-    }
-  }
-
-  /**
-   * Returns true if the current index is valid
-   * 
    * @return bool
    */
-  public function valid() {
-    return (current($this->tableNames) !== false);
+  public function valid()
+  {
+      return current($this->tableNames) !== false;
   }
 }
-?>

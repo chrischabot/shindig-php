@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,31 +17,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-class MessageBundleParser {
-
-  private function processMessage(&$messages, $msg) {
-    $attr = $msg->attributes();
-    if (isset($attr['name'])) {
-      $messages[trim($attr['name'])] = trim($msg);
+class MessageBundleParser
+{
+    private function processMessage(&$messages, $msg)
+    {
+        $attr = $msg->attributes();
+        if (isset($attr['name'])) {
+            $messages[trim($attr['name'])] = trim($msg);
+        }
     }
-  }
 
-  public function parse($xml) {
-    $doc = @simplexml_load_string($xml);
-    return $this->getMessages($doc);
-  }
+    public function parse($xml)
+    {
+        $doc = @simplexml_load_string($xml);
 
-  public function getMessages($doc) {
-    if (! $doc) {
-      throw new Exception("Invalid XML structure in message bundle");
+        return $this->getMessages($doc);
     }
-    $messages = array();
-    if (isset($doc->msg)) {
-      foreach ($doc->msg as $msg) {
-        $this->processMessage($messages, $msg);
-      }
+
+    public function getMessages($doc)
+    {
+        if (!$doc) {
+            throw new Exception('Invalid XML structure in message bundle');
+        }
+        $messages = [];
+        if (isset($doc->msg)) {
+            foreach ($doc->msg as $msg) {
+                $this->processMessage($messages, $msg);
+            }
+        }
+
+        return $messages;
     }
-    return $messages;
-  }
 }

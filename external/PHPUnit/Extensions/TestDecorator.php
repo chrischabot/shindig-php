@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: TestDecorator.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -57,41 +58,43 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * to add behaviour before or after a test is run.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implements PHPUnit_Framework_Test, PHPUnit_Framework_SelfDescribing {
-  /**
+class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implements PHPUnit_Framework_Test, PHPUnit_Framework_SelfDescribing
+{
+    /**
    * The Test to be decorated.
    *
    * @var    object
-   * @access protected
    */
-  protected $test = NULL;
+  protected $test = null;
 
   /**
    * Constructor.
    *
    * @param  PHPUnit_Framework_Test $test
-   * @access public
    */
-  public function __construct(PHPUnit_Framework_Test $test) {
-    $this->test = $test;
+  public function __construct(PHPUnit_Framework_Test $test)
+  {
+      $this->test = $test;
   }
 
   /**
    * Returns a string representation of the test.
    *
    * @return string
-   * @access public
    */
-  public function toString() {
-    return $this->test->toString();
+  public function toString()
+  {
+      return $this->test->toString();
   }
 
   /**
@@ -99,41 +102,41 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
    * result in a TestResult.
    *
    * @param  PHPUnit_Framework_TestResult $result
-   * @access public
    */
-  public function basicRun(PHPUnit_Framework_TestResult $result) {
-    $this->test->run($result);
+  public function basicRun(PHPUnit_Framework_TestResult $result)
+  {
+      $this->test->run($result);
   }
 
   /**
    * Counts the number of test cases that
    * will be run by this test.
    *
-   * @return integer
-   * @access public
+   * @return int
    */
-  public function count() {
-    return count($this->test);
+  public function count()
+  {
+      return count($this->test);
   }
 
   /**
    * Creates a default TestResult object.
    *
    * @return PHPUnit_Framework_TestResult
-   * @access protected
    */
-  protected function createResult() {
-    return new PHPUnit_Framework_TestResult();
+  protected function createResult()
+  {
+      return new PHPUnit_Framework_TestResult();
   }
 
   /**
    * Returns the test to be run.
    *
    * @return PHPUnit_Framework_Test
-   * @access public
    */
-  public function getTest() {
-    return $this->test;
+  public function getTest()
+  {
+      return $this->test;
   }
 
   /**
@@ -141,18 +144,19 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
    * result in a TestResult.
    *
    * @param  PHPUnit_Framework_TestResult $result
-   * @return PHPUnit_Framework_TestResult
+   *
    * @throws InvalidArgumentException
-   * @access public
+   *
+   * @return PHPUnit_Framework_TestResult
    */
-  public function run(PHPUnit_Framework_TestResult $result = NULL) {
-    if ($result === NULL) {
-      $result = $this->createResult();
-    }
-    
-    $this->basicRun($result);
-    
-    return $result;
+  public function run(PHPUnit_Framework_TestResult $result = null)
+  {
+      if ($result === null) {
+          $result = $this->createResult();
+      }
+
+      $this->basicRun($result);
+
+      return $result;
   }
 }
-?>

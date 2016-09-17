@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,25 +17,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class GadgetId
+{
+    private $uri;
+    private $moduleId;
 
-class GadgetId {
-  private $uri;
-  private $moduleId;
+    public function GadgetId($uri, $moduleId)
+    {
+        $this->uri = $uri;
+        $this->moduleId = $moduleId;
+    }
 
-  public function GadgetId($uri, $moduleId) {
-    $this->uri = $uri;
-    $this->moduleId = $moduleId;
-  }
+    public function getURI()
+    {
+        return $this->uri;
+    }
 
-  public function getURI() {
-    return $this->uri;
-  }
+    public function getModuleId()
+    {
+        return $this->moduleId;
+    }
 
-  public function getModuleId() {
-    return $this->moduleId;
-  }
-
-  public function getKey() {
-    return $this->getURI();
-  }
+    public function getKey()
+    {
+        return $this->getURI();
+    }
 }

@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,16 +17,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class OAuthServiceProvider
+{
+    public $requestTokenURL;
+    public $userAuthorizationURL;
+    public $accessTokenURL;
 
-class OAuthServiceProvider {
-  
-  public $requestTokenURL;
-  public $userAuthorizationURL;
-  public $accessTokenURL;
-
-  public function __construct($requestTokenURL, $userAuthorizationURL, $accessTokenURL) {
-    $this->requestTokenURL = $requestTokenURL;
-    $this->userAuthorizationURL = $userAuthorizationURL;
-    $this->accessTokenURL = $accessTokenURL;
-  }
+    public function __construct($requestTokenURL, $userAuthorizationURL, $accessTokenURL)
+    {
+        $this->requestTokenURL = $requestTokenURL;
+        $this->userAuthorizationURL = $userAuthorizationURL;
+        $this->accessTokenURL = $accessTokenURL;
+    }
 }

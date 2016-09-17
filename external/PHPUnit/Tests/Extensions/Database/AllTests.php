@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,24 +35,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: AllTests.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 error_reporting(E_ALL | E_STRICT);
 
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
-if (! defined('PHPUnit_MAIN_METHOD')) {
-  define('PHPUnit_MAIN_METHOD', 'Extensions_Database_AllTests::main');
-  chdir(dirname(__FILE__));
+if (!defined('PHPUnit_MAIN_METHOD')) {
+    define('PHPUnit_MAIN_METHOD', 'Extensions_Database_AllTests::main');
+    chdir(dirname(__FILE__));
 }
 
 require_once 'PHPUnit/Framework/TestSuite.php';
@@ -62,34 +63,35 @@ require_once 'Extensions/Database/DataSet/AllTests.php';
 require_once 'Extensions/Database/Operation/AllTests.php';
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class Extensions_Database_AllTests {
+class Extensions_Database_AllTests
+{
+    public static function main()
+    {
+        PHPUnit_TextUI_TestRunner::run(self::suite());
+    }
 
-  public static function main() {
-    PHPUnit_TextUI_TestRunner::run(self::suite());
-  }
+    public static function suite()
+    {
+        $suite = new PHPUnit_Framework_TestSuite('PHPUnit_Extensions_Database');
 
-  public static function suite() {
-    $suite = new PHPUnit_Framework_TestSuite('PHPUnit_Extensions_Database');
-    
-    $suite->addTest(Extensions_Database_Operation_AllTests::suite());
-    $suite->addTest(Extensions_Database_DataSet_AllTests::suite());
-    
-    return $suite;
-  }
+        $suite->addTest(Extensions_Database_Operation_AllTests::suite());
+        $suite->addTest(Extensions_Database_DataSet_AllTests::suite());
+
+        return $suite;
+    }
 }
 
 if (PHPUnit_MAIN_METHOD == 'Extensions_Database_AllTests::main') {
-  Extensions_Database_AllTests::main();
+    Extensions_Database_AllTests::main();
 }
-?>

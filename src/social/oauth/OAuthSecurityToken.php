@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,48 +21,57 @@
 /**
  * SecurityToken derived from a successful OAuth validation.
  */
-class OAuthSecurityToken extends SecurityToken {
-  private $userId;
-  private $appUrl;
-  private $appId;
-  private $domain;
+class OAuthSecurityToken extends SecurityToken
+{
+    private $userId;
+    private $appUrl;
+    private $appId;
+    private $domain;
 
-  public function __construct($userId, $appUrl, $appId, $domain) {
-    $this->userId = $userId;
-    $this->appUrl = $appUrl;
-    $this->appId = $appId;
-    $this->domain = $domain;
-  }
+    public function __construct($userId, $appUrl, $appId, $domain)
+    {
+        $this->userId = $userId;
+        $this->appUrl = $appUrl;
+        $this->appId = $appId;
+        $this->domain = $domain;
+    }
 
-  public function isAnonymous() {
-    return ($this->userId == null);
-  }
+    public function isAnonymous()
+    {
+        return $this->userId == null;
+    }
 
-  public function getOwnerId() {
-    return $this->userId;
-  }
+    public function getOwnerId()
+    {
+        return $this->userId;
+    }
 
-  public function getViewerId() {
-    return $this->userId;
-  }
+    public function getViewerId()
+    {
+        return $this->userId;
+    }
 
-  public function getAppId() {
-    return $this->appId;
-  }
+    public function getAppId()
+    {
+        return $this->appId;
+    }
 
-  public function getDomain() {
-    return $this->domain;
-  }
+    public function getDomain()
+    {
+        return $this->domain;
+    }
 
-  public function getAppUrl() {
-    return $this->appUrl;
-  }
+    public function getAppUrl()
+    {
+        return $this->appUrl;
+    }
 
-  public function getModuleId() {
-    return null;
-  }
+    public function getModuleId()
+    {
+    }
 
-  public function toSerialForm() {
-    return "OAuthSecurityToken[userId=$userId,appUrl=$appUrl,appId=$appId,domain=$domain]";
-  }
+    public function toSerialForm()
+    {
+        return "OAuthSecurityToken[userId=$userId,appUrl=$appUrl,appId=$appId,domain=$domain]";
+    }
 }

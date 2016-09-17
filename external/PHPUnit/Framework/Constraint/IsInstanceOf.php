@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: IsInstanceOf.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Type.php';
@@ -58,31 +59,37 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The expected class name is passed in the constructor.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constraint {
-  protected $className;
+class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constraint
+{
+    protected $className;
 
-  public function __construct($className) {
-    $this->className = $className;
-  }
+    public function __construct($className)
+    {
+        $this->className = $className;
+    }
 
   /**
    * Evaluates the constraint for parameter $other. Returns TRUE if the
    * constraint is met, FALSE otherwise.
    *
    * @param mixed $other Value or object to evaluate.
+   *
    * @return bool
    */
-  public function evaluate($other) {
-    return ($other instanceof $this->className);
+  public function evaluate($other)
+  {
+      return $other instanceof $this->className;
   }
 
   /**
@@ -93,25 +100,26 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
    *                         constraint check.
    * @param   string  $description A string with extra description of what was
    *                               going on while the evaluation failed.
-   * @param   boolean $not Flag to indicate negation.
+   * @param   bool $not Flag to indicate negation.
+   *
    * @throws  PHPUnit_Framework_ExpectationFailedException
    */
-  public function fail($other, $description, $not = FALSE) {
-    throw new PHPUnit_Framework_ExpectationFailedException(sprintf('%sFailed asserting that %s is %san instance of class "%s".', 
+  public function fail($other, $description, $not = false)
+  {
+      throw new PHPUnit_Framework_ExpectationFailedException(sprintf('%sFailed asserting that %s is %san instance of class "%s".',
 
-    ! empty($description) ? $description . "\n" : '', PHPUnit_Util_Type::toString($other, TRUE), $not ? 'not ' : '', $this->className), NULL);
+    !empty($description) ? $description."\n" : '', PHPUnit_Util_Type::toString($other, true), $not ? 'not ' : '', $this->className), null);
   }
 
   /**
    * Returns a string representation of the constraint.
    *
    * @return string
-   * @access public
    */
-  public function toString() {
-    return sprintf('is instance of class "%s"', 
+  public function toString()
+  {
+      return sprintf('is instance of class "%s"',
 
     $this->className);
   }
 }
-?>

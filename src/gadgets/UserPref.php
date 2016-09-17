@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,38 +17,44 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class UserPref
+{
+    public $DataTypes = ['STRING', 'HIDDEN', 'BOOL', 'ENUM', 'LIST', 'NUMBER'];
+    public $dataType;
+    public $name;
+    public $displayName;
+    public $defaultValue;
+    public $required;
+    public $enumValues;
+    public $contentType;
 
-class UserPref {
-  public $DataTypes = array('STRING', 'HIDDEN', 'BOOL', 'ENUM', 'LIST', 'NUMBER');
-  public $dataType;
-  public $name;
-  public $displayName;
-  public $defaultValue;
-  public $required;
-  public $enumValues;
-  public $contentType;
+    public function getName()
+    {
+        return $this->name;
+    }
 
-  public function getName() {
-    return $this->name;
-  }
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
 
-  public function getDisplayName() {
-    return $this->displayName;
-  }
+    public function getDefaultValue()
+    {
+        return $this->defaultValue;
+    }
 
-  public function getDefaultValue() {
-    return $this->defaultValue;
-  }
+    public function isRequired()
+    {
+        return $this->required;
+    }
 
-  public function isRequired() {
-    return $this->required;
-  }
+    public function getDataType()
+    {
+        return $this->dataType;
+    }
 
-  public function getDataType() {
-    return $this->dataType;
-  }
-
-  public function getEnumValues() {
-    return $this->enumValues;
-  }
+    public function getEnumValues()
+    {
+        return $this->enumValues;
+    }
 }

@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,8 +21,9 @@
 /**
  * An Enumeration for holding all the responses emitted by the social API.
  */
-class ResponseError {
-  /** value representing NOT IMPLEMENTED. */
+class ResponseError
+{
+    /** value representing NOT IMPLEMENTED. */
   public static $NOT_IMPLEMENTED = 501;
   /** value representing UNAUTHORIZED. */
   public static $UNAUTHORIZED = 401;
@@ -36,7 +37,7 @@ class ResponseError {
   public static $INTERNAL_ERROR = 500;
   /** value representing EXPECTATION FAILED. */
   public static $LIMIT_EXCEEDED = 409;
-  
+
   /**
    * The json value of the error.
    */
@@ -45,20 +46,22 @@ class ResponseError {
    * The http error code associated with the error.
    */
   private $httpErrorCode;
-  
+
   /**
-   * The HTTP response header
+   * The HTTP response header.
    */
   private $httpErrorMsg;
 
   /**
    * Construct a Response Error from the jsonValue as a string and the Http Error Code.
+   *
    * @param jsonValue the json String representation of the error code.
    * @param httpErrorCode the numeric HTTP error code.
    */
-  public function __construct($jsonValue) {
-    $this->jsonValue = $jsonValue;
-    switch ($this->jsonValue) {
+  public function __construct($jsonValue)
+  {
+      $this->jsonValue = $jsonValue;
+      switch ($this->jsonValue) {
       case self::$BAD_REQUEST:
         $this->httpErrorMsg = '400 Bad Request';
         $this->httpErrorcode = 400;
@@ -93,26 +96,30 @@ class ResponseError {
   }
 
   /**
-   *
-   * Converts the ResponseError to a String representation
+   * Converts the ResponseError to a String representation.
    */
-  public function toString() {
-    return $this->jsonValue;
+  public function toString()
+  {
+      return $this->jsonValue;
   }
 
   /**
    * Get the HTTP error code.
+   *
    * @return the Http Error code.
    */
-  public function getHttpErrorCode() {
-    return $this->httpErrorCode;
+  public function getHttpErrorCode()
+  {
+      return $this->httpErrorCode;
   }
 
   /**
    * Get the HTTP error response header.
+   *
    * @return the Http response header.
    */
-  public function getHttpErrorMsg() {
-    return $this->httpErrorMsg;
+  public function getHttpErrorMsg()
+  {
+      return $this->httpErrorMsg;
   }
 }

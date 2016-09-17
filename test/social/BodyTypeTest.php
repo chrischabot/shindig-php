@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * BodyType test case.
  */
-class BodyTypeTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class BodyTypeTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var BodyType
    */
   private $BodyType;
@@ -31,96 +31,108 @@ class BodyTypeTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->BodyType = new BodyType();
-    $this->BodyType->build = 'BUILD';
-    $this->BodyType->eyeColor = 'EYECOLOR';
-    $this->BodyType->hairColor = 'HAIRCOLOR';
-    $this->BodyType->height = 'HEIGHT';
-    $this->BodyType->weight = 'WEIGHT';
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->BodyType = new BodyType();
+      $this->BodyType->build = 'BUILD';
+      $this->BodyType->eyeColor = 'EYECOLOR';
+      $this->BodyType->hairColor = 'HAIRCOLOR';
+      $this->BodyType->height = 'HEIGHT';
+      $this->BodyType->weight = 'WEIGHT';
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->BodyType = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->BodyType = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests BodyType->getBuild()
+   * Tests BodyType->getBuild().
    */
-  public function testGetBuild() {
-    $this->assertEquals('BUILD', $this->BodyType->getBuild());
+  public function testGetBuild()
+  {
+      $this->assertEquals('BUILD', $this->BodyType->getBuild());
   }
 
   /**
-   * Tests BodyType->getEyeColor()
+   * Tests BodyType->getEyeColor().
    */
-  public function testGetEyeColor() {
-    $this->assertEquals('EYECOLOR', $this->BodyType->getEyeColor());
+  public function testGetEyeColor()
+  {
+      $this->assertEquals('EYECOLOR', $this->BodyType->getEyeColor());
   }
 
   /**
-   * Tests BodyType->getHairColor()
+   * Tests BodyType->getHairColor().
    */
-  public function testGetHairColor() {
-    $this->assertEquals('HAIRCOLOR', $this->BodyType->getHairColor());
+  public function testGetHairColor()
+  {
+      $this->assertEquals('HAIRCOLOR', $this->BodyType->getHairColor());
   }
 
   /**
-   * Tests BodyType->getHeight()
+   * Tests BodyType->getHeight().
    */
-  public function testGetHeight() {
-    $this->assertEquals('HEIGHT', $this->BodyType->getHeight());
+  public function testGetHeight()
+  {
+      $this->assertEquals('HEIGHT', $this->BodyType->getHeight());
   }
 
   /**
-   * Tests BodyType->getWeight()
+   * Tests BodyType->getWeight().
    */
-  public function testGetWeight() {
-    $this->assertEquals('WEIGHT', $this->BodyType->getWeight());
+  public function testGetWeight()
+  {
+      $this->assertEquals('WEIGHT', $this->BodyType->getWeight());
   }
 
   /**
-   * Tests BodyType->setBuild()
+   * Tests BodyType->setBuild().
    */
-  public function testSetBuild() {
-    $this->BodyType->setBuild('build');
-    $this->assertEquals('build', $this->BodyType->getBuild());
+  public function testSetBuild()
+  {
+      $this->BodyType->setBuild('build');
+      $this->assertEquals('build', $this->BodyType->getBuild());
   }
 
   /**
-   * Tests BodyType->setEyeColor()
+   * Tests BodyType->setEyeColor().
    */
-  public function testSetEyeColor() {
-    $this->BodyType->setEyeColor('eyecolor');
-    $this->assertEquals('eyecolor', $this->BodyType->getEyeColor());
+  public function testSetEyeColor()
+  {
+      $this->BodyType->setEyeColor('eyecolor');
+      $this->assertEquals('eyecolor', $this->BodyType->getEyeColor());
   }
 
   /**
-   * Tests BodyType->setHairColor()
+   * Tests BodyType->setHairColor().
    */
-  public function testSetHairColor() {
-    $this->BodyType->setHairColor('haircolor');
-    $this->assertEquals('haircolor', $this->BodyType->getHairColor());
+  public function testSetHairColor()
+  {
+      $this->BodyType->setHairColor('haircolor');
+      $this->assertEquals('haircolor', $this->BodyType->getHairColor());
   }
 
   /**
-   * Tests BodyType->setHeight()
+   * Tests BodyType->setHeight().
    */
-  public function testSetHeight() {
-    $this->BodyType->setHeight('height');
-    $this->assertEquals('height', $this->BodyType->getHeight());
+  public function testSetHeight()
+  {
+      $this->BodyType->setHeight('height');
+      $this->assertEquals('height', $this->BodyType->getHeight());
   }
 
   /**
-   * Tests BodyType->setWeight()
+   * Tests BodyType->setWeight().
    */
-  public function testSetWeight() {
-    $this->BodyType->setWeight('weight');
-    $this->assertEquals('weight', $this->BodyType->getWeight());
+  public function testSetWeight()
+  {
+      $this->BodyType->setWeight('weight');
+      $this->assertEquals('weight', $this->BodyType->getWeight());
   }
 }

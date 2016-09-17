@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,18 +17,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-class TestContext extends GadgetContext {
-
-  public function __construct() {
-    // construct a 'fake' context we can use for unit testing
+class TestContext extends GadgetContext
+{
+    public function __construct()
+    {
+        // construct a 'fake' context we can use for unit testing
     $this->setRenderingContext('GADGET');
-    $this->setIgnoreCache(true);
-    $this->setForcedJsLibs('');
-    $this->setUrl('http://www.example.org/foo.xml');
-    $this->setModuleId(1);
-    $this->setView('profile');
-    $this->setContainer('');
-    $this->setRefreshInterval(1);
-  }
+        $this->setIgnoreCache(true);
+        $this->setForcedJsLibs('');
+        $this->setUrl('http://www.example.org/foo.xml');
+        $this->setModuleId(1);
+        $this->setView('profile');
+        $this->setContainer('');
+        $this->setRefreshInterval(1);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,49 +35,51 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ClassWithNonPublicAttributes.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class ParentClassWithPrivateAttributes {
-  protected static $privateStaticParentAttribute = 'parent';
-  protected $privateParentAttribute = 'parent';
+class ParentClassWithPrivateAttributes
+{
+    protected static $privateStaticParentAttribute = 'parent';
+    protected $privateParentAttribute = 'parent';
 }
 
-class ClassWithNonPublicAttributes extends ParentClassWithPrivateAttributes {
-  public static $publicStaticAttribute = 'foo';
-  protected static $protectedStaticAttribute = 'bar';
-  protected static $privateStaticAttribute = 'baz';
-  
-  public $publicAttribute = 'foo';
-  public $foo = 1;
-  public $bar = 2;
-  protected $protectedAttribute = 'bar';
-  protected $privateAttribute = 'baz';
-  
-  public $publicArray = array('foo');
-  protected $protectedArray = array('bar');
-  protected $privateArray = array('baz');
+class ClassWithNonPublicAttributes extends ParentClassWithPrivateAttributes
+{
+    public static $publicStaticAttribute = 'foo';
+    protected static $protectedStaticAttribute = 'bar';
+    protected static $privateStaticAttribute = 'baz';
+
+    public $publicAttribute = 'foo';
+    public $foo = 1;
+    public $bar = 2;
+    protected $protectedAttribute = 'bar';
+    protected $privateAttribute = 'baz';
+
+    public $publicArray = ['foo'];
+    protected $protectedArray = ['bar'];
+    protected $privateArray = ['baz'];
 }
-?>

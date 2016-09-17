@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,21 +35,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ExpectationFailedException.php 2108 2008-01-15 09:10:37Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-if (! class_exists('PHPUnit_Framework_ExpectationFailedException', FALSE)) {
+if (!class_exists('PHPUnit_Framework_ExpectationFailedException', false)) {
 
   /**
    * Exception for expectations which failed their check.
@@ -59,37 +60,41 @@ if (! class_exists('PHPUnit_Framework_ExpectationFailedException', FALSE)) {
    * generate diff output of the failed expectations.
    *
    * @category   Testing
-   * @package    PHPUnit
+   *
    * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+   *
    * @version    Release: 3.2.9
+   *
    * @link       http://www.phpunit.de/
    * @since      Class available since Release 3.0.0
    */
-  class PHPUnit_Framework_ExpectationFailedException extends PHPUnit_Framework_AssertionFailedError {
-    protected $comparisonFailure;
-    protected $description;
+  class PHPUnit_Framework_ExpectationFailedException extends PHPUnit_Framework_AssertionFailedError
+  {
+      protected $comparisonFailure;
+      protected $description;
 
-    public function __construct($description, PHPUnit_Framework_ComparisonFailure $comparisonFailure = NULL, $message = '') {
-      $this->description = $description;
-      $this->comparisonFailure = $comparisonFailure;
-      
-      if (! empty($message)) {
-        $description .= "\n" . $message;
+      public function __construct($description, PHPUnit_Framework_ComparisonFailure $comparisonFailure = null, $message = '')
+      {
+          $this->description = $description;
+          $this->comparisonFailure = $comparisonFailure;
+
+          if (!empty($message)) {
+              $description .= "\n".$message;
+          }
+
+          parent::__construct($description);
       }
-      
-      parent::__construct($description);
-    }
 
-    public function getComparisonFailure() {
-      return $this->comparisonFailure;
-    }
+      public function getComparisonFailure()
+      {
+          return $this->comparisonFailure;
+      }
 
-    public function getDescription() {
-      return $this->description;
-    }
+      public function getDescription()
+      {
+          return $this->description;
+      }
   }
-
 }
-?>

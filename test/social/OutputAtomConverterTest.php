@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * OutputAtomConverter test case.
  */
-class OutputAtomConverterTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class OutputAtomConverterTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var OutputAtomConverter
    */
   private $OutputAtomConverter;
@@ -31,36 +31,39 @@ class OutputAtomConverterTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->OutputAtomConverter = new OutputAtomConverter();
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->OutputAtomConverter = new OutputAtomConverter();
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->OutputAtomConverter = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->OutputAtomConverter = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests OutputAtomConverter->outputResponse()
+   * Tests OutputAtomConverter->outputResponse().
    */
-  public function testOutputResponse() {
-    $inputConverter = new InputAtomConverter();
-    $outputConverter = new OutputAtomConverter();
-    $servletRequest = array('url' => '/people/1/@self');
-    $requestItem = RestRequestItem::createWithRequest($servletRequest, null, $inputConverter, $outputConverter);
-    $requestItem->applyUrlTemplate("/people/{userId}/{groupId}/{personId}");
-    $response = array(
-        'entry' => array('isOwner' => false, 'isViewer' => false, 'displayName' => '1 1', 
-            'id' => '1'));
-    $responseItem = new ResponseItem(null, null, $response);
-    ob_start();
-    $outputConverter->outputResponse($responseItem, $requestItem);
-    $output = ob_get_clean();
-    $expected = '<entry xmlns="http://www.w3.org/2005/Atom">
+  public function testOutputResponse()
+  {
+      $inputConverter = new InputAtomConverter();
+      $outputConverter = new OutputAtomConverter();
+      $servletRequest = ['url' => '/people/1/@self'];
+      $requestItem = RestRequestItem::createWithRequest($servletRequest, null, $inputConverter, $outputConverter);
+      $requestItem->applyUrlTemplate('/people/{userId}/{groupId}/{personId}');
+      $response = [
+        'entry' => ['isOwner' => false, 'isViewer' => false, 'displayName' => '1 1',
+            'id'              => '1', ], ];
+      $responseItem = new ResponseItem(null, null, $response);
+      ob_start();
+      $outputConverter->outputResponse($responseItem, $requestItem);
+      $output = ob_get_clean();
+      $expected = '<entry xmlns="http://www.w3.org/2005/Atom">
   <title>person entry for shindig:1</title>
   <author>
     <uri>urn:guid:1</uri>
@@ -78,14 +81,12 @@ class OutputAtomConverterTest extends PHPUnit_Framework_TestCase {
   </content>
 </entry>
 ';
-    $outputXml = simplexml_load_string($output);
-    $expectedXml = simplexml_load_string($expected);
-    $expectedXml->updated = $outputXml->updated;
+      $outputXml = simplexml_load_string($output);
+      $expectedXml = simplexml_load_string($expected);
+      $expectedXml->updated = $outputXml->updated;
     // Prefix may be 'shindig' or something else.
-    $expectedXml->title = $outputXml->title; 
-    $expectedXml->author->name = $outputXml->author->name;
-    $this->assertEquals($expectedXml, $outputXml);
+    $expectedXml->title = $outputXml->title;
+      $expectedXml->author->name = $outputXml->author->name;
+      $this->assertEquals($expectedXml, $outputXml);
   }
-
 }
-

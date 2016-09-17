@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * GroupId test case.
  */
-class GroupIdTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class GroupIdTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var GroupId
    */
   private $GroupId;
@@ -31,53 +31,60 @@ class GroupIdTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->GroupId = new GroupId('all', 1);
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->GroupId = new GroupId('all', 1);
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->GroupId = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->GroupId = null;
+      parent::tearDown();
   }
 
   /**
    * Constructs the test case.
    */
-  public function __construct() {}
-
-  /**
-   * Tests GroupId->__construct()
-   */
-  public function test__construct() {
-    $this->GroupId->__construct('all', 1);
+  public function __construct()
+  {
   }
 
   /**
-   * Tests GroupId->getGroupId()
+   * Tests GroupId->__construct().
    */
-  public function testGetGroupId() {
-    $this->assertEquals(1, $this->GroupId->getGroupId());
+  public function test__construct()
+  {
+      $this->GroupId->__construct('all', 1);
   }
 
   /**
-   * Tests GroupId->getType()
+   * Tests GroupId->getGroupId().
    */
-  public function testGetType() {
-    $this->assertEquals('all', $this->GroupId->getType());
+  public function testGetGroupId()
+  {
+      $this->assertEquals(1, $this->GroupId->getGroupId());
   }
 
   /**
-   * Tests GroupId->fromJson()
+   * Tests GroupId->getType().
    */
-  public function testFromJson() {
-    $json = 'jsonid';
-    $fromJson = $this->GroupId->fromJson($json);
-    $this->assertEquals('groupId', $fromJson->getType());
-    $this->assertEquals('jsonid', $fromJson->getGroupId());
+  public function testGetType()
+  {
+      $this->assertEquals('all', $this->GroupId->getType());
   }
 
+  /**
+   * Tests GroupId->fromJson().
+   */
+  public function testFromJson()
+  {
+      $json = 'jsonid';
+      $fromJson = $this->GroupId->fromJson($json);
+      $this->assertEquals('groupId', $fromJson->getType());
+      $this->assertEquals('jsonid', $fromJson->getGroupId());
+  }
 }

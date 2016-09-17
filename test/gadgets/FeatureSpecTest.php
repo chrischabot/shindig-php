@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * FeatureSpec test case.
  */
-class FeatureSpecTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class FeatureSpecTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var FeatureSpec
    */
   private $FeatureSpec;
@@ -31,40 +31,45 @@ class FeatureSpecTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->FeatureSpec = new FeatureSpec();
-    $this->FeatureSpec->name = 'name';
-    $this->FeatureSpec->optional = 'optional';
-    $this->FeatureSpec->params = 'params';
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->FeatureSpec = new FeatureSpec();
+      $this->FeatureSpec->name = 'name';
+      $this->FeatureSpec->optional = 'optional';
+      $this->FeatureSpec->params = 'params';
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->FeatureSpec = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->FeatureSpec = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests FeatureSpec->getName()
+   * Tests FeatureSpec->getName().
    */
-  public function testGetName() {
-    $this->assertEquals('name', $this->FeatureSpec->getName());
+  public function testGetName()
+  {
+      $this->assertEquals('name', $this->FeatureSpec->getName());
   }
 
   /**
-   * Tests FeatureSpec->getParams()
+   * Tests FeatureSpec->getParams().
    */
-  public function testGetParams() {
-    $this->assertEquals('params', $this->FeatureSpec->getParams());
+  public function testGetParams()
+  {
+      $this->assertEquals('params', $this->FeatureSpec->getParams());
   }
 
   /**
-   * Tests FeatureSpec->isOptional()
+   * Tests FeatureSpec->isOptional().
    */
-  public function testIsOptional() {
-    $this->assertEquals('optional', $this->FeatureSpec->isOptional());
+  public function testIsOptional()
+  {
+      $this->assertEquals('optional', $this->FeatureSpec->isOptional());
   }
 }

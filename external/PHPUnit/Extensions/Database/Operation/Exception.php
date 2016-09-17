@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,96 +35,104 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Exception.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * Thrown for exceptions encountered with database operations. Provides 
- * information regarding which operations failed and the query (if any) it 
+ * Thrown for exceptions encountered with database operations. Provides
+ * information regarding which operations failed and the query (if any) it
  * failed on.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_Operation_Exception extends RuntimeException {
-  
-  /**
+class PHPUnit_Extensions_Database_Operation_Exception extends RuntimeException
+{
+    /**
    * @var string
    */
   protected $operation;
-  
+
   /**
    * @var string
    */
   protected $preparedQuery;
-  
+
   /**
    * @var array
    */
   protected $preparedArgs;
-  
+
   /**
    * @var PHPUnit_Extensions_Database_DataSet_ITable
    */
   protected $table;
-  
+
   /**
    * @var string
    */
   protected $error;
 
   /**
-   * Creates a new dbunit operation exception
+   * Creates a new dbunit operation exception.
    *
    * @param string $operation
    * @param string $current_query
    * @param PHPUnit_Extensions_Database_DataSet_ITable $current_table
    * @param string $error
    */
-  public function __construct($operation, $current_query, $current_args, $current_table, $error) {
-    parent::__construct("{$operation} operation failed on query: {$current_query} using args: " . print_r($current_args, true) . " [{$error}]");
-    $this->operation = $operation;
-    $this->preparedQuery = $current_query;
-    $this->preparedArgs = $current_args;
-    $this->table = $current_table;
-    $this->error = $error;
+  public function __construct($operation, $current_query, $current_args, $current_table, $error)
+  {
+      parent::__construct("{$operation} operation failed on query: {$current_query} using args: ".print_r($current_args, true)." [{$error}]");
+      $this->operation = $operation;
+      $this->preparedQuery = $current_query;
+      $this->preparedArgs = $current_args;
+      $this->table = $current_table;
+      $this->error = $error;
   }
 
-  public function getOperation() {
-    return $this->operation;
-  }
+    public function getOperation()
+    {
+        return $this->operation;
+    }
 
-  public function getQuery() {
-    return $this->preparedQuery;
-  }
+    public function getQuery()
+    {
+        return $this->preparedQuery;
+    }
 
-  public function getTable() {
-    return $this->table;
-  }
+    public function getTable()
+    {
+        return $this->table;
+    }
 
-  public function getArgs() {
-    return $this->preparedArgs;
-  }
+    public function getArgs()
+    {
+        return $this->preparedArgs;
+    }
 
-  public function getError() {
-    return $this->error;
-  }
+    public function getError()
+    {
+        return $this->error;
+    }
 }
-?>

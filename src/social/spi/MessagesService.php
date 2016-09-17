@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,10 +17,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-interface MessagesService {
-
-  /**  
+interface MessagesService
+{
+    /**
    * Send a message to the chosen recipients.
    * $userId - the sender
    * $appId - the application Id
@@ -34,7 +33,7 @@ interface MessagesService {
    *          [1] => UserId2
    *      )
    * $optionalMessageId - if the REST action was a PUT containing an message id this is filled in
-   * $token - the security token
+   * $token - the security token.
    */
   public function createMessage($userId, $appId, $message, $optionalMessageId, SecurityToken $token);
 }

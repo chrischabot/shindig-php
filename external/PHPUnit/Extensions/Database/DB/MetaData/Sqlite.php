@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id:Sqlite.php 1254 2008-09-02 04:36:15Z mlively $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Extensions/Database/DB/MetaData.php';
@@ -54,27 +55,30 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Provides functionality to retrieve meta data from a sqlite database.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_Database_DB_MetaData {
-  
-  protected $columns = array();
-  
-  protected $keys = array();
+class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_Database_DB_MetaData
+{
+    protected $columns = [];
+
+    protected $keys = [];
 
   /**
    * Returns an array containing the names of all the tables in the database.
    *
    * @return array
    */
-  public function getTableNames() {
-    $query = "
+  public function getTableNames()
+  {
+      $query = "
             SELECT name 
             FROM sqlite_master
             WHERE 
@@ -82,44 +86,48 @@ class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_
                 name <> 'sqlite_sequence'
             ORDER BY name
         ";
-    
-    $result = $this->pdo->query($query);
-    
-    while ($tableName = $result->fetchColumn(0)) {
-      $tableNames[] = $tableName;
-    }
-    
-    return $tableNames;
+
+      $result = $this->pdo->query($query);
+
+      while ($tableName = $result->fetchColumn(0)) {
+          $tableNames[] = $tableName;
+      }
+
+      return $tableNames;
   }
 
   /**
-   * Returns an array containing the names of all the columns in the 
-   * $tableName table,
+   * Returns an array containing the names of all the columns in the
+   * $tableName table,.
    *
    * @param string $tableName
+   *
    * @return array
    */
-  public function getTableColumns($tableName) {
-    if (! isset($this->columns[$tableName])) {
-      $this->loadColumnInfo($tableName);
-    }
-    
-    return $this->columns[$tableName];
+  public function getTableColumns($tableName)
+  {
+      if (!isset($this->columns[$tableName])) {
+          $this->loadColumnInfo($tableName);
+      }
+
+      return $this->columns[$tableName];
   }
 
   /**
-   * Returns an array containing the names of all the primary key columns in 
+   * Returns an array containing the names of all the primary key columns in
    * the $tableName table.
    *
    * @param string $tableName
+   *
    * @return array
    */
-  public function getTablePrimaryKeys($tableName) {
-    if (! isset($this->keys[$tableName])) {
-      $this->loadColumnInfo($tableName);
-    }
-    
-    return $this->keys[$tableName];
+  public function getTablePrimaryKeys($tableName)
+  {
+      if (!isset($this->keys[$tableName])) {
+          $this->loadColumnInfo($tableName);
+      }
+
+      return $this->keys[$tableName];
   }
 
   /**
@@ -127,20 +135,20 @@ class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_
    *
    * @param string $tableName
    */
-  protected function loadColumnInfo($tableName) {
-    $query = "PRAGMA table_info('{$tableName}')";
-    $statement = $this->pdo->query($query);
-    
+  protected function loadColumnInfo($tableName)
+  {
+      $query = "PRAGMA table_info('{$tableName}')";
+      $statement = $this->pdo->query($query);
+
     /* @var $statement PDOStatement */
-    $this->columns[$tableName] = array();
-    $this->keys[$tableName] = array();
-    while ($columnData = $statement->fetch(PDO::FETCH_NUM)) {
-      $this->columns[$tableName][] = $columnData[1];
-      
-      if ($columnData[5] == 1) {
-        $this->keys[$tableName][] = $columnData[1];
+    $this->columns[$tableName] = [];
+      $this->keys[$tableName] = [];
+      while ($columnData = $statement->fetch(PDO::FETCH_NUM)) {
+          $this->columns[$tableName][] = $columnData[1];
+
+          if ($columnData[5] == 1) {
+              $this->keys[$tableName][] = $columnData[1];
+          }
       }
-    }
   }
 }
-?>

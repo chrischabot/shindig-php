@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -19,43 +19,52 @@
  */
 
 /**
- * Convert json representations to the internal data structure representation
+ * Convert json representations to the internal data structure representation.
  */
-class InputJsonConverter extends InputConverter {
-
-  public function convertPeople($requestParam) {
-    throw new Exception("Opperation not supported");
-  }
-
-  public function convertActivities($requestParam) {
-    $ret = json_decode($requestParam, true);
-    if ($ret == $requestParam) {
-      throw new Exception("Mallformed activity json string");
+class InputJsonConverter extends InputConverter
+{
+    public function convertPeople($requestParam)
+    {
+        throw new Exception('Opperation not supported');
     }
-    return $ret;
-  }
 
-  public function convertAppData($requestParam) {
-    $ret = json_decode($requestParam, true);
-    if ($ret == $requestParam) {
-      throw new Exception("Mallformed app data json string");
-    }
-    return $ret;
-  }
+    public function convertActivities($requestParam)
+    {
+        $ret = json_decode($requestParam, true);
+        if ($ret == $requestParam) {
+            throw new Exception('Mallformed activity json string');
+        }
 
-  public function convertJsonBatch($requestParam) {
-    $ret = json_decode($requestParam, true);
-    if ($ret == $requestParam) {
-      throw new Exception("Mallformed json batch string");
+        return $ret;
     }
-    return $ret;
-  }
 
-  public function convertMessages($requestParam) {
-    $ret = json_decode($requestParam, true);
-    if ($ret == $requestParam) {
-      throw new Exception("Mallformed message string");
+    public function convertAppData($requestParam)
+    {
+        $ret = json_decode($requestParam, true);
+        if ($ret == $requestParam) {
+            throw new Exception('Mallformed app data json string');
+        }
+
+        return $ret;
     }
-    return $ret;
-  }
+
+    public function convertJsonBatch($requestParam)
+    {
+        $ret = json_decode($requestParam, true);
+        if ($ret == $requestParam) {
+            throw new Exception('Mallformed json batch string');
+        }
+
+        return $ret;
+    }
+
+    public function convertMessages($requestParam)
+    {
+        $ret = json_decode($requestParam, true);
+        if ($ret == $requestParam) {
+            throw new Exception('Mallformed message string');
+        }
+
+        return $ret;
+    }
 }

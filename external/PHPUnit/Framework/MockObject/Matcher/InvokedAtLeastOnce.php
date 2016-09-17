@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: InvokedAtLeastOnce.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Matcher/InvokedRecorder.php';
@@ -57,27 +58,30 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * If the number of invocations is 0 it will throw an exception in verify.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder {
-
-  public function toString() {
-    return 'invoked at least once';
-  }
-
-  public function verify() {
-    $count = $this->getInvocationCount();
-    
-    if ($count < 1) {
-      throw new PHPUnit_Framework_ExpectationFailedException('Expected invocation at least once but it never occured.');
+class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder
+{
+    public function toString()
+    {
+        return 'invoked at least once';
     }
-  }
+
+    public function verify()
+    {
+        $count = $this->getInvocationCount();
+
+        if ($count < 1) {
+            throw new PHPUnit_Framework_ExpectationFailedException('Expected invocation at least once but it never occured.');
+        }
+    }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: IsIdentical.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Type.php';
@@ -61,31 +62,37 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The expected value is passed in the constructor.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constraint {
-  protected $value;
+class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constraint
+{
+    protected $value;
 
-  public function __construct($value) {
-    $this->value = $value;
-  }
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
 
   /**
    * Evaluates the constraint for parameter $other. Returns TRUE if the
    * constraint is met, FALSE otherwise.
    *
    * @param mixed $other Value or object to evaluate.
+   *
    * @return bool
    */
-  public function evaluate($other) {
-    return $this->value === $other;
+  public function evaluate($other)
+  {
+      return $this->value === $other;
   }
 
   /**
@@ -93,27 +100,28 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
    *                         constraint check.
    * @param   string  $description A string with extra description of what was
    *                               going on while the evaluation failed.
-   * @param   boolean $not Flag to indicate negation.
+   * @param   bool $not Flag to indicate negation.
+   *
    * @throws  PHPUnit_Framework_ExpectationFailedException
    */
-  public function fail($other, $description, $not = FALSE) {
-    $failureDescription = $this->failureDescription($other, $description, $not);
-    
-    if (! $not) {
-      throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, PHPUnit_Framework_ComparisonFailure::diffIdentical($this->value, $other), $description);
-    } else {
-      throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, NULL, $description);
-    }
+  public function fail($other, $description, $not = false)
+  {
+      $failureDescription = $this->failureDescription($other, $description, $not);
+
+      if (!$not) {
+          throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, PHPUnit_Framework_ComparisonFailure::diffIdentical($this->value, $other), $description);
+      } else {
+          throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, null, $description);
+      }
   }
 
   /**
    * Returns a string representation of the constraint.
    *
    * @return string
-   * @access public
    */
-  public function toString() {
-    return 'is identical to ' . PHPUnit_Util_Type::toString($this->value);
+  public function toString()
+  {
+      return 'is identical to '.PHPUnit_Util_Type::toString($this->value);
   }
 }
-?>

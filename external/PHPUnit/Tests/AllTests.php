@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,24 +35,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: AllTests.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 error_reporting(E_ALL | E_STRICT);
 
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
-if (! defined('PHPUnit_MAIN_METHOD')) {
-  define('PHPUnit_MAIN_METHOD', 'AllTests::main');
-  chdir(dirname(__FILE__));
+if (!defined('PHPUnit_MAIN_METHOD')) {
+    define('PHPUnit_MAIN_METHOD', 'AllTests::main');
+    chdir(dirname(__FILE__));
 }
 
 require_once 'PHPUnit/Framework/TestSuite.php';
@@ -64,42 +65,43 @@ require_once 'Runner/AllTests.php';
 require_once 'Util/AllTests.php';
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class AllTests {
+class AllTests
+{
+    public static function main()
+    {
+        PHPUnit_TextUI_TestRunner::run(self::suite());
+    }
 
-  public static function main() {
-    PHPUnit_TextUI_TestRunner::run(self::suite());
-  }
+    public static function suite()
+    {
+        $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
 
-  public static function suite() {
-    $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
-    
-    $suite->addTest(Framework_AllTests::suite());
-    $suite->addTest(Extensions_AllTests::suite());
-    $suite->addTest(Runner_AllTests::suite());
-    $suite->addTest(Util_AllTests::suite());
-    
-    return $suite;
-  }
+        $suite->addTest(Framework_AllTests::suite());
+        $suite->addTest(Extensions_AllTests::suite());
+        $suite->addTest(Runner_AllTests::suite());
+        $suite->addTest(Util_AllTests::suite());
+
+        return $suite;
+    }
 }
 
-if (is_readable(dirname(__FILE__) . '/TestConfiguration.php')) {
-  require_once 'TestConfiguration.php';
+if (is_readable(dirname(__FILE__).'/TestConfiguration.php')) {
+    require_once 'TestConfiguration.php';
 } else {
-  require_once 'TestConfiguration.php.dist';
+    require_once 'TestConfiguration.php.dist';
 }
 
 if (PHPUnit_MAIN_METHOD == 'AllTests::main') {
-  AllTests::main();
+    AllTests::main();
 }
-?>

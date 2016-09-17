@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: InvocationMocker.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Builder/InvocationMocker.php';
 require_once 'PHPUnit/Framework/MockObject/Builder/Match.php';
@@ -64,83 +65,90 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * identifications for builders.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework_MockObject_Stub_MatcherCollection, PHPUnit_Framework_MockObject_Invokable, PHPUnit_Framework_MockObject_Builder_Namespace {
-  protected $matchers = array();
-  
-  protected $builderMap = array();
+class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework_MockObject_Stub_MatcherCollection, PHPUnit_Framework_MockObject_Invokable, PHPUnit_Framework_MockObject_Builder_Namespace
+{
+    protected $matchers = [];
 
-  public function addMatcher(PHPUnit_Framework_MockObject_Matcher_Invocation $matcher) {
-    $this->matchers[] = $matcher;
-  }
+    protected $builderMap = [];
 
-  public function lookupId($id) {
-    if (isset($this->builderMap[$id])) {
-      return $this->builderMap[$id];
+    public function addMatcher(PHPUnit_Framework_MockObject_Matcher_Invocation $matcher)
+    {
+        $this->matchers[] = $matcher;
     }
-    
-    return NULL;
-  }
 
-  public function registerId($id, PHPUnit_Framework_MockObject_Builder_Match $builder) {
-    if (isset($this->builderMap[$id])) {
-      throw new RuntimeException("Match builder with id <{$id}> is already registered.");
-    }
-    
-    $this->builderMap[$id] = $builder;
-  }
-
-  public function expects(PHPUnit_Framework_MockObject_Matcher_Invocation $matcher) {
-    $builder = new PHPUnit_Framework_MockObject_Builder_InvocationMocker($this, $matcher);
-    
-    return $builder;
-  }
-
-  public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation) {
-    $hasReturnValue = FALSE;
-    
-    if (strtolower($invocation->methodName) == '__tostring') {
-      $returnValue = '';
-    } else {
-      $returnValue = NULL;
-    }
-    
-    foreach ($this->matchers as $match) {
-      if ($match->matches($invocation)) {
-        $value = $match->invoked($invocation);
-        
-        if (! $hasReturnValue) {
-          $returnValue = $value;
-          $hasReturnValue = TRUE;
+    public function lookupId($id)
+    {
+        if (isset($this->builderMap[$id])) {
+            return $this->builderMap[$id];
         }
-      }
     }
-    
-    return $returnValue;
-  }
 
-  public function matches(PHPUnit_Framework_MockObject_Invocation $invocation) {
-    foreach ($this->matchers as $matcher) {
-      if (! $matcher->matches($invocation)) {
-        return FALSE;
-      }
-    }
-    
-    return TRUE;
-  }
+    public function registerId($id, PHPUnit_Framework_MockObject_Builder_Match $builder)
+    {
+        if (isset($this->builderMap[$id])) {
+            throw new RuntimeException("Match builder with id <{$id}> is already registered.");
+        }
 
-  public function verify() {
-    foreach ($this->matchers as $matcher) {
-      $matcher->verify();
+        $this->builderMap[$id] = $builder;
     }
-  }
+
+    public function expects(PHPUnit_Framework_MockObject_Matcher_Invocation $matcher)
+    {
+        $builder = new PHPUnit_Framework_MockObject_Builder_InvocationMocker($this, $matcher);
+
+        return $builder;
+    }
+
+    public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation)
+    {
+        $hasReturnValue = false;
+
+        if (strtolower($invocation->methodName) == '__tostring') {
+            $returnValue = '';
+        } else {
+            $returnValue = null;
+        }
+
+        foreach ($this->matchers as $match) {
+            if ($match->matches($invocation)) {
+                $value = $match->invoked($invocation);
+
+                if (!$hasReturnValue) {
+                    $returnValue = $value;
+                    $hasReturnValue = true;
+                }
+            }
+        }
+
+        return $returnValue;
+    }
+
+    public function matches(PHPUnit_Framework_MockObject_Invocation $invocation)
+    {
+        foreach ($this->matchers as $matcher) {
+            if (!$matcher->matches($invocation)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function verify()
+    {
+        foreach ($this->matchers as $matcher) {
+            $matcher->verify();
+        }
+    }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id:AbstractDatabaseTester.php 1254 2008-09-02 04:36:15Z mlively $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -55,31 +56,33 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Can be used as a foundation for new DatabaseTesters.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Extensions_Database_ITester {
-  
-  /**
+abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Extensions_Database_ITester
+{
+    /**
    * @var PHPUnit_Extensions_Database_Operation_IDatabaseOperation
    */
   protected $setUpOperation;
-  
+
   /**
    * @var PHPUnit_Extensions_Database_Operation_IDatabaseOperation
    */
   protected $tearDownOperation;
-  
+
   /**
    * @var PHPUnit_Extensions_Database_DataSet_IDataSet
    */
   protected $dataSet;
-  
+
   /**
    * @var string
    */
@@ -87,12 +90,13 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
 
   /**
    * Creates a new database tester.
-   * 
+   *
    * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $databaseConnection
    */
-  public function __construct() {
-    $this->setUpOperation = PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
-    $this->tearDownOperation = PHPUnit_Extensions_Database_Operation_Factory::NONE();
+  public function __construct()
+  {
+      $this->setUpOperation = PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
+      $this->tearDownOperation = PHPUnit_Extensions_Database_Operation_Factory::NONE();
   }
 
   /**
@@ -100,8 +104,9 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
    *
    * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
    */
-  public function closeConnection(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection) {
-    $connection->close();
+  public function closeConnection(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection)
+  {
+      $connection->close();
   }
 
   /**
@@ -109,22 +114,25 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
    *
    * @return PHPUnit_Extensions_Database_DataSet_IDataSet
    */
-  public function getDataSet() {
-    return $this->dataSet;
+  public function getDataSet()
+  {
+      return $this->dataSet;
   }
 
   /**
    * TestCases must call this method inside setUp().
    */
-  public function onSetUp() {
-    $this->getSetUpOperation()->execute($this->getConnection(), $this->getDataSet());
+  public function onSetUp()
+  {
+      $this->getSetUpOperation()->execute($this->getConnection(), $this->getDataSet());
   }
 
   /**
    * TestCases must call this method inside tearDown().
    */
-  public function onTearDown() {
-    $this->getTearDownOperation()->execute($this->getConnection(), $this->getDataSet());
+  public function onTearDown()
+  {
+      $this->getTearDownOperation()->execute($this->getConnection(), $this->getDataSet());
   }
 
   /**
@@ -132,8 +140,9 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
    *
    * @param PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet
    */
-  public function setDataSet(PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet) {
-    $this->dataSet = $dataSet;
+  public function setDataSet(PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet)
+  {
+      $this->dataSet = $dataSet;
   }
 
   /**
@@ -141,8 +150,9 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
    *
    * @param string $schema
    */
-  public function setSchema($schema) {
-    $this->schema = $schema;
+  public function setSchema($schema)
+  {
+      $this->schema = $schema;
   }
 
   /**
@@ -150,8 +160,9 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
    *
    * @param PHPUnit_Extensions_Database_Operation_DatabaseOperation $setUpOperation
    */
-  public function setSetUpOperation(PHPUnit_Extensions_Database_Operation_IDatabaseOperation $setUpOperation) {
-    $this->setUpOperation = $setUpOperation;
+  public function setSetUpOperation(PHPUnit_Extensions_Database_Operation_IDatabaseOperation $setUpOperation)
+  {
+      $this->setUpOperation = $setUpOperation;
   }
 
   /**
@@ -159,17 +170,19 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
    *
    * @param PHPUnit_Extensions_Database_Operation_DatabaseOperation $tearDownOperation
    */
-  public function setTearDownOperation(PHPUnit_Extensions_Database_Operation_IDatabaseOperation $tearDownOperation) {
-    $this->tearDownOperation = $tearDownOperation;
+  public function setTearDownOperation(PHPUnit_Extensions_Database_Operation_IDatabaseOperation $tearDownOperation)
+  {
+      $this->tearDownOperation = $tearDownOperation;
   }
 
   /**
-   * Returns the schema value
+   * Returns the schema value.
    *
    * @return string
    */
-  protected function getSchema() {
-    return $this->schema;
+  protected function getSchema()
+  {
+      return $this->schema;
   }
 
   /**
@@ -177,8 +190,9 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
    *
    * @return PHPUnit_Extensions_Database_Operation_DatabaseOperation
    */
-  protected function getSetUpOperation() {
-    return $this->setUpOperation;
+  protected function getSetUpOperation()
+  {
+      return $this->setUpOperation;
   }
 
   /**
@@ -186,8 +200,8 @@ abstract class PHPUnit_Extensions_Database_AbstractTester implements PHPUnit_Ext
    *
    * @return PHPUnit_Extensions_Database_Operation_DatabaseOperation
    */
-  protected function getTearDownOperation() {
-    return $this->tearDownOperation;
+  protected function getTearDownOperation()
+  {
+      return $this->tearDownOperation;
   }
 }
-?>

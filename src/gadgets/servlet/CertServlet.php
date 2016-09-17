@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,26 +17,26 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 require 'src/common/HttpServlet.php';
 
 /**
  * This class serves the public certificate, quick and dirty hack to make the certificate publicly accessible
  * this combined with the hard coded location in SigningFetcherFactory.php : http://{host}/{prefix}/public.crt
- * for the oauth pub key location makes a working whole
+ * for the oauth pub key location makes a working whole.
  */
-class CertServlet extends HttpServlet {
-
-  /**
+class CertServlet extends HttpServlet
+{
+    /**
    * Handles the get file request, only called on url = /public.crt
-   * so this function has no logic other then to output the cert
+   * so this function has no logic other then to output the cert.
    */
-  public function doGet() {
-    $file = Config::get('public_key_file');
-    if (! file_exists($file) || ! is_readable($file)) {
-      throw new Exception("Invalid public key location ($file), check config and file permissions");
-    }
-    $this->setLastModified(filemtime($file));
-    readfile($file);
+  public function doGet()
+  {
+      $file = Config::get('public_key_file');
+      if (!file_exists($file) || !is_readable($file)) {
+          throw new Exception("Invalid public key location ($file), check config and file permissions");
+      }
+      $this->setLastModified(filemtime($file));
+      readfile($file);
   }
 }

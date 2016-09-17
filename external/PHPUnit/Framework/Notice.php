@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,41 +35,43 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Notice.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-if (! class_exists('PHPUnit_Framework_Notice', FALSE)) {
+if (!class_exists('PHPUnit_Framework_Notice', false)) {
 
   /**
    * Wrapper for PHP notices.
-   * You can disable notice-to-exception conversion by setting
+   * You can disable notice-to-exception conversion by setting.
    *
    * <code>
    * PHPUnit_Framework_Notice::$enabled = FALSE;
    * </code>
    *
    * @category   Testing
-   * @package    PHPUnit
+   *
    * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+   *
    * @version    Release: 3.2.9
+   *
    * @link       http://www.phpunit.de/
    * @since      Class available since Release 3.1.0
    */
-  class PHPUnit_Framework_Notice extends PHPUnit_Framework_Error {
-    public static $enabled = TRUE;
+  class PHPUnit_Framework_Notice extends PHPUnit_Framework_Error
+  {
+      public static $enabled = true;
   }
-
 }
-?>

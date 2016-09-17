@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -19,31 +19,33 @@
  */
 
 /**
- * Collection of HTTP utilities
+ * Collection of HTTP utilities.
  */
-class HttpUtil {
-
-  static public function getView($gadget, $context) {
-    $view = $gadget->getView($context->getView());
-    if (empty($view)) {
-      $containerConfig = $context->getContainerConfig();
-      $config = $containerConfig->getConfig('default', 'gadgets.features');
-      $configViews = $config['views'];
-      if (isset($configViews[$context->getView()])) {
-        $views = $configViews[$context->getView()];
-        if (! empty($views)) {
-          $aliasesViews = $views['aliases'];
-          for ($i = 0; $i < count($aliasesViews); $i ++) {
-            $view = $gadget->getView($aliasesViews[$i]);
-            if (! empty($view)) {
-              break;
+class HttpUtil
+{
+    public static function getView($gadget, $context)
+    {
+        $view = $gadget->getView($context->getView());
+        if (empty($view)) {
+            $containerConfig = $context->getContainerConfig();
+            $config = $containerConfig->getConfig('default', 'gadgets.features');
+            $configViews = $config['views'];
+            if (isset($configViews[$context->getView()])) {
+                $views = $configViews[$context->getView()];
+                if (!empty($views)) {
+                    $aliasesViews = $views['aliases'];
+                    for ($i = 0; $i < count($aliasesViews); $i++) {
+                        $view = $gadget->getView($aliasesViews[$i]);
+                        if (!empty($view)) {
+                            break;
+                        }
+                    }
+                }
+            } else {
+                $view = $gadget->getView(DEFAULT_VIEW);
             }
-          }
         }
-      } else {
-        $view = $gadget->getView(DEFAULT_VIEW);
-      }
+
+        return $view;
     }
-    return $view;
-  }
 }

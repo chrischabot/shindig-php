@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: OutputTestCase.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
@@ -51,37 +52,40 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 require_once 'PHPUnit/Extensions/OutputTestCase.php';
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class OutputTestCase extends PHPUnit_Extensions_OutputTestCase {
+class OutputTestCase extends PHPUnit_Extensions_OutputTestCase
+{
+    public function testExpectOutputStringFooActualFoo()
+    {
+        $this->expectOutputString('foo');
+        echo 'foo';
+    }
 
-  public function testExpectOutputStringFooActualFoo() {
-    $this->expectOutputString('foo');
-    print 'foo';
-  }
+    public function testExpectOutputStringFooActualBar()
+    {
+        $this->expectOutputString('foo');
+        echo 'bar';
+    }
 
-  public function testExpectOutputStringFooActualBar() {
-    $this->expectOutputString('foo');
-    print 'bar';
-  }
+    public function testExpectOutputRegexFooActualFoo()
+    {
+        $this->expectOutputRegex('/foo/');
+        echo 'foo';
+    }
 
-  public function testExpectOutputRegexFooActualFoo() {
-    $this->expectOutputRegex('/foo/');
-    print 'foo';
-  }
-
-  public function testExpectOutputRegexFooActualBar() {
-    $this->expectOutputRegex('/foo/');
-    print 'bar';
-  }
+    public function testExpectOutputRegexFooActualBar()
+    {
+        $this->expectOutputRegex('/foo/');
+        echo 'bar';
+    }
 }
-?>

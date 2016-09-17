@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * OutputJsonConverter test case.
  */
-class OutputJsonConverterTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class OutputJsonConverterTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var OutputJsonConverter
    */
   private $OutputJsonConverter;
@@ -31,36 +31,39 @@ class OutputJsonConverterTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->OutputJsonConverter = new OutputJsonConverter();
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->OutputJsonConverter = new OutputJsonConverter();
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->OutputJsonConverter = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->OutputJsonConverter = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests OutputJsonConverter->outputResponse()
+   * Tests OutputJsonConverter->outputResponse().
    */
-  public function testOutputResponse() {
-    $inputConverter = new InputJsonConverter();
-    $outputConverter = new OutputJsonConverter();
-    $servletRequest = array('url' => '/people/1/@self');
-    $requestItem = RestRequestItem::createWithRequest($servletRequest, null, $inputConverter, $outputConverter);
-    $requestItem->applyUrlTemplate("/people/{userId}/{groupId}/{personId}");
-    $response = array(
-        'entry' => array('isOwner' => false, 'isViewer' => false, 'displayName' => '1 1', 
-            'id' => '1'));
-    $responseItem = new ResponseItem(null, null, $response);
-    ob_start();
-    $outputConverter->outputResponse($responseItem, $requestItem);
-    $output = ob_get_clean();
-    $expected = '{
+  public function testOutputResponse()
+  {
+      $inputConverter = new InputJsonConverter();
+      $outputConverter = new OutputJsonConverter();
+      $servletRequest = ['url' => '/people/1/@self'];
+      $requestItem = RestRequestItem::createWithRequest($servletRequest, null, $inputConverter, $outputConverter);
+      $requestItem->applyUrlTemplate('/people/{userId}/{groupId}/{personId}');
+      $response = [
+        'entry' => ['isOwner' => false, 'isViewer' => false, 'displayName' => '1 1',
+            'id'              => '1', ], ];
+      $responseItem = new ResponseItem(null, null, $response);
+      ob_start();
+      $outputConverter->outputResponse($responseItem, $requestItem);
+      $output = ob_get_clean();
+      $expected = '{
   "entry": {
     "isOwner": false,
     "isViewer": false,
@@ -68,8 +71,6 @@ class OutputJsonConverterTest extends PHPUnit_Framework_TestCase {
     "id": "1"
   }
 }';
-    $this->assertEquals($expected, $output);
+      $this->assertEquals($expected, $output);
   }
-
 }
-

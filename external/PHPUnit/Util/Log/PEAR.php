@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: PEAR.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
-
 @include_once 'Log.php';
 
 require_once 'PHPUnit/Framework.php';
@@ -55,20 +56,22 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * A TestListener that logs to a PEAR_Log sink.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
-  /**
+class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
+{
+    /**
    * Log.
    *
    * @var    Log
-   * @access protected
    */
   protected $log;
 
@@ -84,10 +87,10 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    * @param array  $conf      A hash containing any additional configuration
    *                          information that a subclass might need.
    * @param int $maxLevel     Maximum priority level at which to log.
-   * @access public
    */
-  public function __construct($type, $name = '', $ident = '', $conf = array(), $maxLevel = PEAR_LOG_DEBUG) {
-    $this->log = Log::factory($type, $name, $ident, $conf, $maxLevel);
+  public function __construct($type, $name = '', $ident = '', $conf = [], $maxLevel = PEAR_LOG_DEBUG)
+  {
+      $this->log = Log::factory($type, $name, $ident, $conf, $maxLevel);
   }
 
   /**
@@ -96,10 +99,10 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    * @param  PHPUnit_Framework_Test $test
    * @param  Exception              $e
    * @param  float                  $time
-   * @access public
    */
-  public function addError(PHPUnit_Framework_Test $test, Exception $e, $time) {
-    $this->log->crit(sprintf('Test "%s" failed: %s', 
+  public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
+  {
+      $this->log->crit(sprintf('Test "%s" failed: %s',
 
     $test->getName(), $e->getMessage()));
   }
@@ -110,10 +113,10 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    * @param  PHPUnit_Framework_Test                 $test
    * @param  PHPUnit_Framework_AssertionFailedError $e
    * @param  float                                  $time
-   * @access public
    */
-  public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
-    $this->log->err(sprintf('Test "%s" failed: %s', 
+  public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
+  {
+      $this->log->err(sprintf('Test "%s" failed: %s',
 
     $test->getName(), $e->getMessage()));
   }
@@ -124,10 +127,10 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    * @param  PHPUnit_Framework_Test $test
    * @param  Exception              $e
    * @param  float                  $time
-   * @access public
    */
-  public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
-    $this->log->info(sprintf('Test "%s" incomplete: %s', 
+  public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+  {
+      $this->log->info(sprintf('Test "%s" incomplete: %s',
 
     $test->getName(), $e->getMessage()));
   }
@@ -138,11 +141,12 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    * @param  PHPUnit_Framework_Test $test
    * @param  Exception              $e
    * @param  float                  $time
-   * @access public
+   *
    * @since  Method available since Release 3.0.0
    */
-  public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
-    $this->log->info(sprintf('Test "%s" skipped: %s', 
+  public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+  {
+      $this->log->info(sprintf('Test "%s" skipped: %s',
 
     $test->getName(), $e->getMessage()));
   }
@@ -151,11 +155,12 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    * A test suite started.
    *
    * @param  PHPUnit_Framework_TestSuite $suite
-   * @access public
+   *
    * @since  Method available since Release 2.2.0
    */
-  public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
-    $this->log->info(sprintf('TestSuite "%s" started.', 
+  public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+  {
+      $this->log->info(sprintf('TestSuite "%s" started.',
 
     $suite->getName()));
   }
@@ -164,11 +169,12 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    * A test suite ended.
    *
    * @param  PHPUnit_Framework_TestSuite $suite
-   * @access public
+   *
    * @since  Method available since Release 2.2.0
    */
-  public function endTestSuite(PHPUnit_Framework_TestSuite $suite) {
-    $this->log->info(sprintf('TestSuite "%s" ended.', 
+  public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+  {
+      $this->log->info(sprintf('TestSuite "%s" ended.',
 
     $suite->getName()));
   }
@@ -177,10 +183,10 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    * A test started.
    *
    * @param  PHPUnit_Framework_Test $test
-   * @access public
    */
-  public function startTest(PHPUnit_Framework_Test $test) {
-    $this->log->info(sprintf('Test "%s" started.', 
+  public function startTest(PHPUnit_Framework_Test $test)
+  {
+      $this->log->info(sprintf('Test "%s" started.',
 
     $test->getName()));
   }
@@ -190,12 +196,11 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener {
    *
    * @param  PHPUnit_Framework_Test $test
    * @param  float                  $time
-   * @access public
    */
-  public function endTest(PHPUnit_Framework_Test $test, $time) {
-    $this->log->info(sprintf('Test "%s" ended.', 
+  public function endTest(PHPUnit_Framework_Test $test, $time)
+  {
+      $this->log->info(sprintf('Test "%s" ended.',
 
     $test->getName()));
   }
 }
-?>

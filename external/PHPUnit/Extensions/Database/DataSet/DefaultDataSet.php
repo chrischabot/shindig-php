@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: DefaultDataSet.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -56,17 +57,19 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The default implementation of a data set.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DataSet_DefaultDataSet extends PHPUnit_Extensions_Database_DataSet_AbstractDataSet {
-  
-  /**
+class PHPUnit_Extensions_Database_DataSet_DefaultDataSet extends PHPUnit_Extensions_Database_DataSet_AbstractDataSet
+{
+    /**
    * An array of ITable objects.
    *
    * @var array
@@ -78,8 +81,9 @@ class PHPUnit_Extensions_Database_DataSet_DefaultDataSet extends PHPUnit_Extensi
    *
    * @param array $tables
    */
-  public function __construct(Array $tables = array()) {
-    $this->tables = $tables;
+  public function __construct(array $tables = [])
+  {
+      $this->tables = $tables;
   }
 
   /**
@@ -87,19 +91,21 @@ class PHPUnit_Extensions_Database_DataSet_DefaultDataSet extends PHPUnit_Extensi
    *
    * @param PHPUnit_Extensions_Database_DataSet_ITable $table
    */
-  public function addTable(PHPUnit_Extensions_Database_DataSet_ITable $table) {
-    $this->tables[] = $table;
+  public function addTable(PHPUnit_Extensions_Database_DataSet_ITable $table)
+  {
+      $this->tables[] = $table;
   }
 
   /**
-   * Creates an iterator over the tables in the data set. If $reverse is 
+   * Creates an iterator over the tables in the data set. If $reverse is
    * true a reverse iterator will be returned.
    *
    * @param bool $reverse
+   *
    * @return PHPUnit_Extensions_Database_DataSet_ITableIterator
    */
-  protected function createIterator($reverse = false) {
-    return new PHPUnit_Extensions_Database_DataSet_DefaultTableIterator($this->tables, $reverse);
+  protected function createIterator($reverse = false)
+  {
+      return new PHPUnit_Extensions_Database_DataSet_DefaultTableIterator($this->tables, $reverse);
   }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: IncludePathTestCollector.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.1.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Runner/TestCollector.php';
 require_once 'PHPUnit/Util/FilterIterator.php';
@@ -64,93 +65,91 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * </code>
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class PHPUnit_Runner_IncludePathTestCollector implements PHPUnit_Runner_TestCollector {
-  /**
+class PHPUnit_Runner_IncludePathTestCollector implements PHPUnit_Runner_TestCollector
+{
+    /**
    * @var    string
-   * @access protected
    */
   protected $filterIterator;
-  
+
   /**
    * @var    array
-   * @access protected
    */
   protected $paths;
-  
+
   /**
    * @var    string
-   * @access protected
    */
   protected $suffix;
 
   /**
    * @param  array  $paths
    * @param  string $suffix
-   * @access public
    */
-  public function __construct(array $paths = array(), $suffix = 'Test.php') {
-    if (! empty($paths)) {
-      $this->paths = $paths;
-    } else {
-      $this->paths = explode(PATH_SEPARATOR, get_include_path());
-    }
-    
-    $this->suffix = $suffix;
+  public function __construct(array $paths = [], $suffix = 'Test.php')
+  {
+      if (!empty($paths)) {
+          $this->paths = $paths;
+      } else {
+          $this->paths = explode(PATH_SEPARATOR, get_include_path());
+      }
+
+      $this->suffix = $suffix;
   }
 
   /**
    * @return array
-   * @access public
    */
-  public function collectTests() {
-    $pathIterator = new AppendIterator();
-    $result = array();
-    
-    foreach ($this->paths as $path) {
-      $pathIterator->append(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)));
-    }
-    
-    $filterIterator = new PHPUnit_Util_FilterIterator($pathIterator, $this->suffix);
-    
-    if ($this->filterIterator !== NULL) {
-      $class = new ReflectionClass($this->filterIterator);
-      $filterIterator = $class->newInstance($filterIterator);
-    }
-    
-    return $filterIterator;
+  public function collectTests()
+  {
+      $pathIterator = new AppendIterator();
+      $result = [];
+
+      foreach ($this->paths as $path) {
+          $pathIterator->append(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)));
+      }
+
+      $filterIterator = new PHPUnit_Util_FilterIterator($pathIterator, $this->suffix);
+
+      if ($this->filterIterator !== null) {
+          $class = new ReflectionClass($this->filterIterator);
+          $filterIterator = $class->newInstance($filterIterator);
+      }
+
+      return $filterIterator;
   }
 
   /**
    * Adds a FilterIterator to filter the source files to be collected.
    *
    * @param  string $filterIterator
+   *
    * @throws InvalidArgumentException
-   * @access public
    */
-  public function setFilterIterator($filterIterator) {
-    if (is_string($filterIterator) && class_exists($filterIterator)) {
-      try {
-        $class = new ReflectionClass($filterIterator);
-        
-        if ($class->isSubclassOf('FilterIterator')) {
-          $this->filterIterator = $filterIterator;
-        }
-      } 
+  public function setFilterIterator($filterIterator)
+  {
+      if (is_string($filterIterator) && class_exists($filterIterator)) {
+          try {
+              $class = new ReflectionClass($filterIterator);
 
-      catch (ReflectionException $e) {
-        throw new InvalidArgumentException();
+              if ($class->isSubclassOf('FilterIterator')) {
+                  $this->filterIterator = $filterIterator;
+              }
+          } catch (ReflectionException $e) {
+              throw new InvalidArgumentException();
+          }
+      } else {
+          throw new InvalidArgumentException();
       }
-    } else {
-      throw new InvalidArgumentException();
-    }
   }
 }
-?>

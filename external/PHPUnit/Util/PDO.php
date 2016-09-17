@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -11,7 +11,7 @@
  *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: PDO.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.4
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -52,20 +53,23 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * PDO helpers.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.4
  */
-class PHPUnit_Util_PDO {
+class PHPUnit_Util_PDO
+{
+    public static function factory($dsn)
+    {
+        $parsed = self::parseDSN($dsn);
 
-  public static function factory($dsn) {
-    $parsed = self::parseDSN($dsn);
-    
-    switch ($parsed['phptype']) {
+        switch ($parsed['phptype']) {
       case 'mysql':
         {
           $database = null;
@@ -76,89 +80,89 @@ class PHPUnit_Util_PDO {
           $user = null;
           $pass = null;
           $driverOptions = null;
-          
+
           foreach ($parsed as $key => $val) {
-            switch ($key) {
+              switch ($key) {
               case 'database':
               case 'dbname':
                 $database = $val;
                 break;
-              
+
               case 'charset':
                 $charset = $val;
                 break;
-              
+
               case 'host':
               case 'hostspec':
                 $host = $val;
                 break;
-              
+
               case 'port':
                 $port = $val;
                 break;
-              
+
               case 'socket':
                 $socket = $val;
                 break;
-              
+
               case 'user':
               case 'username':
                 $user = $val;
                 break;
-              
+
               case 'pass':
               case 'password':
                 $pass = $val;
                 break;
-              
+
               case 'driver-opts':
                 $driverOptions = $val;
                 break;
             }
           }
-          
-          if (! isset($database)) {
-            throw new InvalidArgumentException();
+
+          if (!isset($database)) {
+              throw new InvalidArgumentException();
           }
-          
+
           $dsn = "mysql:dbname=$database";
-          
+
           if (isset($host) && $host) {
-            $dsn .= ";host=$host";
+              $dsn .= ";host=$host";
           }
-          
+
           if (isset($port) && $port) {
-            $dsn .= ";port=$port";
+              $dsn .= ";port=$port";
           }
-          
+
           if (isset($charset) && $charset) {
-            $dsn .= ";charset=$charset";
+              $dsn .= ";charset=$charset";
           }
-          
+
           if (isset($socket) && $socket) {
-            $dsn .= ";unix_socket=$socket";
+              $dsn .= ";unix_socket=$socket";
           }
-          
+
           $dbh = new PDO($dsn, $user, $pass, $driverOptions);
         }
         break;
-      
+
       case 'sqlite':
         {
           $dbh = new PDO($dsn);
         }
         break;
-      
+
       default:
         {
           throw new InvalidArgumentException();
         }
     }
-    
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    return $dbh;
-  }
+
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        return $dbh;
+    }
 
   /**
    * Returns the Data Source Name as a structure containing the various parts of the DSN.
@@ -196,114 +200,116 @@ class PHPUnit_Util_PDO {
    *  + username: User name for login
    *  + password: Password for login
    */
-  public static function parseDSN($dsn) {
-    $parsed = array('phptype' => false, 'dbsyntax' => false, 'username' => false, 'password' => false, 
-        'protocol' => false, 'hostspec' => false, 'port' => false, 'socket' => false, 
-        'database' => false);
-    
-    if (is_array($dsn)) {
-      $dsn = array_merge($parsed, $dsn);
-      if (! $dsn['dbsyntax']) {
-        $dsn['dbsyntax'] = $dsn['phptype'];
+  public static function parseDSN($dsn)
+  {
+      $parsed = ['phptype' => false, 'dbsyntax' => false, 'username' => false, 'password' => false,
+        'protocol'       => false, 'hostspec' => false, 'port' => false, 'socket' => false,
+        'database'       => false, ];
+
+      if (is_array($dsn)) {
+          $dsn = array_merge($parsed, $dsn);
+          if (!$dsn['dbsyntax']) {
+              $dsn['dbsyntax'] = $dsn['phptype'];
+          }
+
+          return $dsn;
       }
-      return $dsn;
-    }
-    
+
     // Find phptype and dbsyntax
     if (($pos = strpos($dsn, '://')) !== false) {
-      $str = substr($dsn, 0, $pos);
-      $dsn = substr($dsn, $pos + 3);
+        $str = substr($dsn, 0, $pos);
+        $dsn = substr($dsn, $pos + 3);
     } else {
-      $str = $dsn;
-      $dsn = null;
+        $str = $dsn;
+        $dsn = null;
     }
-    
+
     // Get phptype and dbsyntax
     // $str => phptype(dbsyntax)
     if (preg_match('|^(.+?)\((.*?)\)$|', $str, $arr)) {
-      $parsed['phptype'] = $arr[1];
-      $parsed['dbsyntax'] = ! $arr[2] ? $arr[1] : $arr[2];
+        $parsed['phptype'] = $arr[1];
+        $parsed['dbsyntax'] = !$arr[2] ? $arr[1] : $arr[2];
     } else {
-      $parsed['phptype'] = $str;
-      $parsed['dbsyntax'] = $str;
+        $parsed['phptype'] = $str;
+        $parsed['dbsyntax'] = $str;
     }
-    
-    if (! count($dsn)) {
-      return $parsed;
-    }
-    
+
+      if (!count($dsn)) {
+          return $parsed;
+      }
+
     // Get (if found): username and password
     // $dsn => username:password@protocol+hostspec/database
-    if (($at = strrpos((string)$dsn, '@')) !== false) {
-      $str = substr($dsn, 0, $at);
-      $dsn = substr($dsn, $at + 1);
-      if (($pos = strpos($str, ':')) !== false) {
-        $parsed['username'] = rawurldecode(substr($str, 0, $pos));
-        $parsed['password'] = rawurldecode(substr($str, $pos + 1));
-      } else {
-        $parsed['username'] = rawurldecode($str);
-      }
+    if (($at = strrpos((string) $dsn, '@')) !== false) {
+        $str = substr($dsn, 0, $at);
+        $dsn = substr($dsn, $at + 1);
+        if (($pos = strpos($str, ':')) !== false) {
+            $parsed['username'] = rawurldecode(substr($str, 0, $pos));
+            $parsed['password'] = rawurldecode(substr($str, $pos + 1));
+        } else {
+            $parsed['username'] = rawurldecode($str);
+        }
     }
-    
+
     // Find protocol and hostspec
-    
+
 
     if (preg_match('|^([^(]+)\((.*?)\)/?(.*?)$|', $dsn, $match)) {
-      // $dsn => proto(proto_opts)/database
+        // $dsn => proto(proto_opts)/database
       $proto = $match[1];
-      $proto_opts = $match[2] ? $match[2] : false;
-      $dsn = $match[3];
+        $proto_opts = $match[2] ? $match[2] : false;
+        $dsn = $match[3];
     } else {
-      // $dsn => protocol+hostspec/database (old format)
+        // $dsn => protocol+hostspec/database (old format)
       if (strpos($dsn, '+') !== false) {
-        list($proto, $dsn) = explode('+', $dsn, 2);
+          list($proto, $dsn) = explode('+', $dsn, 2);
       }
-      if (strpos($dsn, '/') !== false) {
-        list($proto_opts, $dsn) = explode('/', $dsn, 2);
-      } else {
-        $proto_opts = $dsn;
-        $dsn = null;
-      }
+        if (strpos($dsn, '/') !== false) {
+            list($proto_opts, $dsn) = explode('/', $dsn, 2);
+        } else {
+            $proto_opts = $dsn;
+            $dsn = null;
+        }
     }
-    
+
     // process the different protocol options
-    $parsed['protocol'] = (! empty($proto)) ? $proto : 'tcp';
-    $proto_opts = rawurldecode($proto_opts);
-    if ($parsed['protocol'] == 'tcp') {
-      if (strpos($proto_opts, ':') !== false) {
-        list($parsed['hostspec'], $parsed['port']) = explode(':', $proto_opts);
-      } else {
-        $parsed['hostspec'] = $proto_opts;
+    $parsed['protocol'] = (!empty($proto)) ? $proto : 'tcp';
+      $proto_opts = rawurldecode($proto_opts);
+      if ($parsed['protocol'] == 'tcp') {
+          if (strpos($proto_opts, ':') !== false) {
+              list($parsed['hostspec'], $parsed['port']) = explode(':', $proto_opts);
+          } else {
+              $parsed['hostspec'] = $proto_opts;
+          }
+      } elseif ($parsed['protocol'] == 'unix') {
+          $parsed['socket'] = $proto_opts;
       }
-    } elseif ($parsed['protocol'] == 'unix') {
-      $parsed['socket'] = $proto_opts;
-    }
-    
+
     // Get dabase if any
     // $dsn => database
     if ($dsn) {
-      if (($pos = strpos($dsn, '?')) === false) {
-        // /database
+        if (($pos = strpos($dsn, '?')) === false) {
+            // /database
         $parsed['database'] = rawurldecode($dsn);
-      } else {
-        // /database?param1=value1&param2=value2
+        } else {
+            // /database?param1=value1&param2=value2
         $parsed['database'] = rawurldecode(substr($dsn, 0, $pos));
-        $dsn = substr($dsn, $pos + 1);
-        if (strpos($dsn, '&') !== false) {
-          $opts = explode('&', $dsn);
-        } else { // database?param1=value1
-          $opts = array($dsn);
-        }
-        foreach ($opts as $opt) {
-          list($key, $value) = explode('=', $opt);
-          if (! isset($parsed[$key])) {
-            // don't allow params overwrite
+            $dsn = substr($dsn, $pos + 1);
+            if (strpos($dsn, '&') !== false) {
+                $opts = explode('&', $dsn);
+            } else { // database?param1=value1
+          $opts = [$dsn];
+            }
+            foreach ($opts as $opt) {
+                list($key, $value) = explode('=', $opt);
+                if (!isset($parsed[$key])) {
+                    // don't allow params overwrite
             $parsed[$key] = rawurldecode($value);
-          }
+                }
+            }
         }
-      }
     }
-    return $parsed;
+
+      return $parsed;
   }
 }
-?>

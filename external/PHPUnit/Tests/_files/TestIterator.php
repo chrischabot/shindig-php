@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,57 +35,64 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: TestIterator.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class TestIterator implements Iterator {
-  protected $array;
-  protected $position;
+class TestIterator implements Iterator
+{
+    protected $array;
+    protected $position;
 
-  public function __construct($array = array()) {
-    $this->array = $array;
-  }
+    public function __construct($array = [])
+    {
+        $this->array = $array;
+    }
 
-  public function rewind() {
-    $this->position = 0;
-  }
+    public function rewind()
+    {
+        $this->position = 0;
+    }
 
-  public function valid() {
-    return $this->position < count($this->array);
-  }
+    public function valid()
+    {
+        return $this->position < count($this->array);
+    }
 
-  public function key() {
-    return $this->position;
-  }
+    public function key()
+    {
+        return $this->position;
+    }
 
-  public function current() {
-    return $this->array[$this->position];
-  }
+    public function current()
+    {
+        return $this->array[$this->position];
+    }
 
-  public function next() {
-    $this->position ++;
-  }
+    public function next()
+    {
+        $this->position++;
+    }
 }
-?>

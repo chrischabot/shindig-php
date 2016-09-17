@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,30 +21,35 @@
 
 /**
  * Locale class doesn't exist in php, so to allow the code base to be closer to the java and it's spec
- * interpretation one, we created our own
+ * interpretation one, we created our own.
  */
-class Locale {
-  public $language;
-  public $country;
+class Locale
+{
+    public $language;
+    public $country;
 
-  public function __construct($language, $country) {
-    $this->language = $language;
-    $this->country = $country;
-  }
-
-  public function equals($obj) {
-    if (! ($obj instanceof Locale)) {
-      return false;
+    public function __construct($language, $country)
+    {
+        $this->language = $language;
+        $this->country = $country;
     }
-    return ($obj->language == $this->language && $obj->country == $this->country);
-  }
 
-  public function getLanguage() {
-    return $this->language;
-  }
+    public function equals($obj)
+    {
+        if (!($obj instanceof self)) {
+            return false;
+        }
 
-  public function getCountry() {
-    return $this->country;
-  }
+        return $obj->language == $this->language && $obj->country == $this->country;
+    }
 
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    public function getCountry()
+    {
+        return $this->country;
+    }
 }

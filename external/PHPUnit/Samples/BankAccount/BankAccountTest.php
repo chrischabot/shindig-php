@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: BankAccountTest.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
-
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'BankAccount.php';
 
@@ -51,63 +52,66 @@ require_once 'BankAccount.php';
  * Tests for the BankAccount class.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.3.0
  */
-class BankAccountTest extends PHPUnit_Framework_TestCase {
-  protected $ba;
+class BankAccountTest extends PHPUnit_Framework_TestCase
+{
+    protected $ba;
 
-  protected function setUp() {
-    $this->ba = new BankAccount();
-  }
+    protected function setUp()
+    {
+        $this->ba = new BankAccount();
+    }
 
   /**
    * @covers BankAccount::getBalance
    */
-  public function testBalanceIsInitiallyZero() {
-    $this->assertEquals(0, $this->ba->getBalance());
+  public function testBalanceIsInitiallyZero()
+  {
+      $this->assertEquals(0, $this->ba->getBalance());
   }
 
   /**
    * @covers BankAccount::withdrawMoney
    */
-  public function testBalanceCannotBecomeNegative() {
-    try {
-      $this->ba->withdrawMoney(1);
-    } 
+  public function testBalanceCannotBecomeNegative()
+  {
+      try {
+          $this->ba->withdrawMoney(1);
+      } catch (BankAccountException $e) {
+          $this->assertEquals(0, $this->ba->getBalance());
 
-    catch (BankAccountException $e) {
-      $this->assertEquals(0, $this->ba->getBalance());
-      
-      return;
-    }
-    
-    $this->fail();
+          return;
+      }
+
+      $this->fail();
   }
 
   /**
    * @covers BankAccount::depositMoney
    */
-  public function testBalanceCannotBecomeNegative2() {
-    try {
-      $this->ba->depositMoney(- 1);
-    } 
+  public function testBalanceCannotBecomeNegative2()
+  {
+      try {
+          $this->ba->depositMoney(-1);
+      } catch (BankAccountException $e) {
+          $this->assertEquals(0, $this->ba->getBalance());
 
-    catch (BankAccountException $e) {
-      $this->assertEquals(0, $this->ba->getBalance());
-      
-      return;
-    }
-    
-    $this->fail();
+          return;
+      }
+
+      $this->fail();
   }
 
-/**
+/*
  * @covers BankAccount::getBalance
  * @covers BankAccount::depositMoney
  * @covers BankAccount::withdrawMoney
@@ -123,4 +127,3 @@ class BankAccountTest extends PHPUnit_Framework_TestCase {
     }
 */
 }
-?>

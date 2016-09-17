@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Or.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Type.php';
@@ -55,45 +56,51 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Logical OR.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint {
-  protected $constraints = array();
+class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
+{
+    protected $constraints = [];
 
-  public function setConstraints(array $constraints) {
-    $this->constraints = array();
-    
-    foreach ($constraints as $key => $constraint) {
-      if (! ($constraint instanceof PHPUnit_Framework_Constraint)) {
-        $constraint = new PHPUnit_Framework_Constraint_IsEqual($constraint);
-      }
-      
-      $this->constraints[] = $constraint;
+    public function setConstraints(array $constraints)
+    {
+        $this->constraints = [];
+
+        foreach ($constraints as $key => $constraint) {
+            if (!($constraint instanceof PHPUnit_Framework_Constraint)) {
+                $constraint = new PHPUnit_Framework_Constraint_IsEqual($constraint);
+            }
+
+            $this->constraints[] = $constraint;
+        }
     }
-  }
 
   /**
    * Evaluates the constraint for parameter $other. Returns TRUE if the
    * constraint is met, FALSE otherwise.
    *
    * @param mixed $other Value or object to evaluate.
+   *
    * @return bool
    */
-  public function evaluate($other) {
-    foreach ($this->constraints as $constraint) {
-      if ($constraint->evaluate($other)) {
-        return TRUE;
+  public function evaluate($other)
+  {
+      foreach ($this->constraints as $constraint) {
+          if ($constraint->evaluate($other)) {
+              return true;
+          }
       }
-    }
-    
-    return FALSE;
+
+      return false;
   }
 
   /**
@@ -101,33 +108,34 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint {
    *                         constraint check.
    * @param   string  $description A string with extra description of what was
    *                               going on while the evaluation failed.
-   * @param   boolean $not Flag to indicate negation.
+   * @param   bool $not Flag to indicate negation.
+   *
    * @throws  PHPUnit_Framework_ExpectationFailedException
    */
-  public function fail($other, $description, $not = FALSE) {
-    throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Failed asserting that %s %s.', 
+  public function fail($other, $description, $not = false)
+  {
+      throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Failed asserting that %s %s.',
 
-    PHPUnit_Util_Type::toString($other), $this->toString()), NULL, $description);
+    PHPUnit_Util_Type::toString($other), $this->toString()), null, $description);
   }
 
   /**
    * Returns a string representation of the constraint.
    *
    * @return string
-   * @access public
    */
-  public function toString() {
-    $text = '';
-    
-    foreach ($this->constraints as $key => $constraint) {
-      if ($key > 0) {
-        $text .= ' or ';
+  public function toString()
+  {
+      $text = '';
+
+      foreach ($this->constraints as $key => $constraint) {
+          if ($key > 0) {
+              $text .= ' or ';
+          }
+
+          $text .= $constraint->toString();
       }
-      
-      $text .= $constraint->toString();
-    }
-    
-    return $text;
+
+      return $text;
   }
 }
-?>

@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * Message test case.
  */
-class MessageTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class MessageTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var Message
    */
   private $Message;
@@ -31,68 +31,77 @@ class MessageTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->Message = new Message('BODY', 'TITLE', 'NOTIFICATION');
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->Message = new Message('BODY', 'TITLE', 'NOTIFICATION');
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->Message = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->Message = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests Message->getBody()
+   * Tests Message->getBody().
    */
-  public function testGetBody() {
-    $this->assertEquals('BODY', $this->Message->getBody());
+  public function testGetBody()
+  {
+      $this->assertEquals('BODY', $this->Message->getBody());
   }
 
   /**
-   * Tests Message->getTitle()
+   * Tests Message->getTitle().
    */
-  public function testGetTitle() {
-    $this->assertEquals('TITLE', $this->Message->getTitle());
+  public function testGetTitle()
+  {
+      $this->assertEquals('TITLE', $this->Message->getTitle());
   }
 
   /**
-   * Tests Message->getType()
+   * Tests Message->getType().
    */
-  public function testGetType() {
-    $this->assertEquals('NOTIFICATION', $this->Message->getType());
+  public function testGetType()
+  {
+      $this->assertEquals('NOTIFICATION', $this->Message->getType());
   }
 
   /**
-   * Tests Message->sanitizeHTML()
+   * Tests Message->sanitizeHTML().
    */
-  public function testSanitizeHTML() {
-    $this->assertEquals('ABC', $this->Message->sanitizeHTML('ABC'));
+  public function testSanitizeHTML()
+  {
+      $this->assertEquals('ABC', $this->Message->sanitizeHTML('ABC'));
   }
 
   /**
-   * Tests Message->setBody()
+   * Tests Message->setBody().
    */
-  public function testSetBody() {
-    $this->Message->setBody('body');
-    $this->assertEquals('body', $this->Message->body);
+  public function testSetBody()
+  {
+      $this->Message->setBody('body');
+      $this->assertEquals('body', $this->Message->body);
   }
 
   /**
-   * Tests Message->setTitle()
+   * Tests Message->setTitle().
    */
-  public function testSetTitle() {
-    $this->Message->setTitle('title');
-    $this->assertEquals('title', $this->Message->title);
+  public function testSetTitle()
+  {
+      $this->Message->setTitle('title');
+      $this->assertEquals('title', $this->Message->title);
   }
 
   /**
-   * Tests Message->setType()
+   * Tests Message->setType().
    */
-  public function testSetType() {
-    $this->Message->setType('EMAIL');
-    $this->assertEquals('EMAIL', $this->Message->type);
+  public function testSetType()
+  {
+      $this->Message->setType('EMAIL');
+      $this->assertEquals('EMAIL', $this->Message->type);
   }
 }

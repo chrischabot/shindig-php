@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,44 +35,46 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: NPathComplexity.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Util/Log/PMD/Rule/Function.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * 
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Util_Log_PMD_Rule_Function_NPathComplexity extends PHPUnit_Util_Log_PMD_Rule_Function {
-
-  public function __construct($threshold = 200, $priority = 1) {
-    parent::__construct($threshold);
-  }
-
-  public function apply(PHPUnit_Util_Metrics $metrics) {
-    $npath = $metrics->getNPath();
-    
-    if ($npath >= $this->threshold) {
-      return sprintf("The NPath complexity is %d.\n" . 'The NPath complexity of a function or method is the number of ' . 'acyclic execution paths through that method. A threshold of 200 ' . 'is generally considered the point where measures should be taken ' . 'to reduce complexity.', $npath);
+class PHPUnit_Util_Log_PMD_Rule_Function_NPathComplexity extends PHPUnit_Util_Log_PMD_Rule_Function
+{
+    public function __construct($threshold = 200, $priority = 1)
+    {
+        parent::__construct($threshold);
     }
-  }
+
+    public function apply(PHPUnit_Util_Metrics $metrics)
+    {
+        $npath = $metrics->getNPath();
+
+        if ($npath >= $this->threshold) {
+            return sprintf("The NPath complexity is %d.\n".'The NPath complexity of a function or method is the number of '.'acyclic execution paths through that method. A threshold of 200 '.'is generally considered the point where measures should be taken '.'to reduce complexity.', $npath);
+        }
+    }
 }
-?>

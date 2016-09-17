@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: DefaultTable.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -55,24 +56,27 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Provides default table functionality.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DataSet_DefaultTable extends PHPUnit_Extensions_Database_DataSet_AbstractTable {
-
-  /**
-   * Creates a new table object using the given $tableMetaData
+class PHPUnit_Extensions_Database_DataSet_DefaultTable extends PHPUnit_Extensions_Database_DataSet_AbstractTable
+{
+    /**
+   * Creates a new table object using the given $tableMetaData.
    *
    * @param PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData
    */
-  public function __construct(PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData) {
-    $this->setTableMetaData($tableMetaData);
-    $this->data = array();
+  public function __construct(PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData)
+  {
+      $this->setTableMetaData($tableMetaData);
+      $this->data = [];
   }
 
   /**
@@ -80,9 +84,10 @@ class PHPUnit_Extensions_Database_DataSet_DefaultTable extends PHPUnit_Extension
    *
    * @param array $values
    */
-  public function addRow($values = array()) {
-    $columnNames = $this->getTableMetaData()->getColumns();
-    $this->data[] = array_merge(array_fill_keys($columnNames, null), $values);
+  public function addRow($values = [])
+  {
+      $columnNames = $this->getTableMetaData()->getColumns();
+      $this->data[] = array_merge(array_fill_keys($columnNames, null), $values);
   }
 
   /**
@@ -90,15 +95,16 @@ class PHPUnit_Extensions_Database_DataSet_DefaultTable extends PHPUnit_Extension
    *
    * @param PHPUnit_Extensions_Database_DataSet_ITable $table
    */
-  public function addTableRows(PHPUnit_Extensions_Database_DataSet_ITable $table) {
-    $tableColumns = $this->getTableMetaData()->getColumns();
-    for ($i = 0; $i < $table->getRowCount(); $i ++) {
-      $newRow = array();
-      foreach ($tableColumns as $columnName) {
-        $newRow[$columnName] = $table->getValue($i, $columnName);
+  public function addTableRows(PHPUnit_Extensions_Database_DataSet_ITable $table)
+  {
+      $tableColumns = $this->getTableMetaData()->getColumns();
+      for ($i = 0; $i < $table->getRowCount(); $i++) {
+          $newRow = [];
+          foreach ($tableColumns as $columnName) {
+              $newRow[$columnName] = $table->getValue($i, $columnName);
+          }
+          $this->addRow($newRow);
       }
-      $this->addRow($newRow);
-    }
   }
 
   /**
@@ -108,12 +114,12 @@ class PHPUnit_Extensions_Database_DataSet_DefaultTable extends PHPUnit_Extension
    * @param string $column
    * @param mixed $value
    */
-  public function setValue($row, $column, $value) {
-    if (isset($this->data[$row])) {
-      $this->data[$row][$column] = $value;
-    } else {
-      throw new InvalidArgumentException("The row given does not exist.");
-    }
+  public function setValue($row, $column, $value)
+  {
+      if (isset($this->data[$row])) {
+          $this->data[$row][$column] = $value;
+      } else {
+          throw new InvalidArgumentException('The row given does not exist.');
+      }
   }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,53 +35,54 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Error.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.2.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-if (! class_exists('PHPUnit_Framework_Error', FALSE)) {
+if (!class_exists('PHPUnit_Framework_Error', false)) {
 
   /**
    * Wrapper for PHP errors.
    *
    * @category   Testing
-   * @package    PHPUnit
+   *
    * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+   *
    * @version    Release: 3.2.9
+   *
    * @link       http://www.phpunit.de/
    * @since      Class available since Release 2.2.0
    */
-  class PHPUnit_Framework_Error extends Exception {
-
-    /**
+  class PHPUnit_Framework_Error extends Exception
+  {
+      /**
      * Constructor.
      *
-     * @param  string  $message
-     * @param  integer $code
-     * @param  string  $file
-     * @param  integer $line
-     * @param  array   $trace
-     * @access public
+     * @param string $message
+     * @param int    $code
+     * @param string $file
+     * @param int    $line
+     * @param array  $trace
      */
-    public function __construct($message, $code, $file, $line, $trace) {
-      parent::__construct($message, $code);
-      
-      $this->file = $file;
-      $this->line = $line;
-      $this->trace = $trace;
+    public function __construct($message, $code, $file, $line, $trace)
+    {
+        parent::__construct($message, $code);
+
+        $this->file = $file;
+        $this->line = $line;
+        $this->trace = $trace;
     }
   }
-
 }
-?>

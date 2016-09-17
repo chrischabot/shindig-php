@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Kore Nordmann <kn@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: IsEqual.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Type.php';
@@ -61,35 +62,41 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The expected value is passed in the constructor.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Kore Nordmann <kn@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint {
-  protected $value;
-  protected $delta = 0;
-  protected $maxDepth = 10;
+class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
+{
+    protected $value;
+    protected $delta = 0;
+    protected $maxDepth = 10;
 
-  public function __construct($value, $delta = 0, $maxDepth = 10) {
-    $this->value = $value;
-    $this->delta = $delta;
-    $this->maxDepth = $maxDepth;
-  }
+    public function __construct($value, $delta = 0, $maxDepth = 10)
+    {
+        $this->value = $value;
+        $this->delta = $delta;
+        $this->maxDepth = $maxDepth;
+    }
 
   /**
    * Evaluates the constraint for parameter $other. Returns TRUE if the
    * constraint is met, FALSE otherwise.
    *
    * @param mixed $other Value or object to evaluate.
+   *
    * @return bool
    */
-  public function evaluate($other) {
-    return $this->recursiveComparison($this->value, $other);
+  public function evaluate($other)
+  {
+      return $this->recursiveComparison($this->value, $other);
   }
 
   /**
@@ -97,166 +104,173 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint 
    *                         constraint check.
    * @param   string  $description A string with extra description of what was
    *                               going on while the evaluation failed.
-   * @param   boolean $not Flag to indicate negation.
+   * @param   bool $not Flag to indicate negation.
+   *
    * @throws  PHPUnit_Framework_ExpectationFailedException
    */
-  public function fail($other, $description, $not = FALSE) {
-    $failureDescription = $this->failureDescription($other, $description, $not);
-    
-    if (! $not) {
-      if ($this->value instanceof DOMDocument) {
-        $value = $this->domToText($this->value);
+  public function fail($other, $description, $not = false)
+  {
+      $failureDescription = $this->failureDescription($other, $description, $not);
+
+      if (!$not) {
+          if ($this->value instanceof DOMDocument) {
+              $value = $this->domToText($this->value);
+          } else {
+              $value = $this->value;
+          }
+
+          if ($other instanceof DOMDocument) {
+              $other = $this->domToText($other);
+          }
+
+          throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, PHPUnit_Framework_ComparisonFailure::diffEqual($value, $other), $description);
       } else {
-        $value = $this->value;
+          throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, null);
       }
-      
-      if ($other instanceof DOMDocument) {
-        $other = $this->domToText($other);
-      }
-      
-      throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, PHPUnit_Framework_ComparisonFailure::diffEqual($value, $other), $description);
-    } else {
-      throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, NULL);
-    }
   }
 
   /**
    * Returns a string representation of the constraint.
    *
    * @return string
-   * @access public
    */
-  public function toString() {
-    $delta = '';
-    
-    if (is_string($this->value)) {
-      if (strpos($this->value, "\n") !== FALSE) {
-        return 'is equal to <text>';
-      } else {
-        return sprintf('is equal to <string:%s>', 
+  public function toString()
+  {
+      $delta = '';
+
+      if (is_string($this->value)) {
+          if (strpos($this->value, "\n") !== false) {
+              return 'is equal to <text>';
+          } else {
+              return sprintf('is equal to <string:%s>',
 
         $this->value);
-      }
-    } else {
-      if ($this->delta != 0) {
-        $delta = sprintf(' with delta <%F>', 
+          }
+      } else {
+          if ($this->delta != 0) {
+              $delta = sprintf(' with delta <%F>',
 
         $this->delta);
-      }
-      
-      return sprintf('is equal to %s%s', 
+          }
+
+          return sprintf('is equal to %s%s',
 
       PHPUnit_Util_Type::toString($this->value), $delta);
-    }
+      }
   }
 
   /**
-   * Perform the actual recursive comparision of two values
-   * 
+   * Perform the actual recursive comparision of two values.
+   *
    * @param mixed $a First value
    * @param mixed $b Second value
    * @param int $depth Depth
+   *
    * @return bool
    */
-  protected function recursiveComparison($a, $b, $depth = 0) {
-    if ($a === $b) {
-      return TRUE;
-    }
-    
-    if ($depth >= $this->maxDepth) {
-      return TRUE;
-    }
-    
-    if (is_numeric($a) xor is_numeric($b)) {
-      return FALSE;
-    }
-    
-    if (is_array($a) xor is_array($b)) {
-      return FALSE;
-    }
-    
-    if (is_object($a) xor is_object($b)) {
-      return FALSE;
-    }
-    
-    if ($a instanceof DOMDocument) {
-      $a = $this->domToText($a);
-    }
-    
-    if ($b instanceof DOMDocument) {
-      $b = $this->domToText($b);
-    }
-    
-    if (is_object($a) && is_object($b) && (get_class($a) !== get_class($b))) {
-      return FALSE;
-    }
-    
+  protected function recursiveComparison($a, $b, $depth = 0)
+  {
+      if ($a === $b) {
+          return true;
+      }
+
+      if ($depth >= $this->maxDepth) {
+          return true;
+      }
+
+      if (is_numeric($a) xor is_numeric($b)) {
+          return false;
+      }
+
+      if (is_array($a) xor is_array($b)) {
+          return false;
+      }
+
+      if (is_object($a) xor is_object($b)) {
+          return false;
+      }
+
+      if ($a instanceof DOMDocument) {
+          $a = $this->domToText($a);
+      }
+
+      if ($b instanceof DOMDocument) {
+          $b = $this->domToText($b);
+      }
+
+      if (is_object($a) && is_object($b) && (get_class($a) !== get_class($b))) {
+          return false;
+      }
+
     // Normal comparision for scalar values.
-    if ((! is_array($a) && ! is_object($a)) || (! is_array($b) && ! is_object($b))) {
-      if (is_numeric($a) && is_numeric($b)) {
-        // Optionally apply delta on numeric values.
+    if ((!is_array($a) && !is_object($a)) || (!is_array($b) && !is_object($b))) {
+        if (is_numeric($a) && is_numeric($b)) {
+            // Optionally apply delta on numeric values.
         return $this->numericComparison($a, $b);
-      } else {
-        return ($a == $b);
-      }
+        } else {
+            return $a == $b;
+        }
     }
-    
-    if (is_object($a)) {
-      $a = (array)$a;
-      $b = (array)$b;
-    }
-    
-    foreach ($a as $key => $v) {
-      if (! array_key_exists($key, $b)) {
-        // Abort on missing key in $b.
-        return FALSE;
+
+      if (is_object($a)) {
+          $a = (array) $a;
+          $b = (array) $b;
       }
-      
-      if (! $this->recursiveComparison($a[$key], $b[$key], $depth + 1)) {
-        // FALSE, if child comparision fails.
-        return FALSE;
-      }
-      
+
+      foreach ($a as $key => $v) {
+          if (!array_key_exists($key, $b)) {
+              // Abort on missing key in $b.
+        return false;
+          }
+
+          if (!$this->recursiveComparison($a[$key], $b[$key], $depth + 1)) {
+              // FALSE, if child comparision fails.
+        return false;
+          }
+
       // Unset key to check whether all keys of b are compared.
       unset($b[$key]);
-    }
-    
-    if (count($b)) {
-      // There is something in $b, that is missing in $a.
-      return FALSE;
-    }
-    
-    return TRUE;
+      }
+
+      if (count($b)) {
+          // There is something in $b, that is missing in $a.
+      return false;
+      }
+
+      return true;
   }
 
   /**
-   * Compares two numeric values - use delta if applieable
-   * 
+   * Compares two numeric values - use delta if applieable.
+   *
    * @param mixed $a First value
    * @param mixed $b Second value
+   *
    * @return bool
    */
-  protected function numericComparison($a, $b) {
-    if ($this->delta === FALSE) {
-      return ($a == $b);
-    } else {
-      return (abs($a - $b) <= $this->delta);
-    }
+  protected function numericComparison($a, $b)
+  {
+      if ($this->delta === false) {
+          return $a == $b;
+      } else {
+          return abs($a - $b) <= $this->delta;
+      }
   }
 
   /**
    * Returns the normalized, whitespace-cleaned, and indented textual
    * representation of a DOMDocument.
-   * 
+   *
    * @param DOMDocument $document
+   *
    * @return string
    */
-  protected function domToText(DOMDocument $document) {
-    $document->formatOutput = true;
-    $document->preserveWhiteSpace = false;
-    $document->normalizeDocument();
-    
-    return $document->saveXML();
+  protected function domToText(DOMDocument $document)
+  {
+      $document->formatOutput = true;
+      $document->preserveWhiteSpace = false;
+      $document->normalizeDocument();
+
+      return $document->saveXML();
   }
 }
-?>

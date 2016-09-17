@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,65 +35,67 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: AssertionFailedError.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-if (! class_exists('PHPUnit_Framework_AssertionFailedError', FALSE)) {
+if (!class_exists('PHPUnit_Framework_AssertionFailedError', false)) {
 
   /**
    * Thrown when an assertion failed.
    *
    * @category   Testing
-   * @package    PHPUnit
+   *
    * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+   *
    * @version    Release: 3.2.9
+   *
    * @link       http://www.phpunit.de/
    * @since      Class available since Release 2.0.0
    */
-  class PHPUnit_Framework_AssertionFailedError extends Exception implements PHPUnit_Framework_SelfDescribing {
-
-    /**
+  class PHPUnit_Framework_AssertionFailedError extends Exception implements PHPUnit_Framework_SelfDescribing
+  {
+      /**
      * Returns the location where this failure occured.
      *
      * @return array
-     * @access public
+     *
      * @since  Method available since Release 3.0.0
      */
-    public function getLocation() {
-      foreach ($this->getTrace() as $frame) {
-        if (! isset($frame['line'])) {
-          break;
+    public function getLocation()
+    {
+        foreach ($this->getTrace() as $frame) {
+            if (!isset($frame['line'])) {
+                break;
+            }
+
+            $result = ['file' => $frame['file'], 'line' => $frame['line']];
         }
-        
-        $result = array('file' => $frame['file'], 'line' => $frame['line']);
-      }
-      
-      return $result;
+
+        return $result;
     }
 
     /**
      * Wrapper for getMessage() which is declared as final.
      *
      * @return string
-     * @access public
      */
-    public function toString() {
-      return $this->getMessage();
+    public function toString()
+    {
+        return $this->getMessage();
     }
   }
-
 }
-?>

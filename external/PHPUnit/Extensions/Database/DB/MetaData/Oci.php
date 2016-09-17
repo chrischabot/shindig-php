@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Trond Hansen <trond@xait.no>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Oci.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.3
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Extensions/Database/DB/MetaData.php';
@@ -54,53 +55,59 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Provides functionality to retrieve meta data from an Oracle database.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Trond Hansen <trond@xait.no>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.3
  */
-class PHPUnit_Extensions_Database_DB_MetaData_Oci extends PHPUnit_Extensions_Database_DB_MetaData {
-  protected $columns = array();
-  protected $keys = array();
+class PHPUnit_Extensions_Database_DB_MetaData_Oci extends PHPUnit_Extensions_Database_DB_MetaData
+{
+    protected $columns = [];
+    protected $keys = [];
 
   /**
    * Returns an array containing the names of all the tables in the database.
    *
    * @return array
    */
-  public function getTableNames() {
-    $tableNames = array();
-    
-    $query = "SELECT table_name
+  public function getTableNames()
+  {
+      $tableNames = [];
+
+      $query = "SELECT table_name
                    FROM cat
                   WHERE table_type='TABLE'
                   ORDER BY table_name";
-    
-    $result = $this->pdo->query($query);
-    
-    while ($tableName = $result->fetchColumn(0)) {
-      $tableNames[] = $tableName;
-    }
-    
-    return $tableNames;
+
+      $result = $this->pdo->query($query);
+
+      while ($tableName = $result->fetchColumn(0)) {
+          $tableNames[] = $tableName;
+      }
+
+      return $tableNames;
   }
 
   /**
    * Returns an array containing the names of all the columns in the
-   * $tableName table,
+   * $tableName table,.
    *
    * @param string $tableName
+   *
    * @return array
    */
-  public function getTableColumns($tableName) {
-    if (! isset($this->columns[$tableName])) {
-      $this->loadColumnInfo($tableName);
-    }
-    
-    return $this->columns[$tableName];
+  public function getTableColumns($tableName)
+  {
+      if (!isset($this->columns[$tableName])) {
+          $this->loadColumnInfo($tableName);
+      }
+
+      return $this->columns[$tableName];
   }
 
   /**
@@ -108,14 +115,16 @@ class PHPUnit_Extensions_Database_DB_MetaData_Oci extends PHPUnit_Extensions_Dat
    * the $tableName table.
    *
    * @param string $tableName
+   *
    * @return array
    */
-  public function getTablePrimaryKeys($tableName) {
-    if (! isset($this->keys[$tableName])) {
-      $this->loadColumnInfo($tableName);
-    }
-    
-    return $this->keys[$tableName];
+  public function getTablePrimaryKeys($tableName)
+  {
+      if (!isset($this->keys[$tableName])) {
+          $this->loadColumnInfo($tableName);
+      }
+
+      return $this->keys[$tableName];
   }
 
   /**
@@ -123,32 +132,32 @@ class PHPUnit_Extensions_Database_DB_MetaData_Oci extends PHPUnit_Extensions_Dat
    *
    * @param string $tableName
    */
-  protected function loadColumnInfo($tableName) {
-    $this->columns[$tableName] = array();
-    $this->keys[$tableName] = array();
-    
-    $query = "SELECT DISTINCT COLUMN_NAME
+  protected function loadColumnInfo($tableName)
+  {
+      $this->columns[$tableName] = [];
+      $this->keys[$tableName] = [];
+
+      $query = "SELECT DISTINCT COLUMN_NAME
                    FROM USER_TAB_COLUMNS
-                  WHERE TABLE_NAME='" . $tableName . "'
+                  WHERE TABLE_NAME='".$tableName."'
                   ORDER BY COLUMN_NAME";
-    
-    $result = $this->pdo->query($query);
-    
-    while ($columnName = $result->fetchColumn(0)) {
-      $this->columns[$tableName][] = $columnName;
-    }
-    
-    $keyQuery = "SELECT b.column_name
+
+      $result = $this->pdo->query($query);
+
+      while ($columnName = $result->fetchColumn(0)) {
+          $this->columns[$tableName][] = $columnName;
+      }
+
+      $keyQuery = "SELECT b.column_name
                       FROM all_constraints a, all_cons_columns b
                      WHERE a.constraint_type='P'
                        AND a.constraint_name=b.constraint_name
-                       AND a.table_name = '" . $tableName . "' ";
-    
-    $result = $this->pdo->query($keyQuery);
-    
-    while ($columnName = $result->fetchColumn(0)) {
-      $this->keys[$tableName][] = $columnName;
-    }
+                       AND a.table_name = '".$tableName."' ";
+
+      $result = $this->pdo->query($keyQuery);
+
+      while ($columnName = $result->fetchColumn(0)) {
+          $this->keys[$tableName][] = $columnName;
+      }
   }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: PCREMatch.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Type.php';
@@ -61,43 +62,48 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The pattern string passed in the constructor.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_PCREMatch extends PHPUnit_Framework_Constraint {
-  protected $pattern;
+class PHPUnit_Framework_Constraint_PCREMatch extends PHPUnit_Framework_Constraint
+{
+    protected $pattern;
 
-  public function __construct($pattern) {
-    $this->pattern = $pattern;
-  }
+    public function __construct($pattern)
+    {
+        $this->pattern = $pattern;
+    }
 
   /**
    * Evaluates the constraint for parameter $other. Returns TRUE if the
    * constraint is met, FALSE otherwise.
    *
    * @param mixed $other Value or object to evaluate.
+   *
    * @return bool
    */
-  public function evaluate($other) {
-    return preg_match($this->pattern, $other) > 0;
+  public function evaluate($other)
+  {
+      return preg_match($this->pattern, $other) > 0;
   }
 
   /**
    * Returns a string representation of the constraint.
    *
    * @return string
-   * @access public
    */
-  public function toString() {
-    return sprintf('matches PCRE pattern "%s"', 
+  public function toString()
+  {
+      return sprintf('matches PCRE pattern "%s"',
 
     $this->pattern);
   }
 }
-?>

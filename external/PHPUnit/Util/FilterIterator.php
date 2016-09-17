@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,55 +35,54 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: FilterIterator.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-
-class PHPUnit_Util_FilterIterator extends FilterIterator {
-  /**
+class PHPUnit_Util_FilterIterator extends FilterIterator
+{
+    /**
    * @var    string
-   * @access protected
    */
   protected $suffix;
 
   /**
    * @param  Iterator $iterator
    * @param  string   $suffix
-   * @access public
    */
-  public function __construct(Iterator $iterator, $suffix = 'Test.php') {
-    parent::__construct($iterator);
-    $this->suffix = $suffix;
+  public function __construct(Iterator $iterator, $suffix = 'Test.php')
+  {
+      parent::__construct($iterator);
+      $this->suffix = $suffix;
   }
 
   /**
-   * @return boolean
-   * @access public
+   * @return bool
    */
-  public function accept() {
-    return substr($this->getInnerIterator()->current(), - 1 * strlen($this->suffix)) == $this->suffix;
+  public function accept()
+  {
+      return substr($this->getInnerIterator()->current(), -1 * strlen($this->suffix)) == $this->suffix;
   }
 }
-?>

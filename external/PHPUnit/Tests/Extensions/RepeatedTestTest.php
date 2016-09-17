@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: RepeatedTestTest.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'PHPUnit/Framework/TestResult.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
@@ -52,61 +53,64 @@ require_once 'PHPUnit/Extensions/RepeatedTest.php';
 require_once '_files/Success.php';
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class Extensions_RepeatedTestTest extends PHPUnit_Framework_TestCase {
-  protected $suite;
+class Extensions_RepeatedTestTest extends PHPUnit_Framework_TestCase
+{
+    protected $suite;
 
-  public function __construct() {
-    $this->suite = new PHPUnit_Framework_TestSuite();
-    
-    $this->suite->addTest(new Success());
-    $this->suite->addTest(new Success());
-  }
+    public function __construct()
+    {
+        $this->suite = new PHPUnit_Framework_TestSuite();
 
-  public function testRepeatedOnce() {
-    $test = new PHPUnit_Extensions_RepeatedTest($this->suite, 1);
-    $this->assertEquals(2, count($test));
-    
-    $result = $test->run();
-    $this->assertEquals(2, count($result));
-  }
-
-  public function testRepeatedMoreThanOnce() {
-    $test = new PHPUnit_Extensions_RepeatedTest($this->suite, 3);
-    $this->assertEquals(6, count($test));
-    
-    $result = $test->run();
-    $this->assertEquals(6, count($result));
-  }
-
-  public function testRepeatedZero() {
-    $test = new PHPUnit_Extensions_RepeatedTest($this->suite, 0);
-    $this->assertEquals(0, count($test));
-    
-    $result = $test->run();
-    $this->assertEquals(0, count($result));
-  }
-
-  public function testRepeatedNegative() {
-    try {
-      $test = new PHPUnit_Extensions_RepeatedTest($this->suite, - 1);
-    } 
-
-    catch (Exception $e) {
-      return;
+        $this->suite->addTest(new Success());
+        $this->suite->addTest(new Success());
     }
-    
-    $this->fail('Should throw an Exception');
-  }
+
+    public function testRepeatedOnce()
+    {
+        $test = new PHPUnit_Extensions_RepeatedTest($this->suite, 1);
+        $this->assertEquals(2, count($test));
+
+        $result = $test->run();
+        $this->assertEquals(2, count($result));
+    }
+
+    public function testRepeatedMoreThanOnce()
+    {
+        $test = new PHPUnit_Extensions_RepeatedTest($this->suite, 3);
+        $this->assertEquals(6, count($test));
+
+        $result = $test->run();
+        $this->assertEquals(6, count($result));
+    }
+
+    public function testRepeatedZero()
+    {
+        $test = new PHPUnit_Extensions_RepeatedTest($this->suite, 0);
+        $this->assertEquals(0, count($test));
+
+        $result = $test->run();
+        $this->assertEquals(0, count($result));
+    }
+
+    public function testRepeatedNegative()
+    {
+        try {
+            $test = new PHPUnit_Extensions_RepeatedTest($this->suite, -1);
+        } catch (Exception $e) {
+            return;
+        }
+
+        $this->fail('Should throw an Exception');
+    }
 }
-?>

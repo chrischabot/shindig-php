@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,35 +17,40 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class GroupId
+{
+    public static $types = ['all', 'friends', 'self', 'groupId'];
+    private $type;
+    private $groupId;
 
-class GroupId {
-  public static $types = array('all', 'friends', 'self', 'groupId');
-  private $type;
-  private $groupId;
-
-  public function __construct($type, $groupId) {
-    $this->type = $type;
-    $this->groupId = $groupId;
-  }
-
-  static public function fromJson($jsonId) {
-    if (is_array($jsonId)) {
-      if (in_array(substr($jsonId[0], 1), GroupId::$types)) {
-        return new GroupId(substr($jsonId[0], 1), null);
-      } else {
-        return new GroupId('groupId', $jsonId);
-      }
-    } elseif (in_array(substr($jsonId, 1), GroupId::$types)) {
-      return new GroupId(substr($jsonId, 1), null);
+    public function __construct($type, $groupId)
+    {
+        $this->type = $type;
+        $this->groupId = $groupId;
     }
-    return new GroupId('groupId', $jsonId);
-  }
 
-  public function getGroupId() {
-    return $this->groupId;
-  }
+    public static function fromJson($jsonId)
+    {
+        if (is_array($jsonId)) {
+            if (in_array(substr($jsonId[0], 1), self::$types)) {
+                return new self(substr($jsonId[0], 1), null);
+            } else {
+                return new self('groupId', $jsonId);
+            }
+        } elseif (in_array(substr($jsonId, 1), self::$types)) {
+            return new self(substr($jsonId, 1), null);
+        }
 
-  public function getType() {
-    return $this->type;
-  }
+        return new self('groupId', $jsonId);
+    }
+
+    public function getGroupId()
+    {
+        return $this->groupId;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
 }

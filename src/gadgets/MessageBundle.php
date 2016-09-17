@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,15 +17,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class MessageBundle
+{
+    private $messages;
 
-class MessageBundle {
-  private $messages;
+    public function __construct($messages = [])
+    {
+        $this->messages = $messages;
+    }
 
-  public function __construct($messages = array()) {
-    $this->messages = $messages;
-  }
-
-  public function getMessages() {
-    return $this->messages;
-  }
+    public function getMessages()
+    {
+        return $this->messages;
+    }
 }

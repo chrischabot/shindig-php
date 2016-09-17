@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,60 +17,70 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class Substitutions
+{
+    private $types = ['MESSAGE' => 'MSG', 'BIDI' => 'BIDI', 'USER_PREF' => 'UP', 'MODULE' => 'MODULE'];
 
-class Substitutions {
-  private $types = array('MESSAGE' => 'MSG', 'BIDI' => 'BIDI', 'USER_PREF' => 'UP', 'MODULE' => 'MODULE');
-  
-  private $substitutions = array();
+    private $substitutions = [];
 
-  public function __construct() {
-    foreach ($this->types as $type) {
-      $this->substitutions[$type] = array();
+    public function __construct()
+    {
+        foreach ($this->types as $type) {
+            $this->substitutions[$type] = [];
+        }
     }
-  }
 
-  public function addSubstitution($type, $key, $value) {
-    $this->substitutions[$type]["__{$type}_{$key}__"] = $value;
-  }
-
-  public function addSubstitutions($type, $array) {
-    foreach ($array as $key => $value) {
-      $this->addSubstitution($type, $key, $value);
+    public function addSubstitution($type, $key, $value)
+    {
+        $this->substitutions[$type]["__{$type}_{$key}__"] = $value;
     }
-  }
 
-  public function substitute($input) {
-    foreach ($this->types as $type) {
-      $input = $this->substituteType($type, $input);
+    public function addSubstitutions($type, $array)
+    {
+        foreach ($array as $key => $value) {
+            $this->addSubstitution($type, $key, $value);
+        }
     }
-    return $input;
-  }
 
-  public function substituteType($type, $input) {
-    if (empty($this->substitutions[$type])) {
-      return $input;
+    public function substitute($input)
+    {
+        foreach ($this->types as $type) {
+            $input = $this->substituteType($type, $input);
+        }
+
+        return $input;
     }
-    return str_replace(array_keys($this->substitutions[$type]), array_values($this->substitutions[$type]), $input);
-  }
+
+    public function substituteType($type, $input)
+    {
+        if (empty($this->substitutions[$type])) {
+            return $input;
+        }
+
+        return str_replace(array_keys($this->substitutions[$type]), array_values($this->substitutions[$type]), $input);
+    }
 
   /**
-   * Substitutes a uri
+   * Substitutes a uri.
+   *
    * @param type The type to substitute, or null for all types.
    * @param uri
+   *
    * @return The substituted uri, or a dummy value if the result is invalid.
    */
-  public function substituteUri($type, $uri) {
-    if (empty($uri)) {
-      return null;
-    }
-    try {
-      if (! empty($type)) {
-        return $this->substituteType($type, $uri);
-      } else {
-        return $this->substitute($uri);
+  public function substituteUri($type, $uri)
+  {
+      if (empty($uri)) {
+          return;
       }
-    } catch (Exception $e) {
-      return "";
-    }
+      try {
+          if (!empty($type)) {
+              return $this->substituteType($type, $uri);
+          } else {
+              return $this->substitute($uri);
+          }
+      } catch (Exception $e) {
+          return '';
+      }
   }
 }

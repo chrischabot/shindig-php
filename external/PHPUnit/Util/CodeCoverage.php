@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -11,7 +11,7 @@
  *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: CodeCoverage.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -52,41 +53,45 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Code Coverage helpers.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.0
  * @abstract
  */
-abstract class PHPUnit_Util_CodeCoverage {
-  protected static $lineToTestMap = array();
-  protected static $summary = array();
+abstract class PHPUnit_Util_CodeCoverage
+{
+    protected static $lineToTestMap = [];
+    protected static $summary = [];
 
   /**
    * Returns the names of the covered files.
    *
    * @param  array $data
+   *
    * @return array
-   * @access public
    * @static
    */
-  public static function getCoveredFiles(array &$data) {
-    $files = array();
-    
-    foreach ($data as $test) {
-      $_files = array_keys($test['files']);
-      
-      foreach ($_files as $file) {
-        if (self::isFile($file) && ! in_array($file, $files)) {
-          $files[] = $file;
-        }
+  public static function getCoveredFiles(array &$data)
+  {
+      $files = [];
+
+      foreach ($data as $test) {
+          $_files = array_keys($test['files']);
+
+          foreach ($_files as $file) {
+              if (self::isFile($file) && !in_array($file, $files)) {
+                  $files[] = $file;
+              }
+          }
       }
-    }
-    
-    return $files;
+
+      return $files;
   }
 
   /**
@@ -95,34 +100,35 @@ abstract class PHPUnit_Util_CodeCoverage {
    * @param  array   $data
    * @param  string  $file
    * @param  string  $line
-   * @param  boolean $clear
+   * @param  bool $clear
+   *
    * @return array
-   * @access public
    * @static
    */
-  public static function getCoveringTests(array &$data, $file, $line, $clear = FALSE) {
-    if (empty(self::$lineToTestMap) || $clear) {
-      foreach ($data as $test) {
-        foreach ($test['files'] as $_file => $lines) {
-          foreach ($lines as $_line => $flag) {
-            if ($flag > 0) {
-              if (! isset(self::$lineToTestMap[$_file][$_line])) {
-                self::$lineToTestMap[$_file][$_line] = array(
-                    $test['test']);
-              } else {
-                self::$lineToTestMap[$_file][$_line][] = $test['test'];
+  public static function getCoveringTests(array &$data, $file, $line, $clear = false)
+  {
+      if (empty(self::$lineToTestMap) || $clear) {
+          foreach ($data as $test) {
+              foreach ($test['files'] as $_file => $lines) {
+                  foreach ($lines as $_line => $flag) {
+                      if ($flag > 0) {
+                          if (!isset(self::$lineToTestMap[$_file][$_line])) {
+                              self::$lineToTestMap[$_file][$_line] = [
+                    $test['test'], ];
+                          } else {
+                              self::$lineToTestMap[$_file][$_line][] = $test['test'];
+                          }
+                      }
+                  }
               }
-            }
           }
-        }
       }
-    }
-    
-    if (isset(self::$lineToTestMap[$file][$line])) {
-      return self::$lineToTestMap[$file][$line];
-    } else {
-      return FALSE;
-    }
+
+      if (isset(self::$lineToTestMap[$file][$line])) {
+          return self::$lineToTestMap[$file][$line];
+      } else {
+          return false;
+      }
   }
 
   /**
@@ -139,51 +145,52 @@ abstract class PHPUnit_Util_CodeCoverage {
    * </code>
    *
    * @param  array $data
-   * @param  boolean $clear
+   * @param  bool $clear
+   *
    * @return array
-   * @access public
    * @static
    */
-  public static function getSummary(array &$data, $clear = FALSE) {
-    if (empty(self::$summary) || $clear) {
-      $isFileCache = array();
-      
-      foreach ($data as $test) {
-        foreach ($test['files'] as $file => $lines) {
-          if (! isset($isFileCache[$file])) {
-            $isFileCache[$file] = self::isFile($file);
-          }
-          
-          if (! $isFileCache[$file]) {
-            continue;
-          }
-          
-          $fileSummary = &self::$summary[$file];
-          
-          foreach ($lines as $line => $flag) {
-            // +1: Line is executable and was executed.
+  public static function getSummary(array &$data, $clear = false)
+  {
+      if (empty(self::$summary) || $clear) {
+          $isFileCache = [];
+
+          foreach ($data as $test) {
+              foreach ($test['files'] as $file => $lines) {
+                  if (!isset($isFileCache[$file])) {
+                      $isFileCache[$file] = self::isFile($file);
+                  }
+
+                  if (!$isFileCache[$file]) {
+                      continue;
+                  }
+
+                  $fileSummary = &self::$summary[$file];
+
+                  foreach ($lines as $line => $flag) {
+                      // +1: Line is executable and was executed.
             if ($flag == 1) {
-              if (isset($fileSummary[$line][0])) {
-                $fileSummary[$line][] = $test['test'];
-              } else {
-                $fileSummary[$line] = array(
-                    $test['test']);
-              }
-            } 
+                if (isset($fileSummary[$line][0])) {
+                    $fileSummary[$line][] = $test['test'];
+                } else {
+                    $fileSummary[$line] = [
+                    $test['test'], ];
+                }
+            }
 
             // -1: Line is executable and was not executed.
             // -2: Line is dead code.
-            else if (! isset($fileSummary[$line])) {
-              $fileSummary[$line] = $flag;
+            elseif (!isset($fileSummary[$line])) {
+                $fileSummary[$line] = $flag;
             }
+                  }
+
+                  unset($fileSummary);
+              }
           }
-          
-          unset($fileSummary);
-        }
       }
-    }
-    
-    return self::$summary;
+
+      return self::$summary;
   }
 
   /**
@@ -191,57 +198,57 @@ abstract class PHPUnit_Util_CodeCoverage {
    *
    * @param  array   $data
    * @param  string  $filename
-   * @param  integer $startLine
-   * @param  integer $endLine
+   * @param  int $startLine
+   * @param  int $endLine
+   *
    * @return array
-   * @access public
    * @static
+   *
    * @since  Method available since Release 3.2.0
    */
-  public static function getStatistics(array &$data, $filename, $startLine = 1, $endLine = FALSE) {
-    $coverage = 0;
-    $locExecutable = 0;
-    $locExecuted = 0;
-    
-    if (isset($data[$filename])) {
-      if ($endLine == FALSE) {
-        $endLine = count(file($filename));
-      }
-      
-      foreach ($data[$filename] as $line => $_data) {
-        if ($line >= $startLine && $line <= $endLine) {
-          if (is_array($_data)) {
-            $locExecutable ++;
-            $locExecuted ++;
-          } 
+  public static function getStatistics(array &$data, $filename, $startLine = 1, $endLine = false)
+  {
+      $coverage = 0;
+      $locExecutable = 0;
+      $locExecuted = 0;
 
-          else if ($_data == - 1) {
-            $locExecutable ++;
+      if (isset($data[$filename])) {
+          if ($endLine == false) {
+              $endLine = count(file($filename));
           }
-        }
+
+          foreach ($data[$filename] as $line => $_data) {
+              if ($line >= $startLine && $line <= $endLine) {
+                  if (is_array($_data)) {
+                      $locExecutable++;
+                      $locExecuted++;
+                  } elseif ($_data == -1) {
+                      $locExecutable++;
+                  }
+              }
+          }
+
+          if ($locExecutable > 0) {
+              $coverage = ($locExecuted / $locExecutable) * 100;
+          }
       }
-      
-      if ($locExecutable > 0) {
-        $coverage = ($locExecuted / $locExecutable) * 100;
-      }
-    }
-    
-    return array('coverage' => $coverage, 'loc' => $endLine - $startLine + 1, 
-        'locExecutable' => $locExecutable, 'locExecuted' => $locExecuted);
+
+      return ['coverage'  => $coverage, 'loc' => $endLine - $startLine + 1,
+        'locExecutable' => $locExecutable, 'locExecuted' => $locExecuted, ];
   }
 
   /**
    * @param  string $file
-   * @return boolean
-   * @access protected
+   *
+   * @return bool
    * @static
    */
-  protected static function isFile($file) {
-    if (strpos($file, 'eval()\'d code') || strpos($file, 'runtime-created function') || strpos($file, 'assert code')) {
-      return FALSE;
-    }
-    
-    return TRUE;
+  protected static function isFile($file)
+  {
+      if (strpos($file, 'eval()\'d code') || strpos($file, 'runtime-created function') || strpos($file, 'assert code')) {
+          return false;
+      }
+
+      return true;
   }
 }
-?>

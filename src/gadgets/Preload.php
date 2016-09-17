@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,72 +17,81 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-class Preload {
-  public static $AUTHZ_ATTR = "authz";
-  private $href;
-  private $auth;
-  private $signViewer;
-  private $signOwner;
-  private $views = array();
+class Preload
+{
+    public static $AUTHZ_ATTR = 'authz';
+    private $href;
+    private $auth;
+    private $signViewer;
+    private $signOwner;
+    private $views = [];
 
   /**
    * Creates a new Preload from an xml node.
    *
    * @param preload The Preload to create
    */
-  public function __construct(SimpleXMLElement $preload) {
-    $attributes = $preload->attributes();
-    $this->signOwner = isset($attributes['sign_owner']) ? trim($attributes['sign_owner']) : true;
-    $this->signViewer = isset($attributes['sign_viewer']) ? trim($attributes['sign_viewer']) : true;
-    $this->href = isset($attributes['href']) ? trim($attributes['href']) : '';
-    if (empty($this->href)) {
-      throw new SpecParserException("Preload/@href is missing or invalid.");
-    }
+  public function __construct(SimpleXMLElement $preload)
+  {
+      $attributes = $preload->attributes();
+      $this->signOwner = isset($attributes['sign_owner']) ? trim($attributes['sign_owner']) : true;
+      $this->signViewer = isset($attributes['sign_viewer']) ? trim($attributes['sign_viewer']) : true;
+      $this->href = isset($attributes['href']) ? trim($attributes['href']) : '';
+      if (empty($this->href)) {
+          throw new SpecParserException('Preload/@href is missing or invalid.');
+      }
     // Record all the associated views
     $viewNames = isset($attributes['views']) ? trim($attributes['views']) : '';
-    $views = array();
-    $arrViewNames = explode(",", $viewNames);
-    foreach ($arrViewNames as $view) {
-      $view = trim($view);
-      if (strlen($view) > 0) {
-        $views[] = $view;
+      $views = [];
+      $arrViewNames = explode(',', $viewNames);
+      foreach ($arrViewNames as $view) {
+          $view = trim($view);
+          if (strlen($view) > 0) {
+              $views[] = $view;
+          }
       }
+      $this->views = $views;
+      $this->auth = Auth::parse($attributes[self::$AUTHZ_ATTR]);
+  }
+
+    public function getHref()
+    {
+        return $this->href;
     }
-    $this->views = $views;
-    $this->auth = Auth::parse($attributes[Preload::$AUTHZ_ATTR]);
-  }
 
-  public function getHref() {
-    return $this->href;
-  }
+    public function getAuth()
+    {
+        return $this->auth;
+    }
 
-  public function getAuth() {
-    return $this->auth;
-  }
+    public function isSignViewer()
+    {
+        return $this->signViewer;
+    }
 
-  public function isSignViewer() {
-    return $this->signViewer;
-  }
+    public function isSignOwner()
+    {
+        return $this->signOwner;
+    }
 
-  public function isSignOwner() {
-    return $this->signOwner;
-  }
+    public function getViews()
+    {
+        return $this->views;
+    }
 
-  public function getViews() {
-    return $this->views;
-  }
+    public function substitute($substituter)
+    {
+        return $this->fillPreload($this, $substituter);
+    }
 
-  public function substitute($substituter) {
-    return $this->fillPreload($this, $substituter);
-  }
+    private function fillPreload(Preload $preload, $substituter)
+    {
+        $this->signOwner = $preload->signOwner;
+        $this->signViewer = $preload->signViewer;
+        $this->views = $preload->views;
+        $this->auth = $preload->auth;
+        $this->href = $substituter->substituteUri(null, $preload->href);
 
-  private function fillPreload(Preload $preload, $substituter) {
-    $this->signOwner = $preload->signOwner;
-    $this->signViewer = $preload->signViewer;
-    $this->views = $preload->views;
-    $this->auth = $preload->auth;
-    $this->href = $substituter->substituteUri(null, $preload->href);
-    return $this;
-  }
+        return $this;
+    }
 }

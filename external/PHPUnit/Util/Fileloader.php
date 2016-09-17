@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Fileloader.php 2092 2008-01-14 16:40:53Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -52,23 +53,25 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Utility methods to load PHP sourcefiles.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.3.0
  */
-class PHPUnit_Util_Fileloader {
-  /**
+class PHPUnit_Util_Fileloader
+{
+    /**
    * Path to the PHP interpreter that is to be used.
    *
-   * @var    string $phpBinary
-   * @access public
+   * @var    string
    * @static
    */
-  public static $phpBinary = NULL;
+  public static $phpBinary = null;
 
   /**
    * Checks if a PHP sourcefile is readable and is optionally checked for
@@ -76,27 +79,28 @@ class PHPUnit_Util_Fileloader {
    * loaded through the load() method.
    *
    * @param  string  $filename
-   * @param  boolean $syntaxCheck
+   * @param  bool $syntaxCheck
+   *
    * @throws RuntimeException
-   * @access public
    * @static
    */
-  public static function checkAndLoad($filename, $syntaxCheck = TRUE) {
-    if (! is_readable($filename)) {
-      $filename = './' . $filename;
-    }
-    
-    if (! is_readable($filename)) {
-      throw new RuntimeException(sprintf('File "%s" could not be found or is not readable.', 
+  public static function checkAndLoad($filename, $syntaxCheck = true)
+  {
+      if (!is_readable($filename)) {
+          $filename = './'.$filename;
+      }
+
+      if (!is_readable($filename)) {
+          throw new RuntimeException(sprintf('File "%s" could not be found or is not readable.',
 
       str_replace('./', '', $filename)));
-    }
-    
-    if ($syntaxCheck) {
-      self::syntaxCheck($filename);
-    }
-    
-    self::load($filename);
+      }
+
+      if ($syntaxCheck) {
+          self::syntaxCheck($filename);
+      }
+
+      self::load($filename);
   }
 
   /**
@@ -107,29 +111,30 @@ class PHPUnit_Util_Fileloader {
    * in the loaded PHP sourcefile will be added to $GLOBALS.
    *
    * @param  string $filename
-   * @access protected
    * @static
+   *
    * @since  Method available since Release 3.0.0
    */
-  protected static function load($filename) {
-    $xdebugLoaded = extension_loaded('xdebug');
-    $xdebugCollectVars = $xdebugLoaded && ini_get('xdebug.collect_vars') == '1';
-    
-    if ($xdebugCollectVars) {
-      $variables = xdebug_get_declared_vars();
-    }
-    
-    include_once $filename;
-    
-    if ($xdebugCollectVars) {
-      $variables = array_values(array_diff(xdebug_get_declared_vars(), $variables));
-      
-      foreach ($variables as $variable) {
-        if (isset($$variable)) {
-          $GLOBALS[$variable] = $$variable;
-        }
+  protected static function load($filename)
+  {
+      $xdebugLoaded = extension_loaded('xdebug');
+      $xdebugCollectVars = $xdebugLoaded && ini_get('xdebug.collect_vars') == '1';
+
+      if ($xdebugCollectVars) {
+          $variables = xdebug_get_declared_vars();
       }
-    }
+
+      include_once $filename;
+
+      if ($xdebugCollectVars) {
+          $variables = array_values(array_diff(xdebug_get_declared_vars(), $variables));
+
+          foreach ($variables as $variable) {
+              if (isset($$variable)) {
+                  $GLOBALS[$variable] = $$variable;
+              }
+          }
+      }
   }
 
   /**
@@ -158,45 +163,44 @@ class PHPUnit_Util_Fileloader {
    *      to be invokable through "php".
    *
    * @param  string $filename
+   *
    * @throws RuntimeException
-   * @access protected
    * @static
+   *
    * @since  Method available since Release 3.0.0
    */
-  protected static function syntaxCheck($filename) {
-    if (self::$phpBinary === NULL) {
-      if (is_readable('@php_bin@')) {
-        self::$phpBinary = '@php_bin@';
-      } 
+  protected static function syntaxCheck($filename)
+  {
+      if (self::$phpBinary === null) {
+          if (is_readable('@php_bin@')) {
+              self::$phpBinary = '@php_bin@';
+          } elseif (PHP_SAPI == 'cli' && isset($_SERVER['_'])) {
+              self::$phpBinary = $_SERVER['_'];
 
-      else if (PHP_SAPI == 'cli' && isset($_SERVER['_'])) {
-        self::$phpBinary = $_SERVER['_'];
-        
-        if (strpos(self::$phpBinary, 'phpunit') !== FALSE) {
-          $file = file(self::$phpBinary);
-          $tmp = explode(' ', $file[0]);
-          self::$phpBinary = trim($tmp[1]);
-        }
+              if (strpos(self::$phpBinary, 'phpunit') !== false) {
+                  $file = file(self::$phpBinary);
+                  $tmp = explode(' ', $file[0]);
+                  self::$phpBinary = trim($tmp[1]);
+              }
+          }
+
+          if (!is_readable(self::$phpBinary)) {
+              self::$phpBinary = 'php';
+          } else {
+              self::$phpBinary = escapeshellarg(self::$phpBinary);
+          }
       }
-      
-      if (! is_readable(self::$phpBinary)) {
-        self::$phpBinary = 'php';
-      } else {
-        self::$phpBinary = escapeshellarg(self::$phpBinary);
+
+      $command = self::$phpBinary.' -l '.escapeshellarg($filename);
+
+      if (DIRECTORY_SEPARATOR == '\\') {
+          $command = '"'.$command.'"';
       }
-    }
-    
-    $command = self::$phpBinary . ' -l ' . escapeshellarg($filename);
-    
-    if (DIRECTORY_SEPARATOR == '\\') {
-      $command = '"' . $command . '"';
-    }
-    
-    $output = shell_exec($command);
-    
-    if (strpos($output, 'Errors parsing') !== FALSE) {
-      throw new RuntimeException($output);
-    }
+
+      $output = shell_exec($command);
+
+      if (strpos($output, 'Errors parsing') !== false) {
+          throw new RuntimeException($output);
+      }
   }
 }
-?>

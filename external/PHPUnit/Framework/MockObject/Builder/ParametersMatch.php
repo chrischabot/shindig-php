@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ParametersMatch.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Builder/Match.php';
 
@@ -54,18 +55,20 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Builder interface for parameter matchers.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 3.0.0
  */
-interface PHPUnit_Framework_MockObject_Builder_ParametersMatch extends PHPUnit_Framework_MockObject_Builder_Match {
-
-  /**
+interface PHPUnit_Framework_MockObject_Builder_ParametersMatch extends PHPUnit_Framework_MockObject_Builder_Match
+{
+    /**
    * Sets the parameters to match for, each parameter to this funtion will
    * be part of match. To perform specific matches or constraints create a
    * new PHPUnit_Framework_Constraint and use it for the parameter.
@@ -97,4 +100,3 @@ interface PHPUnit_Framework_MockObject_Builder_ParametersMatch extends PHPUnit_F
    */
   public function withAnyParameters();
 }
-?>

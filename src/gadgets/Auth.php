@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,31 +17,33 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-class Auth {
-  
-  public static $NONE = "NONE";
-  public static $SIGNED = "SIGNED";
-  public static $AUTHENTICATED = "AUTHENTICATED";
+class Auth
+{
+    public static $NONE = 'NONE';
+    public static $SIGNED = 'SIGNED';
+    public static $AUTHENTICATED = 'AUTHENTICATED';
 
   /**
    * @param value
+   *
    * @return The parsed value (defaults to NONE)
    */
-  public static function parse($value) {
-    if (! empty($value)) {
-      $value = trim($value);
-      if (strlen($value) == 0) return Auth::$NONE;
-      if (strtoupper($value) == Auth::$SIGNED) {
-        return Auth::$SIGNED;
-      } else if (strtoupper($value) == Auth::$AUTHENTICATED) {
-        return Auth::$AUTHENTICATED;
+  public static function parse($value)
+  {
+      if (!empty($value)) {
+          $value = trim($value);
+          if (strlen($value) == 0) {
+              return self::$NONE;
+          }
+          if (strtoupper($value) == self::$SIGNED) {
+              return self::$SIGNED;
+          } elseif (strtoupper($value) == self::$AUTHENTICATED) {
+              return self::$AUTHENTICATED;
+          } else {
+              return self::$NONE;
+          }
       } else {
-        return Auth::$NONE;
+          return self::$NONE;
       }
-    } else {
-      return Auth::$NONE;
-    }
   }
-
 }

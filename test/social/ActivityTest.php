@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * Activity test case.
  */
-class ActivityTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class ActivityTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var Activity
    */
   private $Activity;
@@ -31,176 +31,198 @@ class ActivityTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->Activity = new Activity(1, 1);
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->Activity = new Activity(1, 1);
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->Activity = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->Activity = null;
+      parent::tearDown();
   }
 
   /**
    * Constructs the test case.
    */
-  public function __construct() {}
-
-  /**
-   * Tests Activity->__construct()
-   */
-  public function test__construct() {
-    $this->Activity->__construct(1, 1);
+  public function __construct()
+  {
   }
 
   /**
-   * Tests Activity->getAppId()
+   * Tests Activity->__construct().
    */
-  public function testGetAppId() {
-    $this->Activity->setAppId(1);
-    $this->assertEquals(1, $this->Activity->getAppId());
+  public function test__construct()
+  {
+      $this->Activity->__construct(1, 1);
   }
 
   /**
-   * Tests Activity->getBody()
+   * Tests Activity->getAppId().
    */
-  public function testGetBody() {
-    $testStr = '<b>test <i>me</i></b>';
-    $this->Activity->setBody($testStr);
-    $this->assertEquals($testStr, $this->Activity->getBody());
+  public function testGetAppId()
+  {
+      $this->Activity->setAppId(1);
+      $this->assertEquals(1, $this->Activity->getAppId());
   }
 
   /**
-   * Tests Activity->getBodyId()
+   * Tests Activity->getBody().
    */
-  public function testGetBodyId() {
-    $bodyId = '123';
-    $this->Activity->setBodyId($bodyId);
-    $this->assertEquals($bodyId, $this->Activity->getBodyId());
+  public function testGetBody()
+  {
+      $testStr = '<b>test <i>me</i></b>';
+      $this->Activity->setBody($testStr);
+      $this->assertEquals($testStr, $this->Activity->getBody());
   }
 
   /**
-   * Tests Activity->getExternalId()
+   * Tests Activity->getBodyId().
    */
-  public function testGetExternalId() {
-    $extId = '456';
-    $this->Activity->setExternalId($extId);
-    $this->assertEquals($extId, $this->Activity->getExternalId());
+  public function testGetBodyId()
+  {
+      $bodyId = '123';
+      $this->Activity->setBodyId($bodyId);
+      $this->assertEquals($bodyId, $this->Activity->getBodyId());
   }
 
   /**
-   * Tests Activity->getId()
+   * Tests Activity->getExternalId().
    */
-  public function testGetId() {
-    $this->assertEquals(1, $this->Activity->getId());
+  public function testGetExternalId()
+  {
+      $extId = '456';
+      $this->Activity->setExternalId($extId);
+      $this->assertEquals($extId, $this->Activity->getExternalId());
   }
 
   /**
-   * Tests Activity->getMediaItems()
+   * Tests Activity->getId().
    */
-  public function testGetMediaItems() {
-    $mediaItems = array('foo' => 'bar');
-    $this->Activity->setMediaItems($mediaItems);
-    $this->assertEquals($mediaItems, $this->Activity->getMediaItems());
+  public function testGetId()
+  {
+      $this->assertEquals(1, $this->Activity->getId());
   }
 
   /**
-   * Tests Activity->getPostedTime()
+   * Tests Activity->getMediaItems().
    */
-  public function testGetPostedTime() {
-    $time = time();
-    $this->Activity->setPostedTime($time);
-    $this->assertEquals($time, $this->Activity->getPostedTime());
+  public function testGetMediaItems()
+  {
+      $mediaItems = ['foo' => 'bar'];
+      $this->Activity->setMediaItems($mediaItems);
+      $this->assertEquals($mediaItems, $this->Activity->getMediaItems());
   }
 
   /**
-   * Tests Activity->getPriority()
+   * Tests Activity->getPostedTime().
    */
-  public function testGetPriority() {
-    $priority = 1;
-    $this->Activity->setPriority($priority);
-    $this->assertEquals($priority, $this->Activity->getPriority());
+  public function testGetPostedTime()
+  {
+      $time = time();
+      $this->Activity->setPostedTime($time);
+      $this->assertEquals($time, $this->Activity->getPostedTime());
   }
 
   /**
-   * Tests Activity->getStreamFaviconUrl()
+   * Tests Activity->getPriority().
    */
-  public function testGetStreamFaviconUrl() {
-    $url = 'http://www.google.com/ig/modules/horoscope_content/virgo.gif';
-    $this->Activity->setStreamFaviconUrl($url);
-    $this->assertEquals($url, $this->Activity->getStreamFaviconUrl());
+  public function testGetPriority()
+  {
+      $priority = 1;
+      $this->Activity->setPriority($priority);
+      $this->assertEquals($priority, $this->Activity->getPriority());
   }
 
   /**
-   * Tests Activity->getStreamSourceUrl()
+   * Tests Activity->getStreamFaviconUrl().
    */
-  public function testGetStreamSourceUrl() {
-    $url = 'http://api.example.org/activity/foo/1';
-    $this->Activity->setStreamSourceUrl($url);
-    $this->assertEquals($url, $this->Activity->getStreamSourceUrl());
+  public function testGetStreamFaviconUrl()
+  {
+      $url = 'http://www.google.com/ig/modules/horoscope_content/virgo.gif';
+      $this->Activity->setStreamFaviconUrl($url);
+      $this->assertEquals($url, $this->Activity->getStreamFaviconUrl());
   }
 
   /**
-   * Tests Activity->getStreamTitle()
+   * Tests Activity->getStreamSourceUrl().
    */
-  public function testGetStreamTitle() {
-    $title = 'Foo Activity';
-    $this->Activity->setStreamTitle($title);
-    $this->assertEquals($title, $this->Activity->getStreamTitle());
+  public function testGetStreamSourceUrl()
+  {
+      $url = 'http://api.example.org/activity/foo/1';
+      $this->Activity->setStreamSourceUrl($url);
+      $this->assertEquals($url, $this->Activity->getStreamSourceUrl());
   }
 
   /**
-   * Tests Activity->getStreamUrl()
+   * Tests Activity->getStreamTitle().
    */
-  public function testGetStreamUrl() {
-    $streamUrl = 'http://api.example.org/activityStream/foo/1';
-    $this->Activity->setStreamUrl($streamUrl);
-    $this->assertEquals($streamUrl, $this->Activity->getStreamUrl());
+  public function testGetStreamTitle()
+  {
+      $title = 'Foo Activity';
+      $this->Activity->setStreamTitle($title);
+      $this->assertEquals($title, $this->Activity->getStreamTitle());
   }
 
   /**
-   * Tests Activity->getTemplateParams()
+   * Tests Activity->getStreamUrl().
    */
-  public function testGetTemplateParams() {
-    $params = array('fooParam' => 'barParam');
-    $this->Activity->setTemplateParams($params);
-    $this->assertEquals($params, $this->Activity->getTemplateParams());
+  public function testGetStreamUrl()
+  {
+      $streamUrl = 'http://api.example.org/activityStream/foo/1';
+      $this->Activity->setStreamUrl($streamUrl);
+      $this->assertEquals($streamUrl, $this->Activity->getStreamUrl());
   }
 
   /**
-   * Tests Activity->getTitle()
+   * Tests Activity->getTemplateParams().
    */
-  public function testGetTitle() {
-    $title = 'Foo Activity Title';
-    $this->Activity->setTitle($title);
-    $this->assertEquals($title, $this->Activity->getTitle());
+  public function testGetTemplateParams()
+  {
+      $params = ['fooParam' => 'barParam'];
+      $this->Activity->setTemplateParams($params);
+      $this->assertEquals($params, $this->Activity->getTemplateParams());
   }
 
   /**
-   * Tests Activity->getTitleId()
+   * Tests Activity->getTitle().
    */
-  public function testGetTitleId() {
-    $titleId = '976';
-    $this->Activity->setTitleId($titleId);
-    $this->assertEquals($titleId, $this->Activity->getTitleId());
+  public function testGetTitle()
+  {
+      $title = 'Foo Activity Title';
+      $this->Activity->setTitle($title);
+      $this->assertEquals($title, $this->Activity->getTitle());
   }
 
   /**
-   * Tests Activity->getUrl()
+   * Tests Activity->getTitleId().
    */
-  public function testGetUrl() {
-    $url = 'http://api.example.org/url';
-    $this->Activity->setUrl($url);
-    $this->assertEquals($url, $this->Activity->getUrl());
+  public function testGetTitleId()
+  {
+      $titleId = '976';
+      $this->Activity->setTitleId($titleId);
+      $this->assertEquals($titleId, $this->Activity->getTitleId());
   }
 
   /**
-   * Tests Activity->getUserId()
+   * Tests Activity->getUrl().
    */
-  public function testGetUserId() {
-    $this->assertEquals(1, $this->Activity->getUserId());
+  public function testGetUrl()
+  {
+      $url = 'http://api.example.org/url';
+      $this->Activity->setUrl($url);
+      $this->assertEquals($url, $this->Activity->getUrl());
+  }
+
+  /**
+   * Tests Activity->getUserId().
+   */
+  public function testGetUserId()
+  {
+      $this->assertEquals(1, $this->Activity->getUserId());
   }
 }

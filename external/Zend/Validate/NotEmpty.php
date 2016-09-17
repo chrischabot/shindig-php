@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,9 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Validate
+ *
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: NotEmpty.php 8064 2008-02-16 10:58:39Z thomas $
  */
 
@@ -27,38 +28,40 @@ require_once 'external/Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
- * @package    Zend_Validate
+ *
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Validate_NotEmpty extends Zend_Validate_Abstract {
-  
-  const IS_EMPTY = 'isEmpty';
-  
+class Zend_Validate_NotEmpty extends Zend_Validate_Abstract
+{
+    const IS_EMPTY = 'isEmpty';
+
   /**
    * @var array
    */
-  protected $_messageTemplates = array(self::IS_EMPTY => "Value is empty, but a non-empty value is required");
+  protected $_messageTemplates = [self::IS_EMPTY => 'Value is empty, but a non-empty value is required'];
 
   /**
-   * Defined by Zend_Validate_Interface
+   * Defined by Zend_Validate_Interface.
    *
    * Returns true if and only if $value is not an empty value.
    *
    * @param  string $value
-   * @return boolean
+   *
+   * @return bool
    */
-  public function isValid($value) {
-    $valueString = (string)$value;
-    
-    $this->_setValue($valueString);
-    
-    if (empty($value)) {
-      $this->_error();
-      return false;
-    }
-    
-    return true;
-  }
+  public function isValid($value)
+  {
+      $valueString = (string) $value;
 
+      $this->_setValue($valueString);
+
+      if (empty($value)) {
+          $this->_error();
+
+          return false;
+      }
+
+      return true;
+  }
 }

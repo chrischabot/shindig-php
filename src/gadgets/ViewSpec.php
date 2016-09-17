@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -22,74 +22,84 @@
  * Represents a Content section, but normalized into an individual
  * view value after views are split on commas.
  */
-class ViewSpec {
-  
-  public $name;
-  public $type;
-  public $href;
-  public $quirks;
-  public $content;
-  public $view;
-  public $preferedHeight;
-  public $preferedWidth;
-  public $rewrittenContent;
+class ViewSpec
+{
+    public $name;
+    public $type;
+    public $href;
+    public $quirks;
+    public $content;
+    public $view;
+    public $preferedHeight;
+    public $preferedWidth;
+    public $rewrittenContent;
 
-  public function __construct($name, $gadgetContent) {
-    $attributes = $gadgetContent->attributes();
-    $this->name = $name;
-    $this->view = isset($attributes['view']) ? trim($attributes['view']) : '';
-    $this->quirks = trim($attributes['quirks']);
-    $this->preferedHeight = isset($attributes['prefered_height']) ? trim($attributes['prefered_height']) : '';
-    $this->preferedWidth = isset($attributes['prefered_width']) ? trim($attributes['prefered_width']) : '';
-    if (empty($this->quirks)) {
-      $this->quirks = true;
-    } else {
-      $this->quirks = false;
+    public function __construct($name, $gadgetContent)
+    {
+        $attributes = $gadgetContent->attributes();
+        $this->name = $name;
+        $this->view = isset($attributes['view']) ? trim($attributes['view']) : '';
+        $this->quirks = trim($attributes['quirks']);
+        $this->preferedHeight = isset($attributes['prefered_height']) ? trim($attributes['prefered_height']) : '';
+        $this->preferedWidth = isset($attributes['prefered_width']) ? trim($attributes['prefered_width']) : '';
+        if (empty($this->quirks)) {
+            $this->quirks = true;
+        } else {
+            $this->quirks = false;
+        }
+        if (strtolower(trim($attributes['type'])) == 'url') {
+            if (empty($attributes['href'])) {
+                throw new SpecParserException('Malformed <Content> href value');
+            }
+            $this->type = 'URL';
+            $this->href = trim($attributes['href']);
+        } else {
+            $this->type = 'HTML';
+        }
     }
-    if (strtolower(trim($attributes['type'])) == 'url') {
-      if (empty($attributes['href'])) {
-        throw new SpecParserException("Malformed <Content> href value");
-      }
-      $this->type = 'URL';
-      $this->href = trim($attributes['href']);
-    } else {
-      $this->type = 'HTML';
+
+    public function getName()
+    {
+        return $this->name;
     }
-  }
 
-  public function getName() {
-    return $this->name;
-  }
+    public function getType()
+    {
+        return $this->type;
+    }
 
-  public function getType() {
-    return $this->type;
-  }
+    public function getHref()
+    {
+        return $this->href;
+    }
 
-  public function getHref() {
-    return $this->href;
-  }
+    public function getQuirks()
+    {
+        return $this->quirks;
+    }
 
-  public function getQuirks() {
-    return $this->quirks;
-  }
+    public function getContent()
+    {
+        return $this->content;
+    }
 
-  public function getContent() {
-    return $this->content;
-  }
+    public function getView()
+    {
+        return $this->view;
+    }
 
-  public function getView() {
-    return $this->view;
-  }
+    public function addContent($data)
+    {
+        $this->content .= $data;
+    }
 
-  public function addContent($data) {
-    $this->content .= $data;
-  }
+    public function getRewrittenContent()
+    {
+        return $this->rewrittenContent;
+    }
 
-  public function getRewrittenContent() {
-    return $this->rewrittenContent;
-  }
-
-  public function setRewrittenContent($rewrittenContent) {
-    $this->rewrittenContent = $rewrittenContent;
-  }
+    public function setRewrittenContent($rewrittenContent)
+    {
+        $this->rewrittenContent = $rewrittenContent;
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Replace.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -58,87 +59,91 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Updates the rows in a given dataset using primary key columns.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_Operation_Replace extends PHPUnit_Extensions_Database_Operation_RowBased {
-  
-  protected $operationName = 'REPLACE';
+class PHPUnit_Extensions_Database_Operation_Replace extends PHPUnit_Extensions_Database_Operation_RowBased
+{
+    protected $operationName = 'REPLACE';
 
-  protected function buildOperationQuery(PHPUnit_Extensions_Database_DataSet_ITableMetaData $databaseTableMetaData, PHPUnit_Extensions_Database_DataSet_ITable $table, PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection) {
-    $keys = $databaseTableMetaData->getPrimaryKeys();
-    
-    $whereStatement = 'WHERE ' . implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
-    
-    $query = "
+    protected function buildOperationQuery(PHPUnit_Extensions_Database_DataSet_ITableMetaData $databaseTableMetaData, PHPUnit_Extensions_Database_DataSet_ITable $table, PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection)
+    {
+        $keys = $databaseTableMetaData->getPrimaryKeys();
+
+        $whereStatement = 'WHERE '.implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
+
+        $query = "
         	SELECT COUNT(*)
         	FROM {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
         	{$whereStatement}
         ";
-    
-    return $query;
-  }
 
-  protected function buildOperationArguments(PHPUnit_Extensions_Database_DataSet_ITableMetaData $databaseTableMetaData, PHPUnit_Extensions_Database_DataSet_ITable $table, $row) {
-    $args = array();
-    
-    foreach ($databaseTableMetaData->getPrimaryKeys() as $columnName) {
-      $args[] = $table->getValue($row, $columnName);
+        return $query;
     }
-    
-    return $args;
-  }
+
+    protected function buildOperationArguments(PHPUnit_Extensions_Database_DataSet_ITableMetaData $databaseTableMetaData, PHPUnit_Extensions_Database_DataSet_ITable $table, $row)
+    {
+        $args = [];
+
+        foreach ($databaseTableMetaData->getPrimaryKeys() as $columnName) {
+            $args[] = $table->getValue($row, $columnName);
+        }
+
+        return $args;
+    }
 
   /**
    * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
    * @param PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet
    */
-  public function execute(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection, PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet) {
-    $insertOperation = new PHPUnit_Extensions_Database_Operation_Insert();
-    $updateOperation = new PHPUnit_Extensions_Database_Operation_Update();
-    
-    $databaseDataSet = $connection->createDataSet();
-    
-    foreach ($dataSet as $table) {
-      /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
+  public function execute(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection, PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet)
+  {
+      $insertOperation = new PHPUnit_Extensions_Database_Operation_Insert();
+      $updateOperation = new PHPUnit_Extensions_Database_Operation_Update();
+
+      $databaseDataSet = $connection->createDataSet();
+
+      foreach ($dataSet as $table) {
+          /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
       $databaseTableMetaData = $databaseDataSet->getTableMetaData($table->getTableMetaData()->getTableName());
-      
-      $insertQuery = $insertOperation->buildOperationQuery($databaseTableMetaData, $table, $connection);
-      $updateQuery = $updateOperation->buildOperationQuery($databaseTableMetaData, $table, $connection);
-      $selectQuery = $this->buildOperationQuery($databaseTableMetaData, $table, $connection);
-      
-      $insertStatement = $connection->getConnection()->prepare($insertQuery);
-      $updateStatement = $connection->getConnection()->prepare($updateQuery);
-      $selectStatement = $connection->getConnection()->prepare($selectQuery);
-      
-      for ($i = 0; $i < $table->getRowCount(); $i ++) {
-        $selectArgs = $this->buildOperationArguments($databaseTableMetaData, $table, $i);
-        $query = $selectQuery;
-        $args = $selectArgs;
-        try {
-          $selectStatement->execute($selectArgs);
-          
-          if ($selectStatement->fetchColumn(0) > 0) {
-            $updateArgs = $updateOperation->buildOperationArguments($databaseTableMetaData, $table, $i);
-            $query = $updateQuery;
-            $args = $updateArgs;
-            $updateStatement->execute($updateArgs);
-          } else {
-            $insertArgs = $insertOperation->buildOperationArguments($databaseTableMetaData, $table, $i);
-            $query = $insertQuery;
-            $args = $insertArgs;
-            $insertStatement->execute($insertArgs);
+
+          $insertQuery = $insertOperation->buildOperationQuery($databaseTableMetaData, $table, $connection);
+          $updateQuery = $updateOperation->buildOperationQuery($databaseTableMetaData, $table, $connection);
+          $selectQuery = $this->buildOperationQuery($databaseTableMetaData, $table, $connection);
+
+          $insertStatement = $connection->getConnection()->prepare($insertQuery);
+          $updateStatement = $connection->getConnection()->prepare($updateQuery);
+          $selectStatement = $connection->getConnection()->prepare($selectQuery);
+
+          for ($i = 0; $i < $table->getRowCount(); $i++) {
+              $selectArgs = $this->buildOperationArguments($databaseTableMetaData, $table, $i);
+              $query = $selectQuery;
+              $args = $selectArgs;
+              try {
+                  $selectStatement->execute($selectArgs);
+
+                  if ($selectStatement->fetchColumn(0) > 0) {
+                      $updateArgs = $updateOperation->buildOperationArguments($databaseTableMetaData, $table, $i);
+                      $query = $updateQuery;
+                      $args = $updateArgs;
+                      $updateStatement->execute($updateArgs);
+                  } else {
+                      $insertArgs = $insertOperation->buildOperationArguments($databaseTableMetaData, $table, $i);
+                      $query = $insertQuery;
+                      $args = $insertArgs;
+                      $insertStatement->execute($insertArgs);
+                  }
+              } catch (Exception $e) {
+                  throw new PHPUnit_Extensions_Database_Operation_Exception($this->operationName, $query, $args, $table, $e->getMessage());
+              }
           }
-        } catch (Exception $e) {
-          throw new PHPUnit_Extensions_Database_Operation_Exception($this->operationName, $query, $args, $table, $e->getMessage());
-        }
       }
-    }
   }
 }
-?>

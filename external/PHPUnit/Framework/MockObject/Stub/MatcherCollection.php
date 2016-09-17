@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: MatcherCollection.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Matcher.php';
 
@@ -54,18 +55,20 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Stubs a method by returning a user-defined value.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 3.0.0
  */
-interface PHPUnit_Framework_MockObject_Stub_MatcherCollection {
-
-  /**
+interface PHPUnit_Framework_MockObject_Stub_MatcherCollection
+{
+    /**
    * Adds a new matcher to the collection which can be used as an expectation
    * or a stub.
    *
@@ -73,4 +76,3 @@ interface PHPUnit_Framework_MockObject_Stub_MatcherCollection {
    */
   public function addMatcher(PHPUnit_Framework_MockObject_Matcher_Invocation $matcher);
 }
-?>

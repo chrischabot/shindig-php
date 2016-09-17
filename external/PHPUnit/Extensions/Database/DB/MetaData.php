@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id:MetaData.php 1254 2008-09-02 04:36:15Z mlively $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Extensions/Database/DB/IMetaData.php';
@@ -51,100 +52,108 @@ require_once 'PHPUnit/Extensions/Database/DB/IMetaData.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * Provides a basic constructor for all meta data classes and a factory for 
+ * Provides a basic constructor for all meta data classes and a factory for
  * generating the appropriate meta data class.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extensions_Database_DB_IMetaData {
-  protected static $metaDataClassMap = array('mysql' => 'PHPUnit_Extensions_Database_DB_MetaData_MySQL', 
-      'oci' => 'PHPUnit_Extensions_Database_DB_MetaData_Oci', 
-      'sqlite' => 'PHPUnit_Extensions_Database_DB_MetaData_Sqlite');
-  
+abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extensions_Database_DB_IMetaData
+{
+    protected static $metaDataClassMap = ['mysql' => 'PHPUnit_Extensions_Database_DB_MetaData_MySQL',
+      'oci'                                     => 'PHPUnit_Extensions_Database_DB_MetaData_Oci',
+      'sqlite'                                  => 'PHPUnit_Extensions_Database_DB_MetaData_Sqlite', ];
+
   /**
-   * The PDO connection used to retreive database meta data
-   * 
+   * The PDO connection used to retreive database meta data.
+   *
    * @var PDO
    */
   protected $pdo;
-  
+
   /**
    * The default schema name for the meta data object.
-   * 
+   *
    * @var string
    */
   protected $schema;
-  
+
   /**
    * The character used to quote schema objects.
    */
   protected $schemaObjectQuoteChar = '"';
 
   /**
-   * Creates a new database meta data object using the given pdo connection 
+   * Creates a new database meta data object using the given pdo connection
    * and schema name.
    *
    * @param PDO $pdo
    * @param string $schema
    */
-  public final function __construct(PDO $pdo, $schema) {
-    $this->pdo = $pdo;
-    $this->schema = $schema;
+  final public function __construct(PDO $pdo, $schema)
+  {
+      $this->pdo = $pdo;
+      $this->schema = $schema;
   }
 
   /**
-   * Creates a meta data object based on the driver of given $pdo object and 
+   * Creates a meta data object based on the driver of given $pdo object and
    * $schema name.
    *
    * @param PDO $pdo
    * @param string $schema
+   *
    * @return PHPUnit_Extensions_Database_DB_MetaData
    */
-  public static function createMetaData(PDO $pdo, $schema) {
-    $driverName = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
-    if (isset(self::$metaDataClassMap[$driverName])) {
-      $className = self::$metaDataClassMap[$driverName];
-      
-      if ($className instanceof ReflectionClass) {
-        return $className->newInstance($pdo, $schema);
+  public static function createMetaData(PDO $pdo, $schema)
+  {
+      $driverName = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+      if (isset(self::$metaDataClassMap[$driverName])) {
+          $className = self::$metaDataClassMap[$driverName];
+
+          if ($className instanceof ReflectionClass) {
+              return $className->newInstance($pdo, $schema);
+          } else {
+              return self::registerClassWithDriver($className, $driverName)->newInstance($pdo, $schema);
+          }
       } else {
-        return self::registerClassWithDriver($className, $driverName)->newInstance($pdo, $schema);
+          throw new Exception("Could not find a meta data driver for {$driverName} pdo driver.");
       }
-    } else {
-      throw new Exception("Could not find a meta data driver for {$driverName} pdo driver.");
-    }
   }
 
   /**
-   * Validates and registers the given $className with the given $pdoDriver. 
-   * It should be noted that this function will not attempt to include / 
-   * require the file. The $pdoDriver can be determined by the value of the 
+   * Validates and registers the given $className with the given $pdoDriver.
+   * It should be noted that this function will not attempt to include /
+   * require the file. The $pdoDriver can be determined by the value of the
    * PDO::ATTR_DRIVER_NAME attribute for a pdo object.
-   * 
+   *
    * A reflection of the $className is returned.
    *
    * @param string $className
    * @param string $pdoDriver
+   *
    * @return ReflectionClass
    */
-  public static function registerClassWithDriver($className, $pdoDriver) {
-    if (! class_exists($className)) {
-      throw new Exception("Specified class for {$pdoDriver} driver ({$className}) does not exist.");
-    }
-    
-    $reflection = new ReflectionClass($className);
-    if ($reflection->isSubclassOf('PHPUnit_Extensions_Database_DB_MetaData')) {
-      return self::$metaDataClassMap[$pdoDriver] = $reflection;
-    } else {
-      throw new Exception("Specified class for {$pdoDriver} driver ({$className}) does not extend PHPUnit_Extensions_Database_DB_MetaData.");
-    }
+  public static function registerClassWithDriver($className, $pdoDriver)
+  {
+      if (!class_exists($className)) {
+          throw new Exception("Specified class for {$pdoDriver} driver ({$className}) does not exist.");
+      }
+
+      $reflection = new ReflectionClass($className);
+      if ($reflection->isSubclassOf('PHPUnit_Extensions_Database_DB_MetaData')) {
+          return self::$metaDataClassMap[$pdoDriver] = $reflection;
+      } else {
+          throw new Exception("Specified class for {$pdoDriver} driver ({$className}) does not extend PHPUnit_Extensions_Database_DB_MetaData.");
+      }
   }
 
   /**
@@ -152,28 +161,29 @@ abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extens
    *
    * @return string
    */
-  public function getSchema() {
-    return $this->schema;
+  public function getSchema()
+  {
+      return $this->schema;
   }
 
   /**
-   * Returns a quoted schema object. (table name, column name, etc)
+   * Returns a quoted schema object. (table name, column name, etc).
    *
    * @param string $object
+   *
    * @return string
    */
-  public function quoteSchemaObject($object) {
-    return $this->schemaObjectQuoteChar . str_replace($this->schemaObjectQuoteChar, $this->schemaObjectQuoteChar . $this->schemaObjectQuoteChar, $object) . $this->schemaObjectQuoteChar;
+  public function quoteSchemaObject($object)
+  {
+      return $this->schemaObjectQuoteChar.str_replace($this->schemaObjectQuoteChar, $this->schemaObjectQuoteChar.$this->schemaObjectQuoteChar, $object).$this->schemaObjectQuoteChar;
   }
 }
 
 /**
- * I am not sure why these requires can't go above the class, but when they do 
- * the classes can't find the PHPUnit_Extensions_Database_DB_MetaData 
+ * I am not sure why these requires can't go above the class, but when they do
+ * the classes can't find the PHPUnit_Extensions_Database_DB_MetaData
  * class.
  */
 require_once 'PHPUnit/Extensions/Database/DB/MetaData/Sqlite.php';
 require_once 'PHPUnit/Extensions/Database/DB/MetaData/InformationSchema.php';
 require_once 'PHPUnit/Extensions/Database/DB/MetaData/MySQL.php';
-
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: FlatXmlDataSet.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -55,38 +56,40 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The default implementation of a data set.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet extends PHPUnit_Extensions_Database_DataSet_AbstractXmlDataSet {
-
-  protected function getTableInfo(Array &$tableColumns, Array &$tableValues) {
-    if ($this->xmlFileContents->getName() != 'dataset') {
-      throw new Exception("The root element of a flat xml file must be called <dataset>");
-    }
-    
-    foreach ($this->xmlFileContents->children() as $row) {
-      $tableName = $row->getName();
-      
-      if (! isset($tableColumns[$tableName])) {
-        $tableColumns[$tableName] = array();
-      }
-      
-      $values = array();
-      foreach ($row->attributes() as $name => $value) {
-        if (! in_array($name, $tableColumns[$tableName])) {
-          $tableColumns[$tableName][] = $name;
+class PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet extends PHPUnit_Extensions_Database_DataSet_AbstractXmlDataSet
+{
+    protected function getTableInfo(array &$tableColumns, array &$tableValues)
+    {
+        if ($this->xmlFileContents->getName() != 'dataset') {
+            throw new Exception('The root element of a flat xml file must be called <dataset>');
         }
-        
-        $values[$name] = $value;
-      }
-      $tableValues[$tableName][] = $values;
+
+        foreach ($this->xmlFileContents->children() as $row) {
+            $tableName = $row->getName();
+
+            if (!isset($tableColumns[$tableName])) {
+                $tableColumns[$tableName] = [];
+            }
+
+            $values = [];
+            foreach ($row->attributes() as $name => $value) {
+                if (!in_array($name, $tableColumns[$tableName])) {
+                    $tableColumns[$tableName][] = $name;
+                }
+
+                $values[$name] = $value;
+            }
+            $tableValues[$tableName][] = $values;
+        }
     }
-  }
 }
-?>

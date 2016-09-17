@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * OutputXmlConverter test case.
  */
-class OutputXmlConverterTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class OutputXmlConverterTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var OutputXmlConverter
    */
   private $OutputXmlConverter;
@@ -31,36 +31,39 @@ class OutputXmlConverterTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->OutputXmlConverter = new OutputXmlConverter();
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->OutputXmlConverter = new OutputXmlConverter();
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->OutputXmlConverter = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->OutputXmlConverter = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests OutputXmlConverter->outputResponse()
+   * Tests OutputXmlConverter->outputResponse().
    */
-  public function testOutputResponse() {
-    $inputConverter = new InputXmlConverter();
-    $outputConverter = new OutputXmlConverter();
-    $servletRequest = array('url' => '/people/1/@self');
-    $requestItem = RestRequestItem::createWithRequest($servletRequest, null, $inputConverter, $outputConverter);
-    $requestItem->applyUrlTemplate("/people/{userId}/{groupId}/{personId}");
-    $response = array(
-        'entry' => array('isOwner' => false, 'isViewer' => false, 'displayName' => '1 1', 
-            'id' => '1'));
-    $responseItem = new ResponseItem(null, null, $response);
-    ob_start();
-    $outputConverter->outputResponse($responseItem, $requestItem);
-    $output = ob_get_clean();
-    $expected = '<?xml version="1.0" encoding="UTF-8"?>
+  public function testOutputResponse()
+  {
+      $inputConverter = new InputXmlConverter();
+      $outputConverter = new OutputXmlConverter();
+      $servletRequest = ['url' => '/people/1/@self'];
+      $requestItem = RestRequestItem::createWithRequest($servletRequest, null, $inputConverter, $outputConverter);
+      $requestItem->applyUrlTemplate('/people/{userId}/{groupId}/{personId}');
+      $response = [
+        'entry' => ['isOwner' => false, 'isViewer' => false, 'displayName' => '1 1',
+            'id'              => '1', ], ];
+      $responseItem = new ResponseItem(null, null, $response);
+      ob_start();
+      $outputConverter->outputResponse($responseItem, $requestItem);
+      $output = ob_get_clean();
+      $expected = '<?xml version="1.0" encoding="UTF-8"?>
 <response>
   <entry>
     <isOwner></isOwner>
@@ -70,8 +73,6 @@ class OutputXmlConverterTest extends PHPUnit_Framework_TestCase {
   </entry>
 </response>
 ';
-    $this->assertEquals($expected, $output);
+      $this->assertEquals($expected, $output);
   }
-
 }
-

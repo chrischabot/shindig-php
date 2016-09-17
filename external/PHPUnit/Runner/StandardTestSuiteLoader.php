@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: StandardTestSuiteLoader.php 2085 2008-01-14 16:03:31Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Runner/TestSuiteLoader.php';
 require_once 'PHPUnit/Util/Fileloader.php';
@@ -54,64 +55,68 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The standard test suite loader.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class PHPUnit_Runner_StandardTestSuiteLoader implements PHPUnit_Runner_TestSuiteLoader {
-
-  /**
+class PHPUnit_Runner_StandardTestSuiteLoader implements PHPUnit_Runner_TestSuiteLoader
+{
+    /**
    * @param  string  $suiteClassName
    * @param  string  $suiteClassFile
-   * @param  boolean $syntaxCheck
-   * @return ReflectionClass
+   * @param  bool $syntaxCheck
+   *
    * @throws RuntimeException
-   * @access public
+   *
+   * @return ReflectionClass
    */
-  public function load($suiteClassName, $suiteClassFile = '', $syntaxCheck = TRUE) {
-    $suiteClassName = str_replace('.php', '', $suiteClassName);
-    
-    if (empty($suiteClassFile)) {
-      $suiteClassFile = str_replace(array('_', '::'), DIRECTORY_SEPARATOR, $suiteClassName) . '.php';
-    }
-    
-    if (! class_exists($suiteClassName, FALSE)) {
-      if (! file_exists($suiteClassFile)) {
-        $includePaths = explode(PATH_SEPARATOR, get_include_path());
-        
-        foreach ($includePaths as $includePath) {
-          $file = $includePath . DIRECTORY_SEPARATOR . $suiteClassFile;
-          
-          if (file_exists($file)) {
-            $suiteClassFile = $file;
-            break;
-          }
-        }
+  public function load($suiteClassName, $suiteClassFile = '', $syntaxCheck = true)
+  {
+      $suiteClassName = str_replace('.php', '', $suiteClassName);
+
+      if (empty($suiteClassFile)) {
+          $suiteClassFile = str_replace(['_', '::'], DIRECTORY_SEPARATOR, $suiteClassName).'.php';
       }
-      
-      PHPUnit_Util_Fileloader::checkAndLoad($suiteClassFile, $syntaxCheck);
-    }
-    
-    if (class_exists($suiteClassName, FALSE)) {
-      return new ReflectionClass($suiteClassName);
-    } else {
-      throw new RuntimeException(sprintf('Class %s could not be found in %s.', 
+
+      if (!class_exists($suiteClassName, false)) {
+          if (!file_exists($suiteClassFile)) {
+              $includePaths = explode(PATH_SEPARATOR, get_include_path());
+
+              foreach ($includePaths as $includePath) {
+                  $file = $includePath.DIRECTORY_SEPARATOR.$suiteClassFile;
+
+                  if (file_exists($file)) {
+                      $suiteClassFile = $file;
+                      break;
+                  }
+              }
+          }
+
+          PHPUnit_Util_Fileloader::checkAndLoad($suiteClassFile, $syntaxCheck);
+      }
+
+      if (class_exists($suiteClassName, false)) {
+          return new ReflectionClass($suiteClassName);
+      } else {
+          throw new RuntimeException(sprintf('Class %s could not be found in %s.',
 
       $suiteClassName, $suiteClassFile));
-    }
+      }
   }
 
   /**
    * @param  ReflectionClass  $aClass
+   *
    * @return ReflectionClass
-   * @access public
    */
-  public function reload(ReflectionClass $aClass) {
-    return $aClass;
+  public function reload(ReflectionClass $aClass)
+  {
+      return $aClass;
   }
 }
-?>

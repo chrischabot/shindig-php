@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,37 +17,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-
-class BlobCrypterException extends Exception { }
+class BlobCrypterException extends Exception
+{
+}
 
 /**
  * Utility interface for managing signed, encrypted, and time stamped blobs.
  * Blobs are made up of name/value pairs.  Time stamps are automatically
  * included and checked.
- *
  */
-abstract class BlobCrypter {
-
-  /**
+abstract class BlobCrypter
+{
+    /**
    * Time stamps, encrypts, and signs a blob.
    *
    * @param in name/value pairs to encrypt
-   * @return a base64 encoded blob
    *
    * @throws BlobCrypterException
+   *
+   * @return a base64 encoded blob
    */
-  abstract public function wrap(Array $in);
+  abstract public function wrap(array $in);
 
   /**
    * Unwraps a blob.
    *
    * @param in blob
    * @param maxAgeSec maximum age for the blob
-   * @return the name/value pairs, including the origin timestamp.
    *
    * @throws BlobExpiredException if the blob is too old to be accepted.
    * @throws BlobCrypterException if the blob can't be decoded.
+   *
+   * @return the name/value pairs, including the origin timestamp.
    */
   abstract public function unwrap($in, $maxAgeSec);
 }

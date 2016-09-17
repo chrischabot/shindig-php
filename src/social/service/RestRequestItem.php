@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,61 +21,69 @@
 /**
  * Represents the request items that come from the restful request.
  */
-class RestRequestItem extends RequestItem {
-  private $url;
-  private $params;
-  private $inputConverter;
-  private $outputConverter;
-  private $postData;
+class RestRequestItem extends RequestItem
+{
+    private $url;
+    private $params;
+    private $inputConverter;
+    private $outputConverter;
+    private $postData;
 
-  public function __construct($service, $method, SecurityToken $token, $inputConverter, $outputConverter) {
-    parent::__construct($service, $method, $token);
-    $this->inputConverter = $inputConverter;
-    $this->outputConverter = $outputConverter;
-  }
+    public function __construct($service, $method, SecurityToken $token, $inputConverter, $outputConverter)
+    {
+        parent::__construct($service, $method, $token);
+        $this->inputConverter = $inputConverter;
+        $this->outputConverter = $outputConverter;
+    }
 
   /**
-   * Create a RestRequestItem object
+   * Create a RestRequestItem object.
    *
    * @param array $servletRequest
    * @param SecurityToken $token
    * @param InputConverter $inputConverter
    * @param OutputConverter $outputConverter
+   *
    * @return RestRequestItem
    */
-  public static function createWithRequest($servletRequest, $token, $inputConverter, $outputConverter) {
-    $restfulRequestItem = new RestRequestItem(self::getServiceFromPath($servletRequest['url']), self::getMethod(), $token, $inputConverter, $outputConverter);
-    $restfulRequestItem->setUrl($servletRequest['url']);
-    if (isset($servletRequest['params'])) {
-      $restfulRequestItem->setParams($servletRequest['params']);
-    } else {
-      $paramPieces = parse_url($restfulRequestItem->url);
-      if (isset($paramPieces['query'])) {
-        $params = array();
-        parse_str($paramPieces['query'], $params);
-        $restfulRequestItem->setParams($params);
+  public static function createWithRequest($servletRequest, $token, $inputConverter, $outputConverter)
+  {
+      $restfulRequestItem = new self(self::getServiceFromPath($servletRequest['url']), self::getMethod(), $token, $inputConverter, $outputConverter);
+      $restfulRequestItem->setUrl($servletRequest['url']);
+      if (isset($servletRequest['params'])) {
+          $restfulRequestItem->setParams($servletRequest['params']);
+      } else {
+          $paramPieces = parse_url($restfulRequestItem->url);
+          if (isset($paramPieces['query'])) {
+              $params = [];
+              parse_str($paramPieces['query'], $params);
+              $restfulRequestItem->setParams($params);
+          }
       }
+      if (isset($servletRequest['postData'])) {
+          $restfulRequestItem->setPostData($servletRequest['postData']);
+      }
+
+      return $restfulRequestItem;
+  }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
     }
-    if (isset($servletRequest['postData'])) {
-      $restfulRequestItem->setPostData($servletRequest['postData']);
+
+    public function setParams($params)
+    {
+        $this->params = $params;
     }
-    return $restfulRequestItem;
-  }
 
-  public function setUrl($url) {
-    $this->url = $url;
-  }
-
-  public function setParams($params) {
-    $this->params = $params;
-  }
-
-  public function setPostData($postData) {
-    $this->postData = $postData;
-    $service = $this->getServiceFromPath($this->url);
-    switch ($service) {
+    public function setPostData($postData)
+    {
+        $this->postData = $postData;
+        $service = $this->getServiceFromPath($this->url);
+        switch ($service) {
       case DataServiceServlet::$PEOPLE_ROUTE:
-        // in our current implementation this will throw a SocialSPIException since we don't support 
+        // in our current implementation this will throw a SocialSPIException since we don't support
         // adding people/friendships in our API yet, but this might be added some day
         $data = $this->inputConverter->convertPeople($this->postData);
         break;
@@ -95,25 +103,27 @@ class RestRequestItem extends RequestItem {
         throw new Exception("Invalid or unknown service endpoint: $service");
         break;
     }
-  
-  }
-
-  static function getServiceFromPath($pathInfo) {
-    $pathInfo = substr($pathInfo, 1);
-    $indexOfNextPathSeparator = strpos($pathInfo, '/');
-    if ($indexOfNextPathSeparator !== false) {
-      return substr($pathInfo, 0, $indexOfNextPathSeparator);
     }
-    return $pathInfo;
-  }
 
-  static function getMethod() {
-    if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
-      return $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
-    } else {
-      return $_SERVER['REQUEST_METHOD'];
+    public static function getServiceFromPath($pathInfo)
+    {
+        $pathInfo = substr($pathInfo, 1);
+        $indexOfNextPathSeparator = strpos($pathInfo, '/');
+        if ($indexOfNextPathSeparator !== false) {
+            return substr($pathInfo, 0, $indexOfNextPathSeparator);
+        }
+
+        return $pathInfo;
     }
-  }
+
+    public static function getMethod()
+    {
+        if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+            return $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
+        } else {
+            return $_SERVER['REQUEST_METHOD'];
+        }
+    }
 
   /**
    * This could definitely be cleaner..
@@ -121,64 +131,71 @@ class RestRequestItem extends RequestItem {
    *
    * @param urlTemplate The template the url follows
    */
-  public function applyUrlTemplate($urlTemplate) {
-    $paramPieces = @parse_url($this->url);
-    $actualUrl = explode("/", $paramPieces['path']);
-    $expectedUrl = explode("/", $urlTemplate);
-    for ($i = 1; $i < count($actualUrl); $i ++) {
-      $actualPart = isset($actualUrl[$i]) ? $actualUrl[$i] : null;
-      $expectedPart = isset($expectedUrl[$i]) ? $expectedUrl[$i] : null;
-      if (strpos($expectedPart, "{") !== false) {
-        $this->params[preg_replace('/\{|\}/', '', $expectedPart)] = explode(',', $actualPart);
-      } elseif (strpos($actualPart, ',') !== false) {
-        throw new IllegalArgumentException("Cannot expect plural value " + $actualPart + " for singular field " + $expectedPart + " in " + $this->url);
-      } else {
-        $this->params[$expectedPart] = $actualPart;
+  public function applyUrlTemplate($urlTemplate)
+  {
+      $paramPieces = @parse_url($this->url);
+      $actualUrl = explode('/', $paramPieces['path']);
+      $expectedUrl = explode('/', $urlTemplate);
+      for ($i = 1; $i < count($actualUrl); $i++) {
+          $actualPart = isset($actualUrl[$i]) ? $actualUrl[$i] : null;
+          $expectedPart = isset($expectedUrl[$i]) ? $expectedUrl[$i] : null;
+          if (strpos($expectedPart, '{') !== false) {
+              $this->params[preg_replace('/\{|\}/', '', $expectedPart)] = explode(',', $actualPart);
+          } elseif (strpos($actualPart, ',') !== false) {
+              throw new IllegalArgumentException('Cannot expect plural value ' + $actualPart + ' for singular field ' + $expectedPart + ' in ' + $this->url);
+          } else {
+              $this->params[$expectedPart] = $actualPart;
+          }
       }
+  }
+
+    public function getParameters()
+    {
+        return $this->params;
     }
-  }
 
-  public function getParameters() {
-    return $this->params;
-  }
-
-  public function setParameter($paramName, $paramValue) {
-    // Ignore nulls
+    public function setParameter($paramName, $paramValue)
+    {
+        // Ignore nulls
     if ($paramValue == null) {
-      return;
+        return;
     }
-    $this->params[$paramName] = $paramValue;
+        $this->params[$paramName] = $paramValue;
+    }
+
+  /**
+   * Return a single param value.
+   */
+  public function getParameter($paramName, $defaultValue = null)
+  {
+      $paramValue = isset($this->params[$paramName]) ? $this->params[$paramName] : null;
+      if ($paramValue != null && !empty($paramValue)) {
+          return $paramValue;
+      }
+
+      return $defaultValue;
   }
 
   /**
-   * Return a single param value
+   * Return a list param value.
    */
-  public function getParameter($paramName, $defaultValue = null) {
-    $paramValue = isset($this->params[$paramName]) ? $this->params[$paramName] : null;
-    if ($paramValue != null && ! empty($paramValue)) {
-      return $paramValue;
-    }
-    return $defaultValue;
-  }
-
-  /**
-   * Return a list param value
-   */
-  public function getListParameter($paramName) {
-    $stringList = isset($this->params[$paramName]) ? $this->params[$paramName] : null;
-    if ($stringList == null) {
-      return array();
-    } elseif (is_array($stringList)) {
-      // already converted to array, return straight away
+  public function getListParameter($paramName)
+  {
+      $stringList = isset($this->params[$paramName]) ? $this->params[$paramName] : null;
+      if ($stringList == null) {
+          return [];
+      } elseif (is_array($stringList)) {
+          // already converted to array, return straight away
       return $stringList;
-    }
-    if (strpos($stringList, ',') !== false) {
-      $stringList = explode(',', $stringList);
-    } else {
-      // Allow up-conversion of non-array to array params.
-      $stringList = array($stringList);
-    }
-    $this->params[$paramName] = $stringList;
-    return $stringList;
+      }
+      if (strpos($stringList, ',') !== false) {
+          $stringList = explode(',', $stringList);
+      } else {
+          // Allow up-conversion of non-array to array params.
+      $stringList = [$stringList];
+      }
+      $this->params[$paramName] = $stringList;
+
+      return $stringList;
   }
 }

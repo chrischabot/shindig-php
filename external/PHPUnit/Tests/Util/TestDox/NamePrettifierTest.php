@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,68 +35,74 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: NamePrettifierTest.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
-
 require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase {
-  protected $namePrettifier;
+class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
+{
+    protected $namePrettifier;
 
-  protected function setUp() {
-    $this->namePrettifier = new PHPUnit_Util_TestDox_NamePrettifier();
-  }
+    protected function setUp()
+    {
+        $this->namePrettifier = new PHPUnit_Util_TestDox_NamePrettifier();
+    }
 
-  public function testTitleHasSensibleDefaults() {
-    $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('FooTest'));
-    $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('TestFoo'));
-    $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('TestFooTest'));
-  }
+    public function testTitleHasSensibleDefaults()
+    {
+        $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('FooTest'));
+        $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('TestFoo'));
+        $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('TestFooTest'));
+    }
 
-  public function testCaterForUserDefinedSuffix() {
-    $this->namePrettifier->setSuffix('TestCase');
-    $this->namePrettifier->setPrefix(NULL);
-    
-    $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('FooTestCase'));
-    $this->assertEquals('TestFoo', $this->namePrettifier->prettifyTestClass('TestFoo'));
-    $this->assertEquals('FooTest', $this->namePrettifier->prettifyTestClass('FooTest'));
-  }
+    public function testCaterForUserDefinedSuffix()
+    {
+        $this->namePrettifier->setSuffix('TestCase');
+        $this->namePrettifier->setPrefix(null);
 
-  public function testCaterForUserDefinedPrefix() {
-    $this->namePrettifier->setSuffix(NULL);
-    $this->namePrettifier->setPrefix('XXX');
-    
-    $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('XXXFoo'));
-    $this->assertEquals('TestXXX', $this->namePrettifier->prettifyTestClass('TestXXX'));
-    $this->assertEquals('XXX', $this->namePrettifier->prettifyTestClass('XXXXXX'));
-  }
+        $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('FooTestCase'));
+        $this->assertEquals('TestFoo', $this->namePrettifier->prettifyTestClass('TestFoo'));
+        $this->assertEquals('FooTest', $this->namePrettifier->prettifyTestClass('FooTest'));
+    }
 
-  public function testTestNameIsConvertedToASentence() {
-    $this->assertEquals('This is a test', $this->namePrettifier->prettifyTestMethod('testThisIsATest'));
-    $this->assertEquals('This is a test', $this->namePrettifier->prettifyTestMethod('testThisIsATest2'));
-    $this->assertEquals('database_column_spec is set correctly', $this->namePrettifier->prettifyTestMethod('testdatabase_column_specIsSetCorrectly'));
-    $this->assertEquals('Foo for bar is 0', $this->namePrettifier->prettifyTestMethod('testFooForBarIs0'));
-    $this->assertEquals('Foo for baz is 1', $this->namePrettifier->prettifyTestMethod('testFooForBazIs1'));
-  }
+    public function testCaterForUserDefinedPrefix()
+    {
+        $this->namePrettifier->setSuffix(null);
+        $this->namePrettifier->setPrefix('XXX');
+
+        $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('XXXFoo'));
+        $this->assertEquals('TestXXX', $this->namePrettifier->prettifyTestClass('TestXXX'));
+        $this->assertEquals('XXX', $this->namePrettifier->prettifyTestClass('XXXXXX'));
+    }
+
+    public function testTestNameIsConvertedToASentence()
+    {
+        $this->assertEquals('This is a test', $this->namePrettifier->prettifyTestMethod('testThisIsATest'));
+        $this->assertEquals('This is a test', $this->namePrettifier->prettifyTestMethod('testThisIsATest2'));
+        $this->assertEquals('database_column_spec is set correctly', $this->namePrettifier->prettifyTestMethod('testdatabase_column_specIsSetCorrectly'));
+        $this->assertEquals('Foo for bar is 0', $this->namePrettifier->prettifyTestMethod('testFooForBarIs0'));
+        $this->assertEquals('Foo for baz is 1', $this->namePrettifier->prettifyTestMethod('testFooForBazIs1'));
+    }
 }
-?>

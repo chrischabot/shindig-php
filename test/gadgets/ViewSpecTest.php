@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,13 +21,13 @@
 /**
  * ViewSpec test case.
  */
-class ViewSpecTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class ViewSpecTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var ViewSpec
    */
   private $ViewSpec;
-  
+
   /**
    * @var GadgetXML
    */
@@ -45,31 +45,31 @@ class ViewSpecTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
+  protected function setUp()
+  {
+      parent::setUp();
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    parent::tearDown();
+  protected function tearDown()
+  {
+      parent::tearDown();
   }
 
   /**
-   * Tests ViewSpec->__construct()
+   * Tests ViewSpec->__construct().
    */
-  public function test__construct() {
-    $doc = simplexml_load_string($this->GadgetXML, 'SimpleXMLElement', LIBXML_NOCDATA);
-    $content = $doc->Content[0];
-    $attributes = $content->attributes();
-    $view = isset($attributes['view']) ? trim($attributes['view']) : DEFAULT_VIEW;
-    $attributes['type'] = 'url';
-    
-    $this->setExpectedException('SpecParserException');
-    $this->ViewSpec = new ViewSpec($view, $content);
-  
+  public function test__construct()
+  {
+      $doc = simplexml_load_string($this->GadgetXML, 'SimpleXMLElement', LIBXML_NOCDATA);
+      $content = $doc->Content[0];
+      $attributes = $content->attributes();
+      $view = isset($attributes['view']) ? trim($attributes['view']) : DEFAULT_VIEW;
+      $attributes['type'] = 'url';
+
+      $this->setExpectedException('SpecParserException');
+      $this->ViewSpec = new ViewSpec($view, $content);
   }
-
 }
-

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: MoneyBag.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
-
 require_once 'IMoney.php';
 require_once 'Money.php';
 
@@ -51,180 +52,199 @@ require_once 'Money.php';
  * A MoneyBag.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.3.0
  */
-class MoneyBag implements IMoney {
-  protected $fMonies = array();
+class MoneyBag implements IMoney
+{
+    protected $fMonies = [];
 
-  public static function create(IMoney $m1, IMoney $m2) {
-    $result = new MoneyBag();
-    $m1->appendTo($result);
-    $m2->appendTo($result);
-    
-    return $result->simplify();
-  }
+    public static function create(IMoney $m1, IMoney $m2)
+    {
+        $result = new self();
+        $m1->appendTo($result);
+        $m2->appendTo($result);
 
-  public function add(IMoney $m) {
-    return $m->addMoneyBag($this);
-  }
-
-  public function addMoney(Money $m) {
-    return MoneyBag::create($m, $this);
-  }
-
-  public function addMoneyBag(MoneyBag $s) {
-    return MoneyBag::create($s, $this);
-  }
-
-  public function appendBag(MoneyBag $aBag) {
-    foreach ($aBag->monies() as $aMoney) {
-      $this->appendMoney($aMoney);
+        return $result->simplify();
     }
-  }
 
-  public function monies() {
-    return $this->fMonies;
-  }
+    public function add(IMoney $m)
+    {
+        return $m->addMoneyBag($this);
+    }
 
-  public function appendMoney(Money $aMoney) {
-    if ($aMoney->isZero()) {
-      return;
+    public function addMoney(Money $m)
+    {
+        return self::create($m, $this);
     }
-    
-    $old = $this->findMoney($aMoney->currency());
-    
-    if ($old == NULL) {
-      $this->fMonies[] = $aMoney;
-      return;
-    }
-    
-    $keys = array_keys($this->fMonies);
-    $max = count($keys);
-    
-    for ($i = 0; $i < $max; $i ++) {
-      if ($this->fMonies[$keys[$i]] === $old) {
-        unset($this->fMonies[$keys[$i]]);
-        break;
-      }
-    }
-    
-    $sum = $old->add($aMoney);
-    
-    if ($sum->isZero()) {
-      return;
-    }
-    
-    $this->fMonies[] = $sum;
-  }
 
-  public function equals($anObject) {
-    if ($this->isZero() && $anObject instanceof IMoney) {
-      return $anObject->isZero();
+    public function addMoneyBag(MoneyBag $s)
+    {
+        return self::create($s, $this);
     }
-    
-    if ($anObject instanceof MoneyBag) {
-      if (count($anObject->monies()) != count($this->fMonies)) {
-        return FALSE;
-      }
-      
-      foreach ($this->fMonies as $m) {
-        if (! $anObject->contains($m)) {
-          return FALSE;
+
+    public function appendBag(MoneyBag $aBag)
+    {
+        foreach ($aBag->monies() as $aMoney) {
+            $this->appendMoney($aMoney);
         }
-      }
-      
-      return TRUE;
     }
-    
-    return FALSE;
-  }
 
-  protected function findMoney($currency) {
-    foreach ($this->fMonies as $m) {
-      if ($m->currency() == $currency) {
-        return $m;
-      }
+    public function monies()
+    {
+        return $this->fMonies;
     }
-    
-    return NULL;
-  }
 
-  protected function contains(Money $m) {
-    $found = $this->findMoney($m->currency());
-    
-    if ($found == NULL) {
-      return FALSE;
+    public function appendMoney(Money $aMoney)
+    {
+        if ($aMoney->isZero()) {
+            return;
+        }
+
+        $old = $this->findMoney($aMoney->currency());
+
+        if ($old == null) {
+            $this->fMonies[] = $aMoney;
+
+            return;
+        }
+
+        $keys = array_keys($this->fMonies);
+        $max = count($keys);
+
+        for ($i = 0; $i < $max; $i++) {
+            if ($this->fMonies[$keys[$i]] === $old) {
+                unset($this->fMonies[$keys[$i]]);
+                break;
+            }
+        }
+
+        $sum = $old->add($aMoney);
+
+        if ($sum->isZero()) {
+            return;
+        }
+
+        $this->fMonies[] = $sum;
     }
-    
-    return $found->amount() == $m->amount();
-  }
 
-  public function hashCode() {
-    $hash = 0;
-    
-    foreach ($this->fMonies as $m) {
-      $hash ^= $m->hashCode();
+    public function equals($anObject)
+    {
+        if ($this->isZero() && $anObject instanceof IMoney) {
+            return $anObject->isZero();
+        }
+
+        if ($anObject instanceof self) {
+            if (count($anObject->monies()) != count($this->fMonies)) {
+                return false;
+            }
+
+            foreach ($this->fMonies as $m) {
+                if (!$anObject->contains($m)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
-    
-    return $hash;
-  }
 
-  public function isZero() {
-    return count($this->fMonies) == 0;
-  }
-
-  public function multiply($factor) {
-    $result = new MoneyBag();
-    
-    if ($factor != 0) {
-      foreach ($this->fMonies as $m) {
-        $result->appendMoney($m->multiply($factor));
-      }
+    protected function findMoney($currency)
+    {
+        foreach ($this->fMonies as $m) {
+            if ($m->currency() == $currency) {
+                return $m;
+            }
+        }
     }
-    
-    return $result;
-  }
 
-  public function negate() {
-    $result = new MoneyBag();
-    
-    foreach ($this->fMonies as $m) {
-      $result->appendMoney($m->negate());
+    protected function contains(Money $m)
+    {
+        $found = $this->findMoney($m->currency());
+
+        if ($found == null) {
+            return false;
+        }
+
+        return $found->amount() == $m->amount();
     }
-    
-    return $result;
-  }
 
-  protected function simplify() {
-    if (count($this->fMonies) == 1) {
-      return array_pop($this->fMonies);
+    public function hashCode()
+    {
+        $hash = 0;
+
+        foreach ($this->fMonies as $m) {
+            $hash ^= $m->hashCode();
+        }
+
+        return $hash;
     }
-    
-    return $this;
-  }
 
-  public function subtract(IMoney $m) {
-    return $this->add($m->negate());
-  }
-
-  public function toString() {
-    $buffer = '{';
-    
-    foreach ($this->fMonies as $m) {
-      $buffer .= $m->toString();
+    public function isZero()
+    {
+        return count($this->fMonies) == 0;
     }
-    
-    return $buffer . '}';
-  }
 
-  public function appendTo(MoneyBag $m) {
-    $m->appendBag($this);
-  }
+    public function multiply($factor)
+    {
+        $result = new self();
+
+        if ($factor != 0) {
+            foreach ($this->fMonies as $m) {
+                $result->appendMoney($m->multiply($factor));
+            }
+        }
+
+        return $result;
+    }
+
+    public function negate()
+    {
+        $result = new self();
+
+        foreach ($this->fMonies as $m) {
+            $result->appendMoney($m->negate());
+        }
+
+        return $result;
+    }
+
+    protected function simplify()
+    {
+        if (count($this->fMonies) == 1) {
+            return array_pop($this->fMonies);
+        }
+
+        return $this;
+    }
+
+    public function subtract(IMoney $m)
+    {
+        return $this->add($m->negate());
+    }
+
+    public function toString()
+    {
+        $buffer = '{';
+
+        foreach ($this->fMonies as $m) {
+            $buffer .= $m->toString();
+        }
+
+        return $buffer.'}';
+    }
+
+    public function appendTo(MoneyBag $m)
+    {
+        $m->appendBag($this);
+    }
 }
-?>

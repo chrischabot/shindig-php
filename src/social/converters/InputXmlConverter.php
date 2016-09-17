@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -19,35 +19,42 @@
  */
 
 /**
- * Convert Xml representations to the internal data structure representation
+ * Convert Xml representations to the internal data structure representation.
  */
-class InputXmlConverter extends InputConverter {
-
-  public function convertPeople($requestParam) {
-    throw new Exception("Operation not supported");
-  }
-
-  public function convertActivities($requestParam) {
-    $xml = InputBasicXmlConverter::loadString($requestParam);
-    return InputBasicXmlConverter::convertActivities($xml, $xml->activity);
-  }
-
-  public function convertAppData($requestParam) {
-    $xml = InputBasicXmlConverter::loadString($requestParam);
-    if (! isset($xml->entry)) {
-      throw new Exception("Mallformed AppData xml");
+class InputXmlConverter extends InputConverter
+{
+    public function convertPeople($requestParam)
+    {
+        throw new Exception('Operation not supported');
     }
-    $data = array();
-    foreach ($xml->entry as $entry) {
-      $key = trim($entry->key);
-      $val = isset($entry->value) ? trim($entry->value) : null;
-      $data[$key] = $val;
-    }
-    return $data;
-  }
 
-  public function convertMessages($requestParam) {
-    $xml = InputBasicXmlConverter::loadString($requestParam);
-    return InputBasicXmlConverter::convertMessages($requestParam, $xml, $xml->body);
-  }
+    public function convertActivities($requestParam)
+    {
+        $xml = InputBasicXmlConverter::loadString($requestParam);
+
+        return InputBasicXmlConverter::convertActivities($xml, $xml->activity);
+    }
+
+    public function convertAppData($requestParam)
+    {
+        $xml = InputBasicXmlConverter::loadString($requestParam);
+        if (!isset($xml->entry)) {
+            throw new Exception('Mallformed AppData xml');
+        }
+        $data = [];
+        foreach ($xml->entry as $entry) {
+            $key = trim($entry->key);
+            $val = isset($entry->value) ? trim($entry->value) : null;
+            $data[$key] = $val;
+        }
+
+        return $data;
+    }
+
+    public function convertMessages($requestParam)
+    {
+        $xml = InputBasicXmlConverter::loadString($requestParam);
+
+        return InputBasicXmlConverter::convertMessages($requestParam, $xml, $xml->body);
+    }
 }

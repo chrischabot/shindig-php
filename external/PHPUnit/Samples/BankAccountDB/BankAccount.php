@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -36,47 +36,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: BankAccount.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
-class BankAccountException extends RuntimeException {
+class BankAccountException extends RuntimeException
+{
 }
 
 /**
  * A bank account.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class BankAccount {
-  /**
+class BankAccount
+{
+    /**
    * The bank account's balance.
    *
    * @var    float
-   * @access protected
    */
   protected $balance = 0;
-  
+
   /**
    * The bank account's number.
    *
    * @var    float
-   * @access protected
    */
   protected $accountNumber = 0;
-  
+
   /**
    * The PDO connection used to store and retrieve bank account information.
    *
@@ -84,122 +87,129 @@ class BankAccount {
    */
   protected $pdo;
 
-  public function __construct($accountNumber, PDO $pdo) {
-    $this->accountNumber = $accountNumber;
-    $this->pdo = $pdo;
-    
-    $this->loadAccount();
-  }
+    public function __construct($accountNumber, PDO $pdo)
+    {
+        $this->accountNumber = $accountNumber;
+        $this->pdo = $pdo;
+
+        $this->loadAccount();
+    }
 
   /**
    * Returns the bank account's balance.
    *
    * @return float
-   * @access public
    */
-  public function getBalance() {
-    return $this->balance;
+  public function getBalance()
+  {
+      return $this->balance;
   }
 
   /**
    * Sets the bank account's balance.
    *
    * @param  float $balance
+   *
    * @throws BankAccountException
-   * @access protected
    */
-  protected function setBalance($balance) {
-    if ($balance >= 0) {
-      $this->balance = $balance;
-      $this->updateAccount();
-    } else {
-      throw new BankAccountException();
-    }
+  protected function setBalance($balance)
+  {
+      if ($balance >= 0) {
+          $this->balance = $balance;
+          $this->updateAccount();
+      } else {
+          throw new BankAccountException();
+      }
   }
 
   /**
    * Returns the bank account's number.
    *
    * @return float
-   * @access public
    */
-  public function getAccountNumber() {
-    return $this->accountNumber;
+  public function getAccountNumber()
+  {
+      return $this->accountNumber;
   }
 
   /**
    * Deposits an amount of money to the bank account.
    *
    * @param  float $balance
+   *
    * @throws BankAccountException
-   * @access public
    */
-  public function depositMoney($balance) {
-    $this->setBalance($this->getBalance() + $balance);
-    
-    return $this->getBalance();
+  public function depositMoney($balance)
+  {
+      $this->setBalance($this->getBalance() + $balance);
+
+      return $this->getBalance();
   }
 
   /**
    * Withdraws an amount of money from the bank account.
    *
    * @param  float $balance
+   *
    * @throws BankAccountException
-   * @access public
    */
-  public function withdrawMoney($balance) {
-    $this->setBalance($this->getBalance() - $balance);
-    
-    return $this->getBalance();
+  public function withdrawMoney($balance)
+  {
+      $this->setBalance($this->getBalance() - $balance);
+
+      return $this->getBalance();
   }
 
   /**
    * Loads account information from the database.
    */
-  protected function loadAccount() {
-    $query = "SELECT * FROM bank_account WHERE account_number = ?";
-    
-    $statement = $this->pdo->prepare($query);
-    
-    $statement->execute(array($this->accountNumber));
-    
-    if ($bankAccountInfo = $statement->fetch(PDO::FETCH_ASSOC)) {
-      $this->balance = $bankAccountInfo['balance'];
-    } else {
-      $this->balance = 0;
-      $this->addAccount();
-    }
+  protected function loadAccount()
+  {
+      $query = 'SELECT * FROM bank_account WHERE account_number = ?';
+
+      $statement = $this->pdo->prepare($query);
+
+      $statement->execute([$this->accountNumber]);
+
+      if ($bankAccountInfo = $statement->fetch(PDO::FETCH_ASSOC)) {
+          $this->balance = $bankAccountInfo['balance'];
+      } else {
+          $this->balance = 0;
+          $this->addAccount();
+      }
   }
 
   /**
    * Saves account information to the database.
    */
-  protected function updateAccount() {
-    $query = "UPDATE bank_account SET balance = ? WHERE account_number = ?";
-    
-    $statement = $this->pdo->prepare($query);
-    $statement->execute(array($this->balance, $this->accountNumber));
+  protected function updateAccount()
+  {
+      $query = 'UPDATE bank_account SET balance = ? WHERE account_number = ?';
+
+      $statement = $this->pdo->prepare($query);
+      $statement->execute([$this->balance, $this->accountNumber]);
   }
 
   /**
    * Adds account information to the database.
    */
-  protected function addAccount() {
-    $query = "INSERT INTO bank_account (balance, account_number) VALUES(?, ?)";
-    
-    $statement = $this->pdo->prepare($query);
-    $statement->execute(array($this->balance, $this->accountNumber));
+  protected function addAccount()
+  {
+      $query = 'INSERT INTO bank_account (balance, account_number) VALUES(?, ?)';
+
+      $statement = $this->pdo->prepare($query);
+      $statement->execute([$this->balance, $this->accountNumber]);
   }
 
-  static public function createTable(PDO $pdo) {
-    $query = "
+    public static function createTable(PDO $pdo)
+    {
+        $query = '
     		CREATE TABLE bank_account (
     			account_number VARCHAR(17) PRIMARY KEY,
     			balance DECIMAL(9,2) NOT NULL DEFAULT 0
     		);
-    	";
-    
-    $pdo->query($query);
-  }
+    	';
+
+        $pdo->query($query);
+    }
 }
-?>

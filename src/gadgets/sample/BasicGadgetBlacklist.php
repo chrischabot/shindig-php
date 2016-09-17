@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,33 +21,37 @@
 /**
  * Basic example blacklist class. This class takes a text file with regex
  * rules against which URL's are tested.
- * The default file location is {$base_path}/blacklist.txt
- *
+ * The default file location is {$base_path}/blacklist.txt.
  */
-class BasicGadgetBlacklist implements GadgetBlacklist {
-  private $rules = array();
+class BasicGadgetBlacklist implements GadgetBlacklist
+{
+    private $rules = [];
 
-  public function __construct($file = false) {
-    if (! $file) {
-      $file = Config::get('base_path') . '/blacklist.txt';
+    public function __construct($file = false)
+    {
+        if (!$file) {
+            $file = Config::get('base_path').'/blacklist.txt';
+        }
+        if (File::exists($file)) {
+            $this->rules = explode("\n", @file_get_contents($file));
+        }
     }
-    if (File::exists($file)) {
-      $this->rules = explode("\n", @file_get_contents($file));
-    }
-  }
 
   /**
-   * Check the URL against the blacklist rules
+   * Check the URL against the blacklist rules.
    *
    * @param string $url
-   * @return boolean is blacklisted or not?
+   *
+   * @return bool is blacklisted or not?
    */
-  function isBlacklisted($url) {
-    foreach ($this->rules as $rule) {
-      if (! empty($rule) && preg_match($rule, $url)) {
-        return true;
+  public function isBlacklisted($url)
+  {
+      foreach ($this->rules as $rule) {
+          if (!empty($rule) && preg_match($rule, $url)) {
+              return true;
+          }
       }
-    }
-    return false;
+
+      return false;
   }
 }

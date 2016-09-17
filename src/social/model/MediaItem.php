@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -20,45 +20,53 @@
 
 /**
  * see
- * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.MediaItem
+ * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.MediaItem.
  */
-class MediaItem {
-  public $mimeType;
-  public $type;
-  public $url;
+class MediaItem
+{
+    public $mimeType;
+    public $type;
+    public $url;
 
-  public $types = array('AUDIO' => 'audio', 'VIDEO' => 'video', 'IMAGE' => 'image');
+    public $types = ['AUDIO' => 'audio', 'VIDEO' => 'video', 'IMAGE' => 'image'];
 
-  public function __construct($mimeType, $type, $url) {
-    $this->setMimeType($mimeType);
-    $this->setType($type);
-    $this->setUrl($url);
-  }
-
-  public function getMimeType() {
-    return $this->mimeType;
-  }
-
-  public function setMimeType($mimeType) {
-    $this->mimeType = $mimeType;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-
-  public function setType($type) {
-    if (! array_key_exists($type, $this->types)) {
-      throw new Exception("Invalid Media type");
+    public function __construct($mimeType, $type, $url)
+    {
+        $this->setMimeType($mimeType);
+        $this->setType($type);
+        $this->setUrl($url);
     }
-    $this->type = $this->types[$type];
-  }
 
-  public function getUrl() {
-    return $this->url;
-  }
+    public function getMimeType()
+    {
+        return $this->mimeType;
+    }
 
-  public function setUrl($url) {
-    $this->url = $url;
-  }
+    public function setMimeType($mimeType)
+    {
+        $this->mimeType = $mimeType;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function setType($type)
+    {
+        if (!array_key_exists($type, $this->types)) {
+            throw new Exception('Invalid Media type');
+        }
+        $this->type = $this->types[$type];
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
 }

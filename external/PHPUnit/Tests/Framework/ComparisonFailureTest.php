@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,78 +35,86 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ComparisonFailureTest.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Framework/ComparisonFailure.php';
 require_once 'PHPUnit/Framework/TestCase.php';
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class Framework_ComparisonFailureTest extends PHPUnit_Framework_TestCase {
+class Framework_ComparisonFailureTest extends PHPUnit_Framework_TestCase
+{
+    public function testComparisonErrorMessage()
+    {
+        $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('a', 'b', 'c');
 
-  public function testComparisonErrorMessage() {
-    $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('a', 'b', 'c');
-    
-    $this->assertEquals("c expected string <a>\n  difference      <x>\n  got string      <b>", $failure->toString());
-  }
+        $this->assertEquals("c expected string <a>\n  difference      <x>\n  got string      <b>", $failure->toString());
+    }
 
-  public function testComparisonErrorStartSame() {
-    $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('ba', 'bc');
-    
-    $this->assertEquals("expected string <ba>\ndifference      < x>\ngot string      <bc>", $failure->toString());
-  }
+    public function testComparisonErrorStartSame()
+    {
+        $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('ba', 'bc');
 
-  public function testComparisonErrorEndSame() {
-    $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('ab', 'cb');
-    
-    $this->assertEquals("expected string <ab>\ndifference      <x>\ngot string      <cb>", $failure->toString());
-  }
+        $this->assertEquals("expected string <ba>\ndifference      < x>\ngot string      <bc>", $failure->toString());
+    }
 
-  public function testComparisonErrorStartAndEndSame() {
-    $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('abc', 'adc');
-    
-    $this->assertEquals("expected string <abc>\ndifference      < x>\ngot string      <adc>", $failure->toString());
-  }
+    public function testComparisonErrorEndSame()
+    {
+        $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('ab', 'cb');
 
-  public function testComparisonErrorStartSameComplete() {
-    $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('ab', 'abc');
-    
-    $this->assertEquals("expected string <ab>\ndifference      <  ?>\ngot string      <abc>", $failure->toString());
-  }
+        $this->assertEquals("expected string <ab>\ndifference      <x>\ngot string      <cb>", $failure->toString());
+    }
 
-  public function testComparisonErrorEndSameComplete() {
-    $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('bc', 'abc');
-    
-    $this->assertEquals("expected string <bc>\ndifference      <xx?>\ngot string      <abc>", $failure->toString());
-  }
+    public function testComparisonErrorStartAndEndSame()
+    {
+        $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('abc', 'adc');
 
-  public function testComparisonErrorOverlapingMatches() {
-    $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('abc', 'abbc');
-    
-    $this->assertEquals("expected string <abc>\ndifference      <  x?>\ngot string      <abbc>", $failure->toString());
-  }
+        $this->assertEquals("expected string <abc>\ndifference      < x>\ngot string      <adc>", $failure->toString());
+    }
 
-  public function testComparisonErrorOverlapingMatches2() {
-    $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('abcdde', 'abcde');
-    
-    $this->assertEquals("expected string <abcdde>\ndifference      <    x?>\ngot string      <abcde>", $failure->toString());
-  }
+    public function testComparisonErrorStartSameComplete()
+    {
+        $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('ab', 'abc');
+
+        $this->assertEquals("expected string <ab>\ndifference      <  ?>\ngot string      <abc>", $failure->toString());
+    }
+
+    public function testComparisonErrorEndSameComplete()
+    {
+        $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('bc', 'abc');
+
+        $this->assertEquals("expected string <bc>\ndifference      <xx?>\ngot string      <abc>", $failure->toString());
+    }
+
+    public function testComparisonErrorOverlapingMatches()
+    {
+        $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('abc', 'abbc');
+
+        $this->assertEquals("expected string <abc>\ndifference      <  x?>\ngot string      <abbc>", $failure->toString());
+    }
+
+    public function testComparisonErrorOverlapingMatches2()
+    {
+        $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('abcdde', 'abcde');
+
+        $this->assertEquals("expected string <abcdde>\ndifference      <    x?>\ngot string      <abcde>", $failure->toString());
+    }
 }
-?>

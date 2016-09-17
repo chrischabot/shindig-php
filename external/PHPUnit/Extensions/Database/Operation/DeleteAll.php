@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: DeleteAll.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -56,30 +57,32 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Deletes all rows from all tables in a dataset.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_Operation_DeleteAll implements PHPUnit_Extensions_Database_Operation_IDatabaseOperation {
+class PHPUnit_Extensions_Database_Operation_DeleteAll implements PHPUnit_Extensions_Database_Operation_IDatabaseOperation
+{
+    public function execute(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection, PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet)
+    {
+        foreach ($dataSet as $table) {
+            /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
 
-  public function execute(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection, PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet) {
-    foreach ($dataSet as $table) {
-      /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
-      
       $query = "
                 DELETE FROM {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
             ";
-      
-      try {
-        $connection->getConnection()->query($query);
-      } catch (PDOException $e) {
-        throw new PHPUnit_Extensions_Database_Operation_Exception('DELETE_ALL', $query, array(), $table, $e->getMessage());
-      }
+
+            try {
+                $connection->getConnection()->query($query);
+            } catch (PDOException $e) {
+                throw new PHPUnit_Extensions_Database_Operation_Exception('DELETE_ALL', $query, [], $table, $e->getMessage());
+            }
+        }
     }
-  }
 }
-?>

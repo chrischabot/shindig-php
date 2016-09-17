@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: TableFilter.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -56,34 +57,39 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * A table decorator that allows filtering out table columns from results.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DataSet_TableFilter extends PHPUnit_Extensions_Database_DataSet_AbstractTable {
-  
-  /**
+class PHPUnit_Extensions_Database_DataSet_TableFilter extends PHPUnit_Extensions_Database_DataSet_AbstractTable
+{
+    /**
    * The table meta data being decorated.
+   *
    * @var PHPUnit_Extensions_Database_DataSet_ITable
    */
   protected $originalTable;
 
-  public function __construct(PHPUnit_Extensions_Database_DataSet_ITable $originalTable, Array $excludeColumns) {
-    $this->originalTable = $originalTable;
-    $this->setTableMetaData(new PHPUnit_Extensions_Database_DataSet_TableMetaDataFilter($originalTable->getTableMetaData(), $excludeColumns));
-  }
+    public function __construct(PHPUnit_Extensions_Database_DataSet_ITable $originalTable, array $excludeColumns)
+    {
+        $this->originalTable = $originalTable;
+        $this->setTableMetaData(new PHPUnit_Extensions_Database_DataSet_TableMetaDataFilter($originalTable->getTableMetaData(), $excludeColumns));
+    }
 
   /**
    * Returns the number of rows in this table.
    *
    * @return int
    */
-  public function getRowCount() {
-    return $this->originalTable->getRowCount();
+  public function getRowCount()
+  {
+      return $this->originalTable->getRowCount();
   }
 
   /**
@@ -92,12 +98,12 @@ class PHPUnit_Extensions_Database_DataSet_TableFilter extends PHPUnit_Extensions
    * @param int $row
    * @param int $column
    */
-  public function getValue($row, $column) {
-    if (in_array($column, $this->getTableMetaData()->getColumns())) {
-      return $this->originalTable->getValue($row, $column);
-    } else {
-      throw new InvalidArgumentException("The given row ({$row}) and column ({$column}) do not exist in table {$this->getTableMetaData()->getTableName()}");
-    }
+  public function getValue($row, $column)
+  {
+      if (in_array($column, $this->getTableMetaData()->getColumns())) {
+          return $this->originalTable->getValue($row, $column);
+      } else {
+          throw new InvalidArgumentException("The given row ({$row}) and column ({$column}) do not exist in table {$this->getTableMetaData()->getTableName()}");
+      }
   }
 }
-?>

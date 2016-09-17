@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -20,26 +20,30 @@
 
 /**
  * see
- * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.Url
+ * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.Url.
  */
-class Url extends ListField {
-  public $value;
-  public $linkText;
-  public $type;
-  public $primary;
+class Url extends ListField
+{
+    public $value;
+    public $linkText;
+    public $type;
+    public $primary;
 
-  public function __construct($value, $type, $linkText, $primary = null) {
-    $this->value = $value;
-    $this->type = $type;
-    $this->linkText = $linkText;
-    $this->primary = $primary;
-  }
+    public function __construct($value, $type, $linkText, $primary = null)
+    {
+        $this->value = $value;
+        $this->type = $type;
+        $this->linkText = $linkText;
+        $this->primary = $primary;
+    }
 
-  public function getLinkText() {
-    return $this->linkText;
-  }
+    public function getLinkText()
+    {
+        return $this->linkText;
+    }
 
-  public function setLinkText($linkText) {
-    $this->linkText = $linkText;
-  }
+    public function setLinkText($linkText)
+    {
+        $this->linkText = $linkText;
+    }
 }

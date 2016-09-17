@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Parameters.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Matcher/StatelessInvocation.php';
@@ -60,69 +61,75 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * is met it will return true in matches().
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_MockObject_Matcher_Parameters extends PHPUnit_Framework_MockObject_Matcher_StatelessInvocation {
-  protected $parameters = array();
-  
-  protected $invocation;
+class PHPUnit_Framework_MockObject_Matcher_Parameters extends PHPUnit_Framework_MockObject_Matcher_StatelessInvocation
+{
+    protected $parameters = [];
 
-  public function __construct($parameters) {
-    foreach ($parameters as $parameter) {
-      if (! ($parameter instanceof PHPUnit_Framework_Constraint)) {
-        $parameter = new PHPUnit_Framework_Constraint_IsEqual($parameter);
-      }
-      
-      $this->parameters[] = $parameter;
+    protected $invocation;
+
+    public function __construct($parameters)
+    {
+        foreach ($parameters as $parameter) {
+            if (!($parameter instanceof PHPUnit_Framework_Constraint)) {
+                $parameter = new PHPUnit_Framework_Constraint_IsEqual($parameter);
+            }
+
+            $this->parameters[] = $parameter;
+        }
     }
-  }
 
-  public function toString() {
-    $text = 'with parameter';
-    
-    foreach ($this->parameters as $index => $parameter) {
-      if ($index > 0) {
-        $text .= ' and';
-      }
-      
-      $text .= ' ' . $index . ' ' . $parameter->toString();
+    public function toString()
+    {
+        $text = 'with parameter';
+
+        foreach ($this->parameters as $index => $parameter) {
+            if ($index > 0) {
+                $text .= ' and';
+            }
+
+            $text .= ' '.$index.' '.$parameter->toString();
+        }
+
+        return $text;
     }
-    
-    return $text;
-  }
 
-  public function matches(PHPUnit_Framework_MockObject_Invocation $invocation) {
-    $this->invocation = $invocation;
-    $this->verify();
-    
-    return count($invocation->parameters) < count($this->parameters);
-  }
+    public function matches(PHPUnit_Framework_MockObject_Invocation $invocation)
+    {
+        $this->invocation = $invocation;
+        $this->verify();
 
-  public function verify() {
-    if ($this->invocation === NULL) {
-      throw new PHPUnit_Framework_ExpectationFailedException('Mocked method does not exist.');
+        return count($invocation->parameters) < count($this->parameters);
     }
-    
-    if (count($this->invocation->parameters) < count($this->parameters)) {
-      throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Parameter count for invocation %s is too low.', 
+
+    public function verify()
+    {
+        if ($this->invocation === null) {
+            throw new PHPUnit_Framework_ExpectationFailedException('Mocked method does not exist.');
+        }
+
+        if (count($this->invocation->parameters) < count($this->parameters)) {
+            throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Parameter count for invocation %s is too low.',
 
       $this->invocation->toString()));
-    }
-    
-    foreach ($this->parameters as $i => $parameter) {
-      if (! $parameter->evaluate($this->invocation->parameters[$i])) {
-        $parameter->fail($this->invocation->parameters[$i], sprintf('Parameter %s for invocation %s does not match expected value.', 
+        }
+
+        foreach ($this->parameters as $i => $parameter) {
+            if (!$parameter->evaluate($this->invocation->parameters[$i])) {
+                $parameter->fail($this->invocation->parameters[$i], sprintf('Parameter %s for invocation %s does not match expected value.',
 
         $i, $this->invocation->toString()));
-      }
+            }
+        }
     }
-  }
 }
-?>

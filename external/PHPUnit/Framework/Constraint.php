@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,43 +35,47 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Constraint.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-if (! class_exists('PHPUnit_Framework_Constraint', FALSE)) {
+if (!class_exists('PHPUnit_Framework_Constraint', false)) {
 
   /**
    * Abstract base class for constraints. which are placed upon any value.
    *
    * @category   Testing
-   * @package    PHPUnit
+   *
    * @author     Jan Borsodi <jb@ez.no>
    * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+   *
    * @version    Release: 3.2.9
+   *
    * @link       http://www.phpunit.de/
    * @since      Interface available since Release 3.0.0
    */
-  abstract class PHPUnit_Framework_Constraint implements PHPUnit_Framework_SelfDescribing {
-
-    /**
+  abstract class PHPUnit_Framework_Constraint implements PHPUnit_Framework_SelfDescribing
+  {
+      /**
      * Evaluates the constraint for parameter $other. Returns TRUE if the
      * constraint is met, FALSE otherwise.
      *
      * @param mixed $other Value or object to evaluate.
+     *
      * @return bool
      * @abstract
      */
@@ -81,40 +85,43 @@ if (! class_exists('PHPUnit_Framework_Constraint', FALSE)) {
      * Creates the appropriate exception for the constraint which can be caught
      * by the unit test system. This can be called if a call to evaluate() fails.
      *
-     * @param   mixed   $other The value passed to evaluate() which failed the
-     *                         constraint check.
-     * @param   string  $description A string with extra description of what was
-     *                               going on while the evaluation failed.
-     * @param   boolean $not Flag to indicate negation.
-     * @throws  PHPUnit_Framework_ExpectationFailedException
+     * @param mixed  $other       The value passed to evaluate() which failed the
+     *                            constraint check.
+     * @param string $description A string with extra description of what was
+     *                            going on while the evaluation failed.
+     * @param bool   $not         Flag to indicate negation.
+     *
+     * @throws PHPUnit_Framework_ExpectationFailedException
      */
-    public function fail($other, $description, $not = FALSE) {
-      throw new PHPUnit_Framework_ExpectationFailedException($this->failureDescription($other, $description, $not), NULL);
+    public function fail($other, $description, $not = false)
+    {
+        throw new PHPUnit_Framework_ExpectationFailedException($this->failureDescription($other, $description, $not), null);
     }
 
-    protected function failureDescription($other, $description, $not) {
-      $failureDescription = sprintf('Failed asserting that %s %s.', 
+      protected function failureDescription($other, $description, $not)
+      {
+          $failureDescription = sprintf('Failed asserting that %s %s.',
 
       PHPUnit_Util_Type::toString($other), $this->toString());
-      
-      if ($not) {
-        $failureDescription = self::negate($failureDescription);
-      }
-      
-      if (! empty($description)) {
-        $failureDescription = $description . "\n" . $failureDescription;
-      }
-      
-      return $failureDescription;
-    }
 
-    public static function negate($string) {
-      return str_replace(array('contains ', 'exists', 'has ', 'is ', 'matches '), array(
-          'does not contain ', 'does not exist', 'does not have ', 'is not ', 
-          'does not match '), $string);
-    }
+          if ($not) {
+              $failureDescription = self::negate($failureDescription);
+          }
+
+          if (!empty($description)) {
+              $failureDescription = $description."\n".$failureDescription;
+          }
+
+          return $failureDescription;
+      }
+
+      public static function negate($string)
+      {
+          return str_replace(['contains ', 'exists', 'has ', 'is ', 'matches '], [
+          'does not contain ', 'does not exist', 'does not have ', 'is not ',
+          'does not match ', ], $string);
+      }
   }
-
 }
 
 require_once 'PHPUnit/Framework/Constraint/And.php';
@@ -138,4 +145,3 @@ require_once 'PHPUnit/Framework/Constraint/StringContains.php';
 require_once 'PHPUnit/Framework/Constraint/TraversableContains.php';
 require_once 'PHPUnit/Framework/Constraint/TraversableContainsOnly.php';
 require_once 'PHPUnit/Framework/Constraint/Xor.php';
-?>

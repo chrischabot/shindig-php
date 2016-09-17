@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * InputJsonConverter test case.
  */
-class InputJsonConverterTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class InputJsonConverterTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var InputJsonConverter
    */
   private $InputJsonConverter;
@@ -31,24 +31,27 @@ class InputJsonConverterTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->InputJsonConverter = new InputJsonConverter();
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->InputJsonConverter = new InputJsonConverter();
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->InputJsonConverter = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->InputJsonConverter = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests InputJsonConverter->convertActivities()
+   * Tests InputJsonConverter->convertActivities().
    */
-  public function testConvertActivities() {
-    $json = '{
+  public function testConvertActivities()
+  {
+      $json = '{
 		"body":"write back!",
 		"id":"202",
 		"mediaItems":[{"mimeType":"image","type":"image","url":"http:\/\/cdn.davesdaily.com\/pictures\/784-awesome-hands.jpg"}],
@@ -57,54 +60,55 @@ class InputJsonConverterTest extends PHPUnit_Framework_TestCase {
 		"title":"test title",
 		"userId":"1"
 		}';
-    $activity = $this->InputJsonConverter->convertActivities($json);
-    $this->assertEquals('write back!', $activity['body']);
-    $this->assertEquals('202', $activity['id']);
-    $this->assertEquals('image', $activity['mediaItems'][0]['mimeType']);
-    $this->assertEquals('image', $activity['mediaItems'][0]['type']);
-    $this->assertEquals('http://cdn.davesdaily.com/pictures/784-awesome-hands.jpg', $activity['mediaItems'][0]['url']);
-    $this->assertEquals('1217886794', $activity['postedTime']);
-    $this->assertEquals('activities', $activity['streamTitle']);
-    $this->assertEquals('test title', $activity['title']);
-    $this->assertEquals('1', $activity['userId']);
+      $activity = $this->InputJsonConverter->convertActivities($json);
+      $this->assertEquals('write back!', $activity['body']);
+      $this->assertEquals('202', $activity['id']);
+      $this->assertEquals('image', $activity['mediaItems'][0]['mimeType']);
+      $this->assertEquals('image', $activity['mediaItems'][0]['type']);
+      $this->assertEquals('http://cdn.davesdaily.com/pictures/784-awesome-hands.jpg', $activity['mediaItems'][0]['url']);
+      $this->assertEquals('1217886794', $activity['postedTime']);
+      $this->assertEquals('activities', $activity['streamTitle']);
+      $this->assertEquals('test title', $activity['title']);
+      $this->assertEquals('1', $activity['userId']);
   }
 
   /**
-   * Tests InputJsonConverter->convertAppData()
+   * Tests InputJsonConverter->convertAppData().
    */
-  public function testConvertAppData() {
-    $json = '{
+  public function testConvertAppData()
+  {
+      $json = '{
  		"pokes" : 3,
 		"last_poke" : "2008-02-13T18:30:02Z"
 		}';
-    $appData = $this->InputJsonConverter->convertAppData($json);
-    $this->assertEquals('3', $appData['pokes']);
-    $this->assertEquals('2008-02-13T18:30:02Z', $appData['last_poke']);
+      $appData = $this->InputJsonConverter->convertAppData($json);
+      $this->assertEquals('3', $appData['pokes']);
+      $this->assertEquals('2008-02-13T18:30:02Z', $appData['last_poke']);
   }
 
   /**
-   * Tests InputJsonConverter->convertMessages()
+   * Tests InputJsonConverter->convertMessages().
    */
-  public function testConvertMessages() {
-    $json = '{
+  public function testConvertMessages()
+  {
+      $json = '{
  		"id" : "msgid",
 		"title" : "You have an invitation from Joe",
 		"body" : "Click here to review your invitation"
 		}';
-    $message = $this->InputJsonConverter->convertMessages($json);
-    file_put_contents('/tmp/message.txt', print_r($json, true));
-    $this->assertEquals('msgid', $message['id']);
-    $this->assertEquals('You have an invitation from Joe', $message['title']);
-    $this->assertEquals('Click here to review your invitation', $message['body']);
+      $message = $this->InputJsonConverter->convertMessages($json);
+      file_put_contents('/tmp/message.txt', print_r($json, true));
+      $this->assertEquals('msgid', $message['id']);
+      $this->assertEquals('You have an invitation from Joe', $message['title']);
+      $this->assertEquals('Click here to review your invitation', $message['body']);
   }
 
   /**
-   * Tests InputJsonConverter->convertPeople()
+   * Tests InputJsonConverter->convertPeople().
    */
-  public function testConvertPeople() {
-    $this->setExpectedException(Exception);
-    $this->InputJsonConverter->convertPeople();
+  public function testConvertPeople()
+  {
+      $this->setExpectedException(Exception);
+      $this->InputJsonConverter->convertPeople();
   }
-
 }
-

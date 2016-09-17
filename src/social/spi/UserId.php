@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,26 +17,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class UserId
+{
+    public static $types = ['me', 'viewer', 'owner', 'userId'];
+    private $type;
+    private $userId;
 
-class UserId {
-  public static $types = array('me', 'viewer', 'owner', 'userId');
-  private $type;
-  private $userId;
-
-  public function __construct($type, $userId) {
-    $this->type = $type;
-    $this->userId = $userId;
-  }
-
-  static public function fromJson($jsonId) {
-    if (in_array(substr($jsonId, 1), UserId::$types)) {
-      return new UserId(substr($jsonId, 1), null);
+    public function __construct($type, $userId)
+    {
+        $this->type = $type;
+        $this->userId = $userId;
     }
-    return new UserId('userId', $jsonId);
-  }
 
-  public function getUserId(SecurityToken $token) {
-    switch ($this->type) {
+    public static function fromJson($jsonId)
+    {
+        if (in_array(substr($jsonId, 1), self::$types)) {
+            return new self(substr($jsonId, 1), null);
+        }
+
+        return new self('userId', $jsonId);
+    }
+
+    public function getUserId(SecurityToken $token)
+    {
+        switch ($this->type) {
       case 'viewer':
       case 'me':
         return $token->getViewerId();
@@ -51,9 +55,10 @@ class UserId {
         throw new Exception("The type field is not a valid enum: {$this->type}");
         break;
     }
-  }
+    }
 
-  public function getType() {
-    return $this->type;
-  }
+    public function getType()
+    {
+        return $this->type;
+    }
 }

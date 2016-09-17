@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,100 +35,117 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Money.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
-
 require_once 'IMoney.php';
 
 /**
  * A Money.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.3.0
  */
-class Money implements IMoney {
-  protected $fAmount;
-  protected $fCurrency;
+class Money implements IMoney
+{
+    protected $fAmount;
+    protected $fCurrency;
 
-  public function __construct($amount, $currency) {
-    $this->fAmount = $amount;
-    $this->fCurrency = $currency;
-  }
-
-  public function add(IMoney $m) {
-    return $m->addMoney($this);
-  }
-
-  public function addMoney(Money $m) {
-    if ($this->currency() == $m->currency()) {
-      return new Money($this->amount() + $m->amount(), $this->currency());
+    public function __construct($amount, $currency)
+    {
+        $this->fAmount = $amount;
+        $this->fCurrency = $currency;
     }
-    
-    return MoneyBag::create($this, $m);
-  }
 
-  public function addMoneyBag(MoneyBag $s) {
-    return $s->addMoney($this);
-  }
-
-  public function amount() {
-    return $this->fAmount;
-  }
-
-  public function currency() {
-    return $this->fCurrency;
-  }
-
-  public function equals($anObject) {
-    if ($this->isZero() && $anObject instanceof IMoney) {
-      return $anObject->isZero();
+    public function add(IMoney $m)
+    {
+        return $m->addMoney($this);
     }
-    
-    if ($anObject instanceof Money) {
-      return ($this->currency() == $anObject->currency() && $this->amount() == $anObject->amount());
+
+    public function addMoney(Money $m)
+    {
+        if ($this->currency() == $m->currency()) {
+            return new self($this->amount() + $m->amount(), $this->currency());
+        }
+
+        return MoneyBag::create($this, $m);
     }
-    
-    return FALSE;
-  }
 
-  public function hashCode() {
-    return crc32($this->fCurrency) + $this->fAmount;
-  }
+    public function addMoneyBag(MoneyBag $s)
+    {
+        return $s->addMoney($this);
+    }
 
-  public function isZero() {
-    return $this->amount() == 0;
-  }
+    public function amount()
+    {
+        return $this->fAmount;
+    }
 
-  public function multiply($factor) {
-    return new Money($this->amount() * $factor, $this->currency());
-  }
+    public function currency()
+    {
+        return $this->fCurrency;
+    }
 
-  public function negate() {
-    return new Money(- 1 * $this->amount(), $this->currency());
-  }
+    public function equals($anObject)
+    {
+        if ($this->isZero() && $anObject instanceof IMoney) {
+            return $anObject->isZero();
+        }
 
-  public function subtract(IMoney $m) {
-    return $this->add($m->negate());
-  }
+        if ($anObject instanceof self) {
+            return $this->currency() == $anObject->currency() && $this->amount() == $anObject->amount();
+        }
 
-  public function toString() {
-    return '[' . $this->amount() . ' ' . $this->currency() . ']';
-  }
+        return false;
+    }
 
-  public function appendTo(MoneyBag $m) {
-    $m->appendMoney($this);
-  }
+    public function hashCode()
+    {
+        return crc32($this->fCurrency) + $this->fAmount;
+    }
+
+    public function isZero()
+    {
+        return $this->amount() == 0;
+    }
+
+    public function multiply($factor)
+    {
+        return new self($this->amount() * $factor, $this->currency());
+    }
+
+    public function negate()
+    {
+        return new self(-1 * $this->amount(), $this->currency());
+    }
+
+    public function subtract(IMoney $m)
+    {
+        return $this->add($m->negate());
+    }
+
+    public function toString()
+    {
+        return '['.$this->amount().' '.$this->currency().']';
+    }
+
+    public function appendTo(MoneyBag $m)
+    {
+        $m->appendMoney($this);
+    }
 }
-?>

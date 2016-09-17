@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,96 +35,102 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: MockObjectTest.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once '_files/AnInterface.php';
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @author     Patrick M??ller <elias0@gmx.net>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class Framework_MockObjectTest extends PHPUnit_Framework_TestCase {
-
-  public function testMockedMethodIsNeverCalled() {
-    $mock = $this->getMock('AnInterface');
-    $mock->expects($this->never())->method('doSomething');
-  }
-
-  public function testMockedMethodIsCalledAtLeastOnce() {
-    $mock = $this->getMock('AnInterface');
-    $mock->expects($this->atLeastOnce())->method('doSomething');
-    
-    $mock->doSomething();
-  }
-
-  public function testMockedMethodIsCalledAtLeastOnce2() {
-    $mock = $this->getMock('AnInterface');
-    $mock->expects($this->atLeastOnce())->method('doSomething');
-    
-    $mock->doSomething();
-    $mock->doSomething();
-  }
-
-  public function testMockedMethodIsCalledOnce() {
-    $mock = $this->getMock('AnInterface');
-    $mock->expects($this->once())->method('doSomething');
-    
-    $mock->doSomething();
-  }
-
-  public function testMockedMethodIsCalledOnceWithParameter() {
-    $mock = $this->getMock('AnInterface');
-    $mock->expects($this->once())->method('doSomething')->with($this->equalTo('something'));
-    
-    $mock->doSomething('something');
-  }
-
-  public function testMockedMethodIsCalledExactly() {
-    $mock = $this->getMock('AnInterface');
-    $mock->expects($this->exactly(2))->method('doSomething');
-    
-    $mock->doSomething();
-    $mock->doSomething();
-  }
-
-  public function testStubbedException() {
-    $mock = $this->getMock('AnInterface');
-    $mock->expects($this->any())->method('doSomething')->will($this->throwException(new Exception()));
-    
-    try {
-      $mock->doSomething();
-    } 
-
-    catch (Exception $e) {
-      return;
+class Framework_MockObjectTest extends PHPUnit_Framework_TestCase
+{
+    public function testMockedMethodIsNeverCalled()
+    {
+        $mock = $this->getMock('AnInterface');
+        $mock->expects($this->never())->method('doSomething');
     }
-    
-    $this->fail();
-  }
 
-  public function testStubbedReturnValue() {
-    $mock = $this->getMock('AnInterface');
-    $mock->expects($this->any())->method('doSomething')->will($this->returnValue('something'));
-    
-    $this->assertEquals('something', $mock->doSomething());
-  }
+    public function testMockedMethodIsCalledAtLeastOnce()
+    {
+        $mock = $this->getMock('AnInterface');
+        $mock->expects($this->atLeastOnce())->method('doSomething');
+
+        $mock->doSomething();
+    }
+
+    public function testMockedMethodIsCalledAtLeastOnce2()
+    {
+        $mock = $this->getMock('AnInterface');
+        $mock->expects($this->atLeastOnce())->method('doSomething');
+
+        $mock->doSomething();
+        $mock->doSomething();
+    }
+
+    public function testMockedMethodIsCalledOnce()
+    {
+        $mock = $this->getMock('AnInterface');
+        $mock->expects($this->once())->method('doSomething');
+
+        $mock->doSomething();
+    }
+
+    public function testMockedMethodIsCalledOnceWithParameter()
+    {
+        $mock = $this->getMock('AnInterface');
+        $mock->expects($this->once())->method('doSomething')->with($this->equalTo('something'));
+
+        $mock->doSomething('something');
+    }
+
+    public function testMockedMethodIsCalledExactly()
+    {
+        $mock = $this->getMock('AnInterface');
+        $mock->expects($this->exactly(2))->method('doSomething');
+
+        $mock->doSomething();
+        $mock->doSomething();
+    }
+
+    public function testStubbedException()
+    {
+        $mock = $this->getMock('AnInterface');
+        $mock->expects($this->any())->method('doSomething')->will($this->throwException(new Exception()));
+
+        try {
+            $mock->doSomething();
+        } catch (Exception $e) {
+            return;
+        }
+
+        $this->fail();
+    }
+
+    public function testStubbedReturnValue()
+    {
+        $mock = $this->getMock('AnInterface');
+        $mock->expects($this->any())->method('doSomething')->will($this->returnValue('something'));
+
+        $this->assertEquals('something', $mock->doSomething());
+    }
 }
-?>

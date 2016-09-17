@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,38 +21,42 @@
 /**
  * Basic implementation of a gadget spec factory.
  */
-class BasicGadgetSpecFactory implements GadgetSpecFactory {
+class BasicGadgetSpecFactory implements GadgetSpecFactory
+{
+    private $fetcher;
+    private $cache;
 
-  private $fetcher;
-  private $cache;
+    public function __construct($fetcher)
+    {
+        $this->fetcher = $fetcher;
+    }
 
-  public function __construct($fetcher) {
-    $this->fetcher = $fetcher;
-  }
-
-  public function getGadgetSpec(GadgetContext $context) {
-    return $this->getGadgetSpecUri($context->getUrl(), $context->getIgnoreCache());
-  }
+    public function getGadgetSpec(GadgetContext $context)
+    {
+        return $this->getGadgetSpecUri($context->getUrl(), $context->getIgnoreCache());
+    }
 
   /**
    * Retrieves a gadget specification from the cache or from the Internet.
    */
-  public function getGadgetSpecUri($url, $ignoreCache) {
-    return $this->fetchFromWeb($url, $ignoreCache);
+  public function getGadgetSpecUri($url, $ignoreCache)
+  {
+      return $this->fetchFromWeb($url, $ignoreCache);
   }
 
   /**
    * Retrieves a gadget specification from the Internet, processes its views and
    * adds it to the cache.
    */
-  private function fetchFromWeb($url, $ignoreCache) {
-    $remoteContentRequest = new RemoteContentRequest($url);
-    $remoteContentRequest->getRequest($url, $ignoreCache);
-    $spec = $this->fetcher->fetchRequest($remoteContentRequest);
-    $specParser = new GadgetSpecParser();
-    $context = new ProxyGadgetContext($url);
-    $gadgetSpec = $specParser->parse($spec->getResponseContent(), $context);
-    return $gadgetSpec;
-  }
+  private function fetchFromWeb($url, $ignoreCache)
+  {
+      $remoteContentRequest = new RemoteContentRequest($url);
+      $remoteContentRequest->getRequest($url, $ignoreCache);
+      $spec = $this->fetcher->fetchRequest($remoteContentRequest);
+      $specParser = new GadgetSpecParser();
+      $context = new ProxyGadgetContext($url);
+      $gadgetSpec = $specParser->parse($spec->getResponseContent(), $context);
 
+      return $gadgetSpec;
+  }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: PhptTestSuite.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.4
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/FilterIterator.php';
@@ -54,37 +55,39 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Suite for .phpt test cases.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.4
  */
-class PHPUnit_Extensions_PhptTestSuite extends PHPUnit_Framework_TestSuite {
-
-  /**
+class PHPUnit_Extensions_PhptTestSuite extends PHPUnit_Framework_TestSuite
+{
+    /**
    * Constructs a new TestSuite for .phpt test cases.
    *
    * @param  string $directory
    * @param  array  $options Array with ini settings for the php instance run,
    *                         key being the name if the setting, value the ini value.
+   *
    * @throws InvalidArgumentException
-   * @access public
    */
-  public function __construct($directory, $options = array()) {
-    if (is_dir($directory)) {
-      $this->setName($directory);
-      
-      $iterator = new PHPUnit_Util_FilterIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory)), '.phpt');
-      
-      foreach ($iterator as $testFile) {
-        $this->addTestFile($testFile->getPathname(), TRUE, $options);
+  public function __construct($directory, $options = [])
+  {
+      if (is_dir($directory)) {
+          $this->setName($directory);
+
+          $iterator = new PHPUnit_Util_FilterIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory)), '.phpt');
+
+          foreach ($iterator as $testFile) {
+              $this->addTestFile($testFile->getPathname(), true, $options);
+          }
+      } else {
+          throw new InvalidArgumentException();
       }
-    } else {
-      throw new InvalidArgumentException();
-    }
   }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Patrick Müller <elias0@gmx.net>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ConsecutiveCalls.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Invocation.php';
 require_once 'PHPUnit/Framework/MockObject/Stub.php';
@@ -55,37 +56,42 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Stubs a method by returning a user-defined stack of values.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Patrick Müller <elias0@gmx.net>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls implements PHPUnit_Framework_MockObject_Stub {
-  protected $stack;
-  protected $value;
+class PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls implements PHPUnit_Framework_MockObject_Stub
+{
+    protected $stack;
+    protected $value;
 
-  public function __construct($stack) {
-    $this->stack = $stack;
-  }
-
-  public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation) {
-    $this->value = array_shift($this->stack);
-    
-    if ($this->value instanceof PHPUnit_Framework_MockObject_Stub) {
-      $this->value = $this->value->invoke($invocation);
+    public function __construct($stack)
+    {
+        $this->stack = $stack;
     }
-    
-    return $this->value;
-  }
 
-  public function toString() {
-    return sprintf('return user-specified value %s', 
+    public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation)
+    {
+        $this->value = array_shift($this->stack);
+
+        if ($this->value instanceof PHPUnit_Framework_MockObject_Stub) {
+            $this->value = $this->value->invoke($invocation);
+        }
+
+        return $this->value;
+    }
+
+    public function toString()
+    {
+        return sprintf('return user-specified value %s',
 
     PHPUnit_Util_Type::toString($this->value));
-  }
+    }
 }
-?>

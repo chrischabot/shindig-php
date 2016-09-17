@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Printer.php 2141 2008-01-17 10:49:39Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -52,92 +53,91 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Utility class that can print to STDOUT or write to a file.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  * @abstract
  */
-abstract class PHPUnit_Util_Printer {
-  /**
+abstract class PHPUnit_Util_Printer
+{
+    /**
    * @var    resource
-   * @access protected
    */
   protected $out;
-  
+
   /**
    * @var    string
-   * @access protected
    */
   protected $outTarget;
-  
+
   /**
-   * @var    boolean
-   * @access protected
+   * @var    bool
    */
-  protected $printsHTML = FALSE;
+  protected $printsHTML = false;
 
   /**
    * Constructor.
    *
    * @param  mixed $out
+   *
    * @throws InvalidArgumentException
-   * @access public
    */
-  public function __construct($out = NULL) {
-    if ($out !== NULL) {
-      if (is_string($out)) {
-        if (strpos($out, 'socket://') === 0) {
-          $out = explode(':', str_replace('socket://', '', $out));
-          
-          if (sizeof($out) != 2) {
-            throw new InvalidArgumentException();
+  public function __construct($out = null)
+  {
+      if ($out !== null) {
+          if (is_string($out)) {
+              if (strpos($out, 'socket://') === 0) {
+                  $out = explode(':', str_replace('socket://', '', $out));
+
+                  if (count($out) != 2) {
+                      throw new InvalidArgumentException();
+                  }
+
+                  $this->out = fsockopen($out[0], $out[1]);
+              } else {
+                  $this->out = fopen($out, 'wt');
+              }
+
+              $this->outTarget = $out;
+          } else {
+              $this->out = $out;
           }
-          
-          $this->out = fsockopen($out[0], $out[1]);
-        } else {
-          $this->out = fopen($out, 'wt');
-        }
-        
-        $this->outTarget = $out;
-      } else {
-        $this->out = $out;
       }
-    }
   }
 
   /**
    * Flush buffer, optionally tidy up HTML, and close output.
-   *
-   * @access public
    */
-  public function flush() {
-    if ($this->out !== NULL) {
-      fclose($this->out);
-    }
-    
-    if ($this->printsHTML === TRUE && $this->outTarget !== NULL && extension_loaded('tidy')) {
-      file_put_contents($this->outTarget, tidy_repair_file($this->outTarget));
-    }
+  public function flush()
+  {
+      if ($this->out !== null) {
+          fclose($this->out);
+      }
+
+      if ($this->printsHTML === true && $this->outTarget !== null && extension_loaded('tidy')) {
+          file_put_contents($this->outTarget, tidy_repair_file($this->outTarget));
+      }
   }
 
   /**
    * @param  string $buffer
-   * @access public
    */
-  public function write($buffer) {
-    if ($this->out !== NULL) {
-      fwrite($this->out, $buffer);
-    } else {
-      if (php_sapi_name() != 'cli') {
-        $buffer = htmlentities($buffer);
+  public function write($buffer)
+  {
+      if ($this->out !== null) {
+          fwrite($this->out, $buffer);
+      } else {
+          if (php_sapi_name() != 'cli') {
+              $buffer = htmlentities($buffer);
+          }
+
+          echo $buffer;
       }
-      
-      print $buffer;
-    }
   }
 }
-?>

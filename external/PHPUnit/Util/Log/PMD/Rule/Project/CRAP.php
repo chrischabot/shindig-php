@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,63 +35,65 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: CRAP.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Util/Log/PMD/Rule/Function.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * 
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Util_Log_PMD_Rule_Project_CRAP extends PHPUnit_Util_Log_PMD_Rule_Project {
+class PHPUnit_Util_Log_PMD_Rule_Project_CRAP extends PHPUnit_Util_Log_PMD_Rule_Project
+{
+    public function __construct($threshold = [5, 30], $priority = 1)
+    {
+        parent::__construct($threshold);
+    }
 
-  public function __construct($threshold = array(5, 30), $priority = 1) {
-    parent::__construct($threshold);
-  }
+    public function apply(PHPUnit_Util_Metrics $metrics)
+    {
+        $numCrappyMethods = 0;
+        $numMethods = 0;
 
-  public function apply(PHPUnit_Util_Metrics $metrics) {
-    $numCrappyMethods = 0;
-    $numMethods = 0;
-    
-    foreach ($metrics->getClasses() as $class) {
-      $methods = $class->getMethods();
-      
-      foreach ($methods as $method) {
-        if ($method->getCrapIndex() > $this->threshold[1]) {
-          $numCrappyMethods ++;
+        foreach ($metrics->getClasses() as $class) {
+            $methods = $class->getMethods();
+
+            foreach ($methods as $method) {
+                if ($method->getCrapIndex() > $this->threshold[1]) {
+                    $numCrappyMethods++;
+                }
+            }
+
+            $numMethods += count($methods);
         }
-      }
-      
-      $numMethods += count($methods);
+
+        if ($numMethods > 0) {
+            $percent = ($numCrappyMethods / $numMethods) * 100;
+        } else {
+            $percent = 0;
+        }
+
+        if ($percent > $this->threshold[0]) {
+            return sprintf("More than %01.2f%% of the project's methods have a Change Risk ".'Analysis and Predictions (CRAP) index that is above the threshold '."of %d.\n".'The CRAP index of a function or method uses cyclomatic complexity '.'and code coverage from automated tests to help estimate the '.'effort and risk associated with maintaining legacy code. A CRAP '.'index over 30 is a good indicator of crappy code.', $this->threshold[0], $this->threshold[1]);
+        }
     }
-    
-    if ($numMethods > 0) {
-      $percent = ($numCrappyMethods / $numMethods) * 100;
-    } else {
-      $percent = 0;
-    }
-    
-    if ($percent > $this->threshold[0]) {
-      return sprintf("More than %01.2f%% of the project's methods have a Change Risk " . 'Analysis and Predictions (CRAP) index that is above the threshold ' . "of %d.\n" . 'The CRAP index of a function or method uses cyclomatic complexity ' . 'and code coverage from automated tests to help estimate the ' . 'effort and risk associated with maintaining legacy code. A CRAP ' . 'index over 30 is a good indicator of crappy code.', $this->threshold[0], $this->threshold[1]);
-    }
-  }
 }
-?>

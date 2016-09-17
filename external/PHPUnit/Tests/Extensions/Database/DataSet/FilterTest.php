@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: FilterTest.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/FlatXmlDataSet.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/DataSetFilter.php';
@@ -51,29 +52,33 @@ require_once 'PHPUnit/Extensions/Database/Constraint/DataSetIsEqual.php';
 
 /**
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: FilterTest.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-class Extensions_Database_DataSet_FilterTest extends PHPUnit_Framework_TestCase {
-  protected $expectedDataSet;
+class Extensions_Database_DataSet_FilterTest extends PHPUnit_Framework_TestCase
+{
+    protected $expectedDataSet;
 
-  public function setUp() {
-    $this->expectedDataSet = new PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet(dirname(__FILE__) . '/../_files/XmlDataSets/FilteredTestFixture.xml');
-  }
+    public function setUp()
+    {
+        $this->expectedDataSet = new PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet(dirname(__FILE__).'/../_files/XmlDataSets/FilteredTestFixture.xml');
+    }
 
-  public function testFilteredDataSet() {
-    $constraint = new PHPUnit_Extensions_Database_Constraint_DataSetIsEqual($this->expectedDataSet);
-    $dataSet = new PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet(dirname(__FILE__) . '/../_files/XmlDataSets/FilteredTestComparison.xml');
-    
-    $filteredDataSet = new PHPUnit_Extensions_Database_DataSet_DataSetFilter($dataSet, array(
-        'table1' => array('table1_id'), 'table2' => '*', 'table3' => array('table3_id')));
-    
-    self::assertThat($filteredDataSet, $constraint);
-  }
+    public function testFilteredDataSet()
+    {
+        $constraint = new PHPUnit_Extensions_Database_Constraint_DataSetIsEqual($this->expectedDataSet);
+        $dataSet = new PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet(dirname(__FILE__).'/../_files/XmlDataSets/FilteredTestComparison.xml');
+
+        $filteredDataSet = new PHPUnit_Extensions_Database_DataSet_DataSetFilter($dataSet, [
+        'table1' => ['table1_id'], 'table2' => '*', 'table3' => ['table3_id'], ]);
+
+        self::assertThat($filteredDataSet, $constraint);
+    }
 }
-?>

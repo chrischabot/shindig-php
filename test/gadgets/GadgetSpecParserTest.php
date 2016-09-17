@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,13 +21,13 @@
 /**
  * GadgetSpecParser test case.
  */
-class GadgetSpecParserTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class GadgetSpecParserTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var GadgetSpecParser
    */
   private $GadgetSpecParser;
-  
+
   /**
    * @var Gadget
    */
@@ -40,7 +40,7 @@ class GadgetSpecParserTest extends PHPUnit_Framework_TestCase {
   ]]>
   </Content>
 </Module>';
-  
+
   /**
    * @var Context
    */
@@ -49,37 +49,40 @@ class GadgetSpecParserTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    
-    $this->GadgetSpecParser = new GadgetSpecParser();
-    $this->Context = new GadgetContext('GADGET');
+  protected function setUp()
+  {
+      parent::setUp();
+
+      $this->GadgetSpecParser = new GadgetSpecParser();
+      $this->Context = new GadgetContext('GADGET');
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->GadgetSpecParser = null;
-    
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->GadgetSpecParser = null;
+
+      parent::tearDown();
   }
 
   /**
-   * Tests GadgetSpecParser->parse() exception
+   * Tests GadgetSpecParser->parse() exception.
    */
-  public function testParseExeption() {
-    $this->setExpectedException('SpecParserException');
-    $this->assertTrue($this->GadgetSpecParser->parse('', $this->Context));
+  public function testParseExeption()
+  {
+      $this->setExpectedException('SpecParserException');
+      $this->assertTrue($this->GadgetSpecParser->parse('', $this->Context));
   }
 
   /**
-   * Tests GadgetSpecParser->parse()
+   * Tests GadgetSpecParser->parse().
    */
-  public function testParse() {
-    $gadgetParsed = $this->GadgetSpecParser->parse($this->Gadget, $this->Context);
-    $views = $gadgetParsed->getViews();
-    $this->assertEquals('<h1>Hello, world!</h1>', trim($views[DEFAULT_VIEW]->getContent()));
+  public function testParse()
+  {
+      $gadgetParsed = $this->GadgetSpecParser->parse($this->Gadget, $this->Context);
+      $views = $gadgetParsed->getViews();
+      $this->assertEquals('<h1>Hello, world!</h1>', trim($views[DEFAULT_VIEW]->getContent()));
   }
 }
-

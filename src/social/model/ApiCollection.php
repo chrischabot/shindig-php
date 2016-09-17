@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -20,40 +20,48 @@
 
 /**
  * see
- * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.Collection
+ * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.Collection.
  */
-class ApiCollection {
-  public $items = array();
-  public $offset;
-  public $totalSize;
+class ApiCollection
+{
+    public $items = [];
+    public $offset;
+    public $totalSize;
 
-  public function __construct($items, $offset = false, $totalSize = false) {
-    $this->items = $items;
-    $this->offset = $offset;
-    $this->totalSize = $totalSize;
-  }
+    public function __construct($items, $offset = false, $totalSize = false)
+    {
+        $this->items = $items;
+        $this->offset = $offset;
+        $this->totalSize = $totalSize;
+    }
 
-  public function getItems() {
-    return $this->items;
-  }
+    public function getItems()
+    {
+        return $this->items;
+    }
 
-  public function setItems($items) {
-    $this->items = $items;
-  }
+    public function setItems($items)
+    {
+        $this->items = $items;
+    }
 
-  public function getOffset() {
-    return $this->offset;
-  }
+    public function getOffset()
+    {
+        return $this->offset;
+    }
 
-  public function setOffset($offset) {
-    $this->offset = $offset;
-  }
+    public function setOffset($offset)
+    {
+        $this->offset = $offset;
+    }
 
-  public function getTotalSize() {
-    return $this->totalSize;
-  }
+    public function getTotalSize()
+    {
+        return $this->totalSize;
+    }
 
-  public function setTotalSize($totalSize) {
-    $this->totalSize = $totalSize;
-  }
+    public function setTotalSize($totalSize)
+    {
+        $this->totalSize = $totalSize;
+    }
 }

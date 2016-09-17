@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id:InformationSchema.php 1254 2008-09-02 04:36:15Z mlively $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Extensions/Database/DB/MetaData.php';
@@ -54,27 +55,30 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Provides functionality to retrieve meta data from a database with information_schema support.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DB_MetaData_InformationSchema extends PHPUnit_Extensions_Database_DB_MetaData {
-  
-  protected $columns = array();
-  
-  protected $keys = array();
+class PHPUnit_Extensions_Database_DB_MetaData_InformationSchema extends PHPUnit_Extensions_Database_DB_MetaData
+{
+    protected $columns = [];
+
+    protected $keys = [];
 
   /**
    * Returns an array containing the names of all the tables in the database.
    *
    * @return array
    */
-  public function getTableNames() {
-    $query = "
+  public function getTableNames()
+  {
+      $query = "
             SELECT DISTINCT
             	TABLE_NAME 
             FROM INFORMATION_SCHEMA.TABLES
@@ -83,46 +87,50 @@ class PHPUnit_Extensions_Database_DB_MetaData_InformationSchema extends PHPUnit_
                 TABLE_SCHEMA = ?
             ORDER BY TABLE_NAME
         ";
-    
-    $statement = $this->pdo->prepare($query);
-    $statement->execute(array($this->getSchema()));
-    
-    $tableNames = array();
-    while ($tableName = $statement->fetchColumn(0)) {
-      $tableNames[] = $tableName;
-    }
-    
-    return $tableNames;
+
+      $statement = $this->pdo->prepare($query);
+      $statement->execute([$this->getSchema()]);
+
+      $tableNames = [];
+      while ($tableName = $statement->fetchColumn(0)) {
+          $tableNames[] = $tableName;
+      }
+
+      return $tableNames;
   }
 
   /**
-   * Returns an array containing the names of all the columns in the 
-   * $tableName table,
+   * Returns an array containing the names of all the columns in the
+   * $tableName table,.
    *
    * @param string $tableName
+   *
    * @return array
    */
-  public function getTableColumns($tableName) {
-    if (! isset($this->columns[$tableName])) {
-      $this->loadColumnInfo($tableName);
-    }
-    
-    return $this->columns[$tableName];
+  public function getTableColumns($tableName)
+  {
+      if (!isset($this->columns[$tableName])) {
+          $this->loadColumnInfo($tableName);
+      }
+
+      return $this->columns[$tableName];
   }
 
   /**
-   * Returns an array containing the names of all the primary key columns in 
+   * Returns an array containing the names of all the primary key columns in
    * the $tableName table.
    *
    * @param string $tableName
+   *
    * @return array
    */
-  public function getTablePrimaryKeys($tableName) {
-    if (! isset($this->keys[$tableName])) {
-      $this->loadColumnInfo($tableName);
-    }
-    
-    return $this->keys[$tableName];
+  public function getTablePrimaryKeys($tableName)
+  {
+      if (!isset($this->keys[$tableName])) {
+          $this->loadColumnInfo($tableName);
+      }
+
+      return $this->keys[$tableName];
   }
 
   /**
@@ -130,11 +138,12 @@ class PHPUnit_Extensions_Database_DB_MetaData_InformationSchema extends PHPUnit_
    *
    * @param string $tableName
    */
-  protected function loadColumnInfo($tableName) {
-    $this->columns[$tableName] = array();
-    $this->keys[$tableName] = array();
-    
-    $columnQuery = "
+  protected function loadColumnInfo($tableName)
+  {
+      $this->columns[$tableName] = [];
+      $this->keys[$tableName] = [];
+
+      $columnQuery = '
             SELECT DISTINCT
             	COLUMN_NAME 
             FROM INFORMATION_SCHEMA.COLUMNS
@@ -142,16 +151,16 @@ class PHPUnit_Extensions_Database_DB_MetaData_InformationSchema extends PHPUnit_
                 TABLE_NAME = ? AND 
                 TABLE_SCHEMA = ?
             ORDER BY ORDINAL_POSITION
-        ";
-    
-    $columnStatement = $this->pdo->prepare($columnQuery);
-    $columnStatement->execute(array($tableName, $this->getSchema()));
-    
-    while ($columName = $columnStatement->fetchColumn(0)) {
-      $this->columns[$tableName][] = $columName;
-    }
-    
-    $keyQuery = "
+        ';
+
+      $columnStatement = $this->pdo->prepare($columnQuery);
+      $columnStatement->execute([$tableName, $this->getSchema()]);
+
+      while ($columName = $columnStatement->fetchColumn(0)) {
+          $this->columns[$tableName][] = $columName;
+      }
+
+      $keyQuery = "
 			SELECT
 				KCU.COLUMN_NAME
 			FROM
@@ -167,13 +176,12 @@ class PHPUnit_Extensions_Database_DB_MetaData_InformationSchema extends PHPUnit_
 			ORDER BY
 				KCU.ORDINAL_POSITION ASC
     	";
-    
-    $keyStatement = $this->pdo->prepare($keyQuery);
-    $keyStatement->execute(array($tableName, $this->getSchema()));
-    
-    while ($columName = $keyStatement->fetchColumn(0)) {
-      $this->keys[$tableName][] = $columName;
-    }
+
+      $keyStatement = $this->pdo->prepare($keyQuery);
+      $keyStatement->execute([$tableName, $this->getSchema()]);
+
+      while ($columName = $keyStatement->fetchColumn(0)) {
+          $this->keys[$tableName][] = $columName;
+      }
   }
 }
-?>

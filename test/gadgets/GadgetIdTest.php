@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,21 +21,19 @@
 /**
  * GadgetId test case.
  */
-class GadgetIdTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class GadgetIdTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var GadgetId
    */
   private $GadgetId = 'ID';
-  
+
   /**
-   * 
    * @var uri
    */
   private $uri = 'http://www.example.com/xml.xml';
-  
+
   /**
-   *
    * @var moduleId
    */
   private $moduleId = 'MID';
@@ -43,42 +41,43 @@ class GadgetIdTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->GadgetId = new GadgetId($this->uri, $this->moduleId);
-  
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->GadgetId = new GadgetId($this->uri, $this->moduleId);
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->GadgetId = null;
-    
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->GadgetId = null;
+
+      parent::tearDown();
   }
 
   /**
-   * Tests GadgetId->getKey()
+   * Tests GadgetId->getKey().
    */
-  public function testGetKey() {
-    $this->assertEquals($this->uri, $this->GadgetId->getKey());
+  public function testGetKey()
+  {
+      $this->assertEquals($this->uri, $this->GadgetId->getKey());
   }
 
   /**
-   * Tests GadgetId->getModuleId()
+   * Tests GadgetId->getModuleId().
    */
-  public function testGetModuleId() {
-    $this->assertEquals($this->moduleId, $this->GadgetId->getModuleId());
+  public function testGetModuleId()
+  {
+      $this->assertEquals($this->moduleId, $this->GadgetId->getModuleId());
   }
 
   /**
-   * Tests GadgetId->getURI()
+   * Tests GadgetId->getURI().
    */
-  public function testGetURI() {
-    $this->assertEquals($this->uri, $this->GadgetId->getURI());
-  
+  public function testGetURI()
+  {
+      $this->assertEquals($this->uri, $this->GadgetId->getURI());
   }
-
 }
-

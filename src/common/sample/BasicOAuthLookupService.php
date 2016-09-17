@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -22,13 +22,15 @@
 /**
  * Basic implementation of OAuthLookupService using BasicOAuthDataStore.
  */
-class BasicOAuthLookupService extends OAuthLookupService {
+class BasicOAuthLookupService extends OAuthLookupService
+{
+    public function getSecurityToken($oauthRequest, $appUrl, $userId)
+    {
+        return new OAuthSecurityToken($userId, $appUrl, $this->getAppId($appUrl), 'samplecontainer');
+    }
 
-  public function getSecurityToken($oauthRequest, $appUrl, $userId) {
-    return new OAuthSecurityToken($userId, $appUrl, $this->getAppId($appUrl), "samplecontainer");
-  }
-
-  private function getAppId($appUrl) {
-    return 0; // a real implementation would look this up
-  }
+    private function getAppId($appUrl)
+    {
+        return 0; // a real implementation would look this up
+    }
 }

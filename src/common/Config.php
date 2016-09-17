@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,40 +17,43 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-class ConfigException extends Exception {
+class ConfigException extends Exception
+{
 }
 
 /**
  * Configuration class. It uses the keys/values from config/container.php
  * and (if the file exists) config/local.php.
  */
-class Config {
-  private static $config = false;
+class Config
+{
+    private static $config = false;
 
-  static private function loadConfig() {
-    global $shindigConfig;
-    if (! self::$config) {
-      // load default configuration
+    private static function loadConfig()
+    {
+        global $shindigConfig;
+        if (!self::$config) {
+            // load default configuration
       include_once 'config/container.php';
-      self::$config = $shindigConfig;
-      if (file_exists('config/local.php')) {
-        // include local.php if it exists and merge the config arrays. 
+            self::$config = $shindigConfig;
+            if (file_exists('config/local.php')) {
+                // include local.php if it exists and merge the config arrays.
         // the second array values overwrites the first one's
         include_once 'config/local.php';
-        self::$config = array_merge(self::$config, $shindigConfig);
-      }
+                self::$config = array_merge(self::$config, $shindigConfig);
+            }
+        }
     }
-  }
 
-  static function get($key) {
-    if (! self::$config) {
-      self::loadConfig();
+    public static function get($key)
+    {
+        if (!self::$config) {
+            self::loadConfig();
+        }
+        if (isset(self::$config[$key])) {
+            return self::$config[$key];
+        } else {
+            throw new ConfigException('Invalid Config Key');
+        }
     }
-    if (isset(self::$config[$key])) {
-      return self::$config[$key];
-    } else {
-      throw new ConfigException("Invalid Config Key");
-    }
-  }
 }

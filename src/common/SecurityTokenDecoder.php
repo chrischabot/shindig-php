@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,14 +21,16 @@
 /**
  *  Handles verification of gadget security tokens.
  */
-abstract class SecurityTokenDecoder {
-
-  /**
+abstract class SecurityTokenDecoder
+{
+    /**
    * Decrypts and verifies a gadget security token to return a gadget token.
-   * 
+   *
    * @param tokenString String representation of the token to be created.
-   * @return The token representation of the input data.
+   *
    * @throws GadgetException If tokenString is not a valid token
+   *
+   * @return The token representation of the input data.
    */
   abstract public function createToken($tokenString);
 }

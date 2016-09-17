@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: StringContains.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Type.php';
@@ -61,56 +62,61 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The sub-string is passed in the constructor.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Constraint {
-  protected $string;
-  
-  protected $case;
+class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Constraint
+{
+    protected $string;
 
-  public function __construct($string, $case = TRUE) {
-    $this->string = $string;
-    $this->case = $case;
-  }
+    protected $case;
+
+    public function __construct($string, $case = true)
+    {
+        $this->string = $string;
+        $this->case = $case;
+    }
 
   /**
    * Evaluates the constraint for parameter $other. Returns TRUE if the
    * constraint is met, FALSE otherwise.
    *
    * @param mixed $other Value or object to evaluate.
+   *
    * @return bool
    */
-  public function evaluate($other) {
-    if ($this->case) {
-      return strpos($other, $this->string) !== FALSE;
-    } else {
-      return stripos($other, $this->string) !== FALSE;
-    }
+  public function evaluate($other)
+  {
+      if ($this->case) {
+          return strpos($other, $this->string) !== false;
+      } else {
+          return stripos($other, $this->string) !== false;
+      }
   }
 
   /**
    * Returns a string representation of the constraint.
    *
    * @return string
-   * @access public
    */
-  public function toString() {
-    if ($this->case) {
-      $string = $this->string;
-    } else {
-      $string = strtolower($this->string);
-    }
-    
-    return sprintf('contains "%s"', 
+  public function toString()
+  {
+      if ($this->case) {
+          $string = $this->string;
+      } else {
+          $string = strtolower($this->string);
+      }
+
+      return sprintf('contains "%s"',
 
     $string);
   }
 }
-?>

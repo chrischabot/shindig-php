@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,13 +13,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Http
- * @subpackage Client_Adapter
+ *
  * @version    $Id: Test.php 8064 2008-02-16 10:58:39Z thomas $
+ *
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
 require_once 'external/Zend/Uri/Http.php';
 require_once 'external/Zend/Http/Response.php';
 require_once 'external/Zend/Http/Client/Adapter/Interface.php';
@@ -33,128 +32,142 @@ require_once 'external/Zend/Http/Client/Adapter/Interface.php';
  * set the expected response using the setResponse() method.
  *
  * @category   Zend
- * @package    Zend_Http
- * @subpackage Client_Adapter
+ *
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interface {
-  /**
-   * Parameters array
+class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interface
+{
+    /**
+   * Parameters array.
    *
    * @var array
    */
-  protected $config = array();
-  
+  protected $config = [];
+
   /**
    * Buffer of responses to be returned by the read() method.  Can be
    * set using setResponse() and addResponse().
    *
    * @var array
    */
-  protected $responses = array("HTTP/1.1 400 Bad Request\r\n\r\n");
-  
+  protected $responses = ["HTTP/1.1 400 Bad Request\r\n\r\n"];
+
   /**
-   * Current position in the response buffer
+   * Current position in the response buffer.
    *
-   * @var integer
+   * @var int
    */
   protected $responseIndex = 0;
 
   /**
-   * Adapter constructor, currently empty. Config is set using setConfig()
-   *
+   * Adapter constructor, currently empty. Config is set using setConfig().
    */
-  public function __construct() {}
-
-  /**
-   * Set the configuration array for the adapter
-   *
-   * @param array $config
-   */
-  public function setConfig($config = array()) {
-    if (! is_array($config)) {
-      require_once 'external/Zend/Http/Client/Adapter/Exception.php';
-      throw new Zend_Http_Client_Adapter_Exception('$config expects an array, ' . gettype($config) . ' recieved.');
-    }
-    
-    foreach ($config as $k => $v) {
-      $this->config[strtolower($k)] = $v;
-    }
+  public function __construct()
+  {
   }
 
   /**
-   * Connect to the remote server
+   * Set the configuration array for the adapter.
+   *
+   * @param array $config
+   */
+  public function setConfig($config = [])
+  {
+      if (!is_array($config)) {
+          require_once 'external/Zend/Http/Client/Adapter/Exception.php';
+          throw new Zend_Http_Client_Adapter_Exception('$config expects an array, '.gettype($config).' recieved.');
+      }
+
+      foreach ($config as $k => $v) {
+          $this->config[strtolower($k)] = $v;
+      }
+  }
+
+  /**
+   * Connect to the remote server.
    *
    * @param string  $host
    * @param int     $port
-   * @param boolean $secure
+   * @param bool $secure
    * @param int     $timeout
    */
-  public function connect($host, $port = 80, $secure = false) {}
+  public function connect($host, $port = 80, $secure = false)
+  {
+  }
 
   /**
-   * Send request to the remote server
+   * Send request to the remote server.
    *
    * @param string        $method
    * @param Zend_Uri_Http $uri
    * @param string        $http_ver
    * @param array         $headers
    * @param string        $body
+   *
    * @return string Request as string
    */
-  public function write($method, $uri, $http_ver = '1.1', $headers = array(), $body = '') {
-    $host = $uri->getHost();
-    $host = (strtolower($uri->getScheme()) == 'https' ? 'sslv2://' . $host : $host);
-    
+  public function write($method, $uri, $http_ver = '1.1', $headers = [], $body = '')
+  {
+      $host = $uri->getHost();
+      $host = (strtolower($uri->getScheme()) == 'https' ? 'sslv2://'.$host : $host);
+
     // Build request headers
     $path = $uri->getPath();
-    if ($uri->getQuery()) $path .= '?' . $uri->getQuery();
-    $request = "{$method} {$path} HTTP/{$http_ver}\r\n";
-    foreach ($headers as $k => $v) {
-      if (is_string($k)) $v = ucfirst($k) . ": $v";
-      $request .= "$v\r\n";
-    }
-    
+      if ($uri->getQuery()) {
+          $path .= '?'.$uri->getQuery();
+      }
+      $request = "{$method} {$path} HTTP/{$http_ver}\r\n";
+      foreach ($headers as $k => $v) {
+          if (is_string($k)) {
+              $v = ucfirst($k).": $v";
+          }
+          $request .= "$v\r\n";
+      }
+
     // Add the request body
-    $request .= "\r\n" . $body;
-    
+    $request .= "\r\n".$body;
+
     // Do nothing - just return the request as string
-    
+
 
     return $request;
   }
 
   /**
-   * Return the response set in $this->setResponse()
+   * Return the response set in $this->setResponse().
    *
    * @return string
    */
-  public function read() {
-    if ($this->responseIndex >= count($this->responses)) {
-      $this->responseIndex = 0;
-    }
-    return $this->responses[$this->responseIndex ++];
+  public function read()
+  {
+      if ($this->responseIndex >= count($this->responses)) {
+          $this->responseIndex = 0;
+      }
+
+      return $this->responses[$this->responseIndex++];
   }
 
   /**
-   * Close the connection (dummy)
-   *
+   * Close the connection (dummy).
    */
-  public function close() {}
+  public function close()
+  {
+  }
 
   /**
-   * Set the HTTP response(s) to be returned by this adapter
+   * Set the HTTP response(s) to be returned by this adapter.
    *
    * @param Zend_Http_Response|array|string $response
    */
-  public function setResponse($response) {
-    if ($response instanceof Zend_Http_Response) {
-      $response = $response->asString();
-    }
-    
-    $this->responses = (array)$response;
-    $this->responseIndex = 0;
+  public function setResponse($response)
+  {
+      if ($response instanceof Zend_Http_Response) {
+          $response = $response->asString();
+      }
+
+      $this->responses = (array) $response;
+      $this->responseIndex = 0;
   }
 
   /**
@@ -162,21 +175,23 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
    *
    * @param string $response
    */
-  public function addResponse($response) {
-    $this->responses[] = $response;
+  public function addResponse($response)
+  {
+      $this->responses[] = $response;
   }
 
   /**
    * Sets the position of the response buffer.  Selects which
    * response will be returned on the next call to read().
    *
-   * @param integer $index
+   * @param int $index
    */
-  public function setResponseIndex($index) {
-    if ($index < 0 || $index >= count($this->responses)) {
-      require_once 'external/Zend/Http/Client/Adapter/Exception.php';
-      throw new Zend_Http_Client_Adapter_Exception('Index out of range of response buffer size');
-    }
-    $this->responseIndex = $index;
+  public function setResponseIndex($index)
+  {
+      if ($index < 0 || $index >= count($this->responses)) {
+          require_once 'external/Zend/Http/Client/Adapter/Exception.php';
+          throw new Zend_Http_Client_Adapter_Exception('Index out of range of response buffer size');
+      }
+      $this->responseIndex = $index;
   }
 }

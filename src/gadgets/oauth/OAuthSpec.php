@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -20,21 +20,22 @@
 
 /**
  * The OAuth preferences located in the gadget xml inside ModulePrefs.
- * Now, it only has 1 property, but this class was designed to be reusable
+ * Now, it only has 1 property, but this class was designed to be reusable.
  **/
-class OAuthSpec {
-  
-  private $oAuthServices = array();
+class OAuthSpec
+{
+    private $oAuthServices = [];
 
-  public function __construct($services) {
-    foreach ($services as $service) {
-      $oauthService = new OAuthService($service);
-      $this->oAuthServices[$oauthService->getName()] = $oauthService;
+    public function __construct($services)
+    {
+        foreach ($services as $service) {
+            $oauthService = new OAuthService($service);
+            $this->oAuthServices[$oauthService->getName()] = $oauthService;
+        }
     }
-  }
 
-  public function getServices() {
-    return $this->oAuthServices;
-  }
-
+    public function getServices()
+    {
+        return $this->oAuthServices;
+    }
 }

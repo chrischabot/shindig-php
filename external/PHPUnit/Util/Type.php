@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Type.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -52,126 +53,121 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Utility class for textual type (and value) representation.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Util_Type {
+class PHPUnit_Util_Type
+{
+    public static function isType($type)
+    {
+        return in_array($type, ['numeric', 'integer', 'int', 'float', 'string', 'boolean', 'bool',
+        'null', 'array', 'object', 'resource', ]);
+    }
 
-  public static function isType($type) {
-    return in_array($type, array('numeric', 'integer', 'int', 'float', 'string', 'boolean', 'bool', 
-        'null', 'array', 'object', 'resource'));
-  }
+    public static function shortenedExport($value)
+    {
+        if (is_string($value)) {
+            return self::shortenedString($value);
+        } elseif (is_array($value)) {
+            if (count($value) == 0) {
+                return 'array()';
+            }
 
-  public static function shortenedExport($value) {
-    if (is_string($value)) {
-      return self::shortenedString($value);
-    } 
+            $a1 = array_slice($value, 0, 1, true);
+            $k1 = key($a1);
+            $v1 = $a1[$k1];
 
-    elseif (is_array($value)) {
-      if (count($value) == 0) {
-        return 'array()';
-      }
-      
-      $a1 = array_slice($value, 0, 1, TRUE);
-      $k1 = key($a1);
-      $v1 = $a1[$k1];
-      
-      if (is_string($v1)) {
-        $v1 = self::shortenedString($v1);
-      } 
+            if (is_string($v1)) {
+                $v1 = self::shortenedString($v1);
+            } elseif (is_array($v1)) {
+                $v1 = 'array(...)';
+            } else {
+                $v1 = self::toString($v1);
+            }
 
-      elseif (is_array($v1)) {
-        $v1 = 'array(...)';
-      } else {
-        $v1 = self::toString($v1);
-      }
-      
-      $a2 = FALSE;
-      
-      if (count($value) > 1) {
-        $a2 = array_slice($value, - 1, 1, TRUE);
-        $k2 = key($a2);
-        $v2 = $a2[$k2];
-        
-        if (is_string($v2)) {
-          $v2 = self::shortenedString($v2);
-        } 
+            $a2 = false;
 
-        elseif (is_array($v2)) {
-          $v2 = 'array(...)';
-        } else {
-          $v2 = self::toString($v2);
+            if (count($value) > 1) {
+                $a2 = array_slice($value, -1, 1, true);
+                $k2 = key($a2);
+                $v2 = $a2[$k2];
+
+                if (is_string($v2)) {
+                    $v2 = self::shortenedString($v2);
+                } elseif (is_array($v2)) {
+                    $v2 = 'array(...)';
+                } else {
+                    $v2 = self::toString($v2);
+                }
+            }
+
+            $text = 'array( '.self::toString($k1).' => '.$v1;
+
+            if ($a2 !== false) {
+                $text .= ', ..., '.self::toString($k2).' => '.$v2.' )';
+            } else {
+                $text .= ' )';
+            }
+
+            return $text;
+        } elseif (is_object($value)) {
+            return get_class($value).'(...)';
         }
-      }
-      
-      $text = 'array( ' . self::toString($k1) . ' => ' . $v1;
-      
-      if ($a2 !== FALSE) {
-        $text .= ', ..., ' . self::toString($k2) . ' => ' . $v2 . ' )';
-      } else {
-        $text .= ' )';
-      }
-      
-      return $text;
-    } 
 
-    elseif (is_object($value)) {
-      return get_class($value) . '(...)';
+        return self::toString($value);
     }
-    
-    return self::toString($value);
-  }
 
-  public static function shortenedString($string) {
-    $string = preg_replace('#\n|\r\n|\r#', ' ', $string);
-    
-    if (strlen($string) > 14) {
-      return PHPUnit_Util_Type::toString(substr($string, 0, 7) . '...' . substr($string, - 7));
-    } else {
-      return PHPUnit_Util_Type::toString($string);
-    }
-  }
+    public static function shortenedString($string)
+    {
+        $string = preg_replace('#\n|\r\n|\r#', ' ', $string);
 
-  public static function toString($value, $short = FALSE) {
-    if (is_array($value) || is_object($value)) {
-      if (! $short) {
-        return "\n" . print_r($value, TRUE);
-      } else {
-        if (is_array($value)) {
-          return '<array>';
+        if (strlen($string) > 14) {
+            return self::toString(substr($string, 0, 7).'...'.substr($string, -7));
         } else {
-          return '<' . get_class($value) . '>';
+            return self::toString($string);
         }
-      }
     }
-    
-    if (is_string($value) && strpos($value, "\n") !== FALSE) {
-      return '<text>';
-    }
-    
-    if (! is_null($value)) {
-      $type = gettype($value) . ':';
-    } else {
-      $type = '';
-      $value = 'null';
-    }
-    
-    if (is_bool($value)) {
-      if ($value === TRUE) {
-        $value = 'true';
-      } 
 
-      else if ($value === FALSE) {
-        $value = 'false';
-      }
+    public static function toString($value, $short = false)
+    {
+        if (is_array($value) || is_object($value)) {
+            if (!$short) {
+                return "\n".print_r($value, true);
+            } else {
+                if (is_array($value)) {
+                    return '<array>';
+                } else {
+                    return '<'.get_class($value).'>';
+                }
+            }
+        }
+
+        if (is_string($value) && strpos($value, "\n") !== false) {
+            return '<text>';
+        }
+
+        if (!is_null($value)) {
+            $type = gettype($value).':';
+        } else {
+            $type = '';
+            $value = 'null';
+        }
+
+        if (is_bool($value)) {
+            if ($value === true) {
+                $value = 'true';
+            } elseif ($value === false) {
+                $value = 'false';
+            }
+        }
+
+        return '<'.$type.$value.'>';
     }
-    
-    return '<' . $type . $value . '>';
-  }
 }
-?>

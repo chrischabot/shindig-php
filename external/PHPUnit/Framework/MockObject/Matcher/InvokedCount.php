@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: InvokedCount.php 2095 2008-01-14 17:14:34Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Matcher/InvokedRecorder.php';
@@ -59,67 +60,73 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * If the number is less it will later be checked in verify() and also throw an exception.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_MockObject_Matcher_InvokedCount extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder {
-  protected $expectedCount;
+class PHPUnit_Framework_MockObject_Matcher_InvokedCount extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder
+{
+    protected $expectedCount;
 
-  public function __construct($expectedCount) {
-    $this->expectedCount = $expectedCount;
-  }
+    public function __construct($expectedCount)
+    {
+        $this->expectedCount = $expectedCount;
+    }
 
-  public function toString() {
-    return 'invoked ' . $this->expectedCount . ' time(s)';
-  }
+    public function toString()
+    {
+        return 'invoked '.$this->expectedCount.' time(s)';
+    }
 
-  public function invoked(PHPUnit_Framework_MockObject_Invocation $invocation) {
-    parent::invoked($invocation);
-    
-    $count = $this->getInvocationCount();
-    
-    if ($count > $this->expectedCount) {
-      $message = (string)$invocation;
-      
-      switch ($this->expectedCount == 0) {
+    public function invoked(PHPUnit_Framework_MockObject_Invocation $invocation)
+    {
+        parent::invoked($invocation);
+
+        $count = $this->getInvocationCount();
+
+        if ($count > $this->expectedCount) {
+            $message = (string) $invocation;
+
+            switch ($this->expectedCount == 0) {
         case 0:
           {
             $message .= ' was not expected to be called.';
           }
           break;
-        
+
         case 1:
           {
             $message .= ' was not expected to be called more than once.';
           }
           break;
-        
+
         default:
           {
-            $message .= sprintf(' was not expected to be called more than %d times.', 
+            $message .= sprintf(' was not expected to be called more than %d times.',
 
             $this->expectedCount);
           }
       }
-      
-      throw new PHPUnit_Framework_ExpectationFailedException($message);
-    }
-  }
 
-  public function verify() {
-    $count = $this->getInvocationCount();
-    
-    if ($count !== $this->expectedCount) {
-      throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Method was expected to be called %d times, actually called %d times.', 
+            throw new PHPUnit_Framework_ExpectationFailedException($message);
+        }
+    }
+
+    public function verify()
+    {
+        $count = $this->getInvocationCount();
+
+        if ($count !== $this->expectedCount) {
+            throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Method was expected to be called %d times, actually called %d times.',
 
       $this->expectedCount, $count));
+        }
     }
-  }
 }
-?>

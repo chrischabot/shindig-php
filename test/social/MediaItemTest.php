@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * MediaItem test case.
  */
-class MediaItemTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class MediaItemTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var MediaItem
    */
   private $MediaItem;
@@ -31,61 +31,69 @@ class MediaItemTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->MediaItem = new MediaItem('MIMETYPE', 'AUDIO', 'URL');
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->MediaItem = new MediaItem('MIMETYPE', 'AUDIO', 'URL');
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->MediaItem = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->MediaItem = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests MediaItem->getMimeType()
+   * Tests MediaItem->getMimeType().
    */
-  public function testGetMimeType() {
-    $this->assertEquals('MIMETYPE', $this->MediaItem->getMimeType());
+  public function testGetMimeType()
+  {
+      $this->assertEquals('MIMETYPE', $this->MediaItem->getMimeType());
   }
 
   /**
-   * Tests MediaItem->getType()
+   * Tests MediaItem->getType().
    */
-  public function testGetType() {
-    $this->assertEquals('audio', $this->MediaItem->getType());
+  public function testGetType()
+  {
+      $this->assertEquals('audio', $this->MediaItem->getType());
   }
 
   /**
-   * Tests MediaItem->getUrl()
+   * Tests MediaItem->getUrl().
    */
-  public function testGetUrl() {
-    $this->assertEquals('URL', $this->MediaItem->getUrl());
+  public function testGetUrl()
+  {
+      $this->assertEquals('URL', $this->MediaItem->getUrl());
   }
 
   /**
-   * Tests MediaItem->setMimeType()
+   * Tests MediaItem->setMimeType().
    */
-  public function testSetMimeType() {
-    $this->MediaItem->setMimeType('mimetype');
-    $this->assertEquals('mimetype', $this->MediaItem->mimeType);
+  public function testSetMimeType()
+  {
+      $this->MediaItem->setMimeType('mimetype');
+      $this->assertEquals('mimetype', $this->MediaItem->mimeType);
   }
 
   /**
-   * Tests MediaItem->setType()
+   * Tests MediaItem->setType().
    */
-  public function testSetType() {
-    $this->MediaItem->setType('VIDEO');
-    $this->assertEquals('video', $this->MediaItem->type);
+  public function testSetType()
+  {
+      $this->MediaItem->setType('VIDEO');
+      $this->assertEquals('video', $this->MediaItem->type);
   }
 
   /**
-   * Tests MediaItem->setUrl()
+   * Tests MediaItem->setUrl().
    */
-  public function testSetUrl() {
-    $this->MediaItem->setUrl('url');
-    $this->assertEquals('url', $this->MediaItem->url);
+  public function testSetUrl()
+  {
+      $this->MediaItem->setUrl('url');
+      $this->assertEquals('url', $this->MediaItem->url);
   }
 }

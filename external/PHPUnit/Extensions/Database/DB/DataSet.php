@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id:DataSet.php 1254 2008-09-02 04:36:15Z mlively $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -57,23 +58,25 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Provides access to a database instance as a data set.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DB_DataSet extends PHPUnit_Extensions_Database_DataSet_AbstractDataSet {
-  
-  /**
+class PHPUnit_Extensions_Database_DB_DataSet extends PHPUnit_Extensions_Database_DataSet_AbstractDataSet
+{
+    /**
    * An array of ITable objects.
    *
    * @var array
    */
-  protected $tables = array();
-  
+  protected $tables = [];
+
   /**
    * The database connection this dataset is using.
    *
@@ -86,81 +89,90 @@ class PHPUnit_Extensions_Database_DB_DataSet extends PHPUnit_Extensions_Database
    *
    * @param PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection $databaseConnection
    */
-  public function __construct(PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection $databaseConnection) {
-    $this->databaseConnection = $databaseConnection;
+  public function __construct(PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection $databaseConnection)
+  {
+      $this->databaseConnection = $databaseConnection;
   }
 
   /**
    * Creates the query necessary to pull all of the data from a table.
    *
    * @param PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData
+   *
    * @return unknown
    */
-  public static function buildTableSelect(PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData) {
-    if ($tableMetaData->getTableName() == '') {
-      $e = new Exception("Empty Table Name");
-      echo $e->getTraceAsString();
-      throw $e;
-    }
-    
-    $columnList = implode(', ', $tableMetaData->getColumns());
-    
-    $primaryKeys = $tableMetaData->getPrimaryKeys();
-    if (count($primaryKeys)) {
-      $orderBy = 'ORDER BY ' . implode(' ASC, ', $primaryKeys) . ' ASC';
-    } else {
-      $orderBy = '';
-    }
-    
-    return "SELECT {$columnList} FROM {$tableMetaData->getTableName()} {$orderBy}";
+  public static function buildTableSelect(PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData)
+  {
+      if ($tableMetaData->getTableName() == '') {
+          $e = new Exception('Empty Table Name');
+          echo $e->getTraceAsString();
+          throw $e;
+      }
+
+      $columnList = implode(', ', $tableMetaData->getColumns());
+
+      $primaryKeys = $tableMetaData->getPrimaryKeys();
+      if (count($primaryKeys)) {
+          $orderBy = 'ORDER BY '.implode(' ASC, ', $primaryKeys).' ASC';
+      } else {
+          $orderBy = '';
+      }
+
+      return "SELECT {$columnList} FROM {$tableMetaData->getTableName()} {$orderBy}";
   }
 
   /**
-   * Creates an iterator over the tables in the data set. If $reverse is 
+   * Creates an iterator over the tables in the data set. If $reverse is
    * true a reverse iterator will be returned.
    *
    * @param bool $reverse
+   *
    * @return PHPUnit_Extensions_Database_DB_TableIterator
    */
-  protected function createIterator($reverse = false) {
-    return new PHPUnit_Extensions_Database_DB_TableIterator($this->getTableNames(), $this, $reverse);
+  protected function createIterator($reverse = false)
+  {
+      return new PHPUnit_Extensions_Database_DB_TableIterator($this->getTableNames(), $this, $reverse);
   }
 
   /**
    * Returns a table object for the given table.
    *
    * @param string $tableName
+   *
    * @return PHPUnit_Extensions_Database_DB_Table
    */
-  public function getTable($tableName) {
-    if (! in_array($tableName, $this->getTableNames())) {
-      throw new InvalidArgumentException("$tableName is not a table in the current database.");
-    }
-    
-    if (empty($this->tables[$tableName])) {
-      $this->tables[$tableName] = new PHPUnit_Extensions_Database_DB_Table($this->getTableMetaData($tableName), $this->databaseConnection);
-    }
-    
-    return $this->tables[$tableName];
+  public function getTable($tableName)
+  {
+      if (!in_array($tableName, $this->getTableNames())) {
+          throw new InvalidArgumentException("$tableName is not a table in the current database.");
+      }
+
+      if (empty($this->tables[$tableName])) {
+          $this->tables[$tableName] = new PHPUnit_Extensions_Database_DB_Table($this->getTableMetaData($tableName), $this->databaseConnection);
+      }
+
+      return $this->tables[$tableName];
   }
 
   /**
    * Returns a table meta data object for the given table.
    *
    * @param string $tableName
+   *
    * @return PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData
    */
-  public function getTableMetaData($tableName) {
-    return new PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData($tableName, $this->databaseConnection->getMetaData()->getTableColumns($tableName), $this->databaseConnection->getMetaData()->getTablePrimaryKeys($tableName));
+  public function getTableMetaData($tableName)
+  {
+      return new PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData($tableName, $this->databaseConnection->getMetaData()->getTableColumns($tableName), $this->databaseConnection->getMetaData()->getTablePrimaryKeys($tableName));
   }
 
   /**
-   * Returns a list of table names for the database
-   * 
-   * @return Array
+   * Returns a list of table names for the database.
+   *
+   * @return array
    */
-  public function getTableNames() {
-    return $this->databaseConnection->getMetaData()->getTableNames();
+  public function getTableNames()
+  {
+      return $this->databaseConnection->getMetaData()->getTableNames();
   }
 }
-?>

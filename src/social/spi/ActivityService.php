@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,17 +17,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-interface ActivityService {
-
-  /**
+interface ActivityService
+{
+    /**
    * Returns a list of activities that correspond to the passed in person ids.
    */
   public function getActivities($userIds, $groupId, $appId, $sortBy, $filterBy, $filterOp, $filterValue, $startIndex, $count, $fields, $activityIds, $token);
 
-  public function getActivity($userId, $groupId, $appdId, $fields, $activityId, SecurityToken $token);
+    public function getActivity($userId, $groupId, $appdId, $fields, $activityId, SecurityToken $token);
 
-  public function deleteActivities($userId, $groupId, $appId, $activityIds, SecurityToken $token);
+    public function deleteActivities($userId, $groupId, $appId, $activityIds, SecurityToken $token);
 
   /**
    * Creates the passed in activity for the given user. Once createActivity is

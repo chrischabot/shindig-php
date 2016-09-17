@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: AbstractDataSet.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -55,64 +56,72 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Implements the basic functionality of data sets.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PHPUnit_Extensions_Database_DataSet_IDataSet {
-
-  /**
-   * Creates an iterator over the tables in the data set. If $reverse is 
+abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PHPUnit_Extensions_Database_DataSet_IDataSet
+{
+    /**
+   * Creates an iterator over the tables in the data set. If $reverse is
    * true a reverse iterator will be returned.
    *
    * @param bool $reverse
+   *
    * @return PHPUnit_Extensions_Database_DataSet_ITableIterator
    */
-  protected abstract function createIterator($reverse = false);
+  abstract protected function createIterator($reverse = false);
 
   /**
    * Returns an array of table names contained in the dataset.
    *
    * @return array
    */
-  public function getTableNames() {
-    $tableNames = array();
-    
-    foreach ($this->getIterator() as $table) {
-      /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
+  public function getTableNames()
+  {
+      $tableNames = [];
+
+      foreach ($this->getIterator() as $table) {
+          /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
       $tableNames[] = $table->getTableMetaData()->getTableName();
-    }
-    
-    return $tableNames;
+      }
+
+      return $tableNames;
   }
 
   /**
    * Returns a table meta data object for the given table.
    *
    * @param string $tableName
+   *
    * @return PHPUnit_Extensions_Database_DataSet_ITableMetaData
    */
-  public function getTableMetaData($tableName) {
-    return $this->getTable($tableName)->getTableMetaData();
+  public function getTableMetaData($tableName)
+  {
+      return $this->getTable($tableName)->getTableMetaData();
   }
 
   /**
    * Returns a table object for the given table.
    *
    * @param string $tableName
+   *
    * @return PHPUnit_Extensions_Database_DataSet_ITable
    */
-  public function getTable($tableName) {
-    foreach ($this->getIterator() as $table) {
-      /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
+  public function getTable($tableName)
+  {
+      foreach ($this->getIterator() as $table) {
+          /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
       if ($table->getTableMetaData()->getTableName() == $tableName) {
-        return $table;
+          return $table;
       }
-    }
+      }
   }
 
   /**
@@ -120,8 +129,9 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PH
    *
    * @return PHPUnit_Extensions_Database_DataSet_ITableIterator
    */
-  public function getIterator() {
-    return $this->createIterator();
+  public function getIterator()
+  {
+      return $this->createIterator();
   }
 
   /**
@@ -129,8 +139,9 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PH
    *
    * @return PHPUnit_Extensions_Database_DataSet_ITableIterator
    */
-  public function getReverseIterator() {
-    return $this->createIterator(true);
+  public function getReverseIterator()
+  {
+      return $this->createIterator(true);
   }
 
   /**
@@ -138,33 +149,34 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PH
    *
    * @param PHPUnit_Extensions_Database_DataSet_IDataSet $other
    */
-  public function assertEquals(PHPUnit_Extensions_Database_DataSet_IDataSet $other) {
-    $thisTableNames = $this->getTableNames();
-    $otherTableNames = $other->getTableNames();
-    
-    sort($thisTableNames);
-    sort($otherTableNames);
-    
-    if ($thisTableNames != $otherTableNames) {
-      throw new Exception("Expected following tables: " . implode(', ', $thisTableNames) . "; has columns: " . implode(', ', $otherTableNames));
-    }
-    
-    foreach ($thisTableNames as $tableName) {
-      $this->getTable($tableName)->assertEquals($other->getTable($tableName));
-    }
-    
-    return TRUE;
+  public function assertEquals(PHPUnit_Extensions_Database_DataSet_IDataSet $other)
+  {
+      $thisTableNames = $this->getTableNames();
+      $otherTableNames = $other->getTableNames();
+
+      sort($thisTableNames);
+      sort($otherTableNames);
+
+      if ($thisTableNames != $otherTableNames) {
+          throw new Exception('Expected following tables: '.implode(', ', $thisTableNames).'; has columns: '.implode(', ', $otherTableNames));
+      }
+
+      foreach ($thisTableNames as $tableName) {
+          $this->getTable($tableName)->assertEquals($other->getTable($tableName));
+      }
+
+      return true;
   }
 
-  public function __toString() {
-    $iterator = $this->getIterator();
-    
-    $dataSetString = '';
-    foreach ($iterator as $table) {
-      $dataSetString .= $table->__toString();
+    public function __toString()
+    {
+        $iterator = $this->getIterator();
+
+        $dataSetString = '';
+        foreach ($iterator as $table) {
+            $dataSetString .= $table->__toString();
+        }
+
+        return $dataSetString;
     }
-    
-    return $dataSetString;
-  }
 }
-?>

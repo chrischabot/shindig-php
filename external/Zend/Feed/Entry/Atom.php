@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,9 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed
+ *
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: Atom.php 8064 2008-02-16 10:58:39Z thomas $
  */
 
@@ -29,18 +30,19 @@ require_once 'external/Zend/Feed/Entry/Abstract.php';
  * Concrete class for working with Atom entries.
  *
  * @category   Zend
- * @package    Zend_Feed
+ *
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract {
-  /**
+class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract
+{
+    /**
    * Root XML element for Atom entries.
    *
    * @var string
    */
   protected $_rootElement = 'entry';
-  
+
   /**
    * Root namespace for Atom entries.
    *
@@ -59,32 +61,34 @@ class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract {
    * Usually the response would be 204 No Content, but the Atom
    * Publishing Protocol permits it to be 200 OK.
    *
-   * @return void
    * @throws Zend_Feed_Exception
+   *
+   * @return void
    */
-  public function delete() {
-    // Look for link rel="edit" in the entry object.
+  public function delete()
+  {
+      // Look for link rel="edit" in the entry object.
     $deleteUri = $this->link('edit');
-    if (! $deleteUri) {
-      /** 
+      if (!$deleteUri) {
+          /**
        * @see Zend_Feed_Exception
        */
       require_once 'external/Zend/Feed/Exception.php';
-      throw new Zend_Feed_Exception('Cannot delete entry; no link rel="edit" is present.');
-    }
-    
+          throw new Zend_Feed_Exception('Cannot delete entry; no link rel="edit" is present.');
+      }
+
     // DELETE
     $client = Zend_Feed::getHttpClient();
-    do {
-      $client->setUri($deleteUri);
-      if (Zend_Feed::getHttpMethodOverride()) {
-        $client->setHeader('X-HTTP-Method-Override', 'DELETE');
-        $response = $client->request('POST');
-      } else {
-        $response = $client->request('DELETE');
-      }
-      $httpStatus = $response->getStatus();
-      switch ((int)$httpStatus / 100) {
+      do {
+          $client->setUri($deleteUri);
+          if (Zend_Feed::getHttpMethodOverride()) {
+              $client->setHeader('X-HTTP-Method-Override', 'DELETE');
+              $response = $client->request('POST');
+          } else {
+              $response = $client->request('DELETE');
+          }
+          $httpStatus = $response->getStatus();
+          switch ((int) $httpStatus / 100) {
         // Success
         case 2:
           return true;
@@ -94,13 +98,13 @@ class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract {
           continue;
         // Error
         default:
-          /** 
+          /**
            * @see Zend_Feed_Exception
            */
           require_once 'external/Zend/Feed/Exception.php';
           throw new Zend_Feed_Exception("Expected response code 2xx, got $httpStatus");
       }
-    } while (true);
+      } while (true);
   }
 
   /**
@@ -120,101 +124,104 @@ class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract {
    * link rel="edit".
    *
    * @param  string $postUri Location to POST for creating new entries.
-   * @return void
+   *
    * @throws Zend_Feed_Exception
+   *
+   * @return void
    */
-  public function save($postUri = null) {
-    if ($this->id()) {
-      // If id is set, look for link rel="edit" in the
+  public function save($postUri = null)
+  {
+      if ($this->id()) {
+          // If id is set, look for link rel="edit" in the
       // entry object and PUT.
       $editUri = $this->link('edit');
-      if (! $editUri) {
-        /** 
+          if (!$editUri) {
+              /**
          * @see Zend_Feed_Exception
          */
         require_once 'external/Zend/Feed/Exception.php';
-        throw new Zend_Feed_Exception('Cannot edit entry; no link rel="edit" is present.');
-      }
-      
-      $client = Zend_Feed::getHttpClient();
-      $client->setUri($editUri);
-      if (Zend_Feed::getHttpMethodOverride()) {
-        $client->setHeaders(array('X-HTTP-Method-Override: PUT', 
-            'Content-Type: application/atom+xml'));
-        $client->setRawData($this->saveXML());
-        $response = $client->request('POST');
+              throw new Zend_Feed_Exception('Cannot edit entry; no link rel="edit" is present.');
+          }
+
+          $client = Zend_Feed::getHttpClient();
+          $client->setUri($editUri);
+          if (Zend_Feed::getHttpMethodOverride()) {
+              $client->setHeaders(['X-HTTP-Method-Override: PUT',
+            'Content-Type: application/atom+xml', ]);
+              $client->setRawData($this->saveXML());
+              $response = $client->request('POST');
+          } else {
+              $client->setHeaders('Content-Type', 'application/atom+xml');
+              $client->setRawData($this->saveXML());
+              $response = $client->request('PUT');
+          }
+          if ($response->getStatus() !== 200) {
+              /**
+         * @see Zend_Feed_Exception
+         */
+        require_once 'external/Zend/Feed/Exception.php';
+              throw new Zend_Feed_Exception('Expected response code 200, got '.$response->getStatus());
+          }
       } else {
-        $client->setHeaders('Content-Type', 'application/atom+xml');
-        $client->setRawData($this->saveXML());
-        $response = $client->request('PUT');
-      }
-      if ($response->getStatus() !== 200) {
-        /** 
+          if ($postUri === null) {
+              /**
          * @see Zend_Feed_Exception
          */
         require_once 'external/Zend/Feed/Exception.php';
-        throw new Zend_Feed_Exception('Expected response code 200, got ' . $response->getStatus());
-      }
-    } else {
-      if ($postUri === null) {
-        /** 
+              throw new Zend_Feed_Exception('PostURI must be specified to save new entries.');
+          }
+          $client = Zend_Feed::getHttpClient();
+          $client->setUri($postUri);
+          $client->setRawData($this->saveXML());
+          $response = $client->request('POST');
+
+          if ($response->getStatus() !== 201) {
+              /**
          * @see Zend_Feed_Exception
          */
         require_once 'external/Zend/Feed/Exception.php';
-        throw new Zend_Feed_Exception('PostURI must be specified to save new entries.');
+              throw new Zend_Feed_Exception('Expected response code 201, got '.$response->getStatus());
+          }
       }
-      $client = Zend_Feed::getHttpClient();
-      $client->setUri($postUri);
-      $client->setRawData($this->saveXML());
-      $response = $client->request('POST');
-      
-      if ($response->getStatus() !== 201) {
-        /** 
-         * @see Zend_Feed_Exception
-         */
-        require_once 'external/Zend/Feed/Exception.php';
-        throw new Zend_Feed_Exception('Expected response code 201, got ' . $response->getStatus());
-      }
-    }
-    
+
     // Update internal properties using $client->responseBody;
     @ini_set('track_errors', 1);
-    $newEntry = @DOMDocument::loadXML($response->getBody());
-    @ini_restore('track_errors');
-    
-    if (! $newEntry) {
-      // prevent the class to generate an undefined variable notice (ZF-2590)
-      if (! isset($php_errormsg)) {
-        if (function_exists('xdebug_is_enabled')) {
-          $php_errormsg = '(error message not available, when XDebug is running)';
-        } else {
-          $php_errormsg = '(error message not available)';
-        }
+      $newEntry = @DOMDocument::loadXML($response->getBody());
+      @ini_restore('track_errors');
+
+      if (!$newEntry) {
+          // prevent the class to generate an undefined variable notice (ZF-2590)
+      if (!isset($php_errormsg)) {
+          if (function_exists('xdebug_is_enabled')) {
+              $php_errormsg = '(error message not available, when XDebug is running)';
+          } else {
+              $php_errormsg = '(error message not available)';
+          }
       }
-      
-      /** 
+
+      /**
        * @see Zend_Feed_Exception
        */
       require_once 'external/Zend/Feed/Exception.php';
-      throw new Zend_Feed_Exception('XML cannot be parsed: ' . $php_errormsg);
-    }
-    
-    $newEntry = $newEntry->getElementsByTagName($this->_rootElement)->item(0);
-    if (! $newEntry) {
-      /** 
+          throw new Zend_Feed_Exception('XML cannot be parsed: '.$php_errormsg);
+      }
+
+      $newEntry = $newEntry->getElementsByTagName($this->_rootElement)->item(0);
+      if (!$newEntry) {
+          /**
        * @see Zend_Feed_Exception
        */
       require_once 'external/Zend/Feed/Exception.php';
-      throw new Zend_Feed_Exception('No root <feed> element found in server response:' . "\n\n" . $client->responseBody);
-    }
-    
-    if ($this->_element->parentNode) {
-      $oldElement = $this->_element;
-      $this->_element = $oldElement->ownerDocument->importNode($newEntry, true);
-      $oldElement->parentNode->replaceChild($this->_element, $oldElement);
-    } else {
-      $this->_element = $newEntry;
-    }
+          throw new Zend_Feed_Exception('No root <feed> element found in server response:'."\n\n".$client->responseBody);
+      }
+
+      if ($this->_element->parentNode) {
+          $oldElement = $this->_element;
+          $this->_element = $oldElement->ownerDocument->importNode($newEntry, true);
+          $oldElement->parentNode->replaceChild($this->_element, $oldElement);
+      } else {
+          $this->_element = $newEntry;
+      }
   }
 
   /**
@@ -230,33 +237,32 @@ class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract {
    * $elt->link('self'): returns the href from the first <link rel="self"> in the entry.
    *
    * @param  string $rel The "rel" attribute to look for.
+   *
    * @return mixed
    */
-  public function link($rel = null) {
-    if ($rel === null) {
-      return parent::__call('link', null);
-    }
-    
+  public function link($rel = null)
+  {
+      if ($rel === null) {
+          return parent::__call('link', null);
+      }
+
     // index link tags by their "rel" attribute.
     $links = parent::__get('link');
-    if (! is_array($links)) {
-      if ($links instanceof Zend_Feed_Element) {
-        $links = array($links);
-      } else {
-        return $links;
+      if (!is_array($links)) {
+          if ($links instanceof Zend_Feed_Element) {
+              $links = [$links];
+          } else {
+              return $links;
+          }
       }
-    }
-    
-    foreach ($links as $link) {
-      if (empty($link['rel'])) {
-        continue;
-      }
-      if ($rel == $link['rel']) {
-        return $link['href'];
-      }
-    }
-    
-    return null;
-  }
 
+      foreach ($links as $link) {
+          if (empty($link['rel'])) {
+              continue;
+          }
+          if ($rel == $link['rel']) {
+              return $link['href'];
+          }
+      }
+  }
 }

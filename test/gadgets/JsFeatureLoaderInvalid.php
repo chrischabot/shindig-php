@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,23 +21,23 @@
 /**
  * JsFeatureLoader test case.
  */
-class JsFeatureLoaderTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class JsFeatureLoaderTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var JsFeatureLoader
    */
   private $JsFeatureLoader;
-  
+
   /**
    * @var FeatureName
    */
   private $FeatureName = 'Dummie';
-  
+
   /**
    * @var FeatureScript
    */
   private $FeatureScript = 'dummie_script.js';
-  
+
   /**
    * @var JsFeaturesFileContent
    */
@@ -46,48 +46,48 @@ class JsFeatureLoaderTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->JsFeatureLoader = new JsFeatureLoader('');
-  
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->JsFeatureLoader = new JsFeatureLoader('');
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->JsFeatureLoader = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->JsFeatureLoader = null;
+      parent::tearDown();
   }
 
-  public function __construct() {
-    $this->JsFeaturesFileContent = '<?xml version="1.0"?>	
+    public function __construct()
+    {
+        $this->JsFeaturesFileContent = '<?xml version="1.0"?>	
 <feature>
-  <name>' . $this->FeatureName . '</name>
+  <name>'.$this->FeatureName.'</name>
   <gadget>
-    <script src="' . $this->FeatureScript . '"/>
+    <script src="'.$this->FeatureScript.'"/>
   </gadget>
 </feature>
 		';
-  }
+    }
 
   /**
-   * Tests JsFeatureLoader->loadFeatures()
+   * Tests JsFeatureLoader->loadFeatures().
    */
-  public function testLoadFeatures() {
-    $registry = new GadgetFeatureRegistry('');
-    if (file_put_contents($this->FeatureScript, $this->JsFeaturesFileContent)) {
-      if (file_exists($this->FeatureScript) && is_readable($this->FeatureScript)) {
-        $features = $this->JsFeatureLoader->loadFeatures($this->FeatureScript, $registry);
-        foreach ($features as $feature) {
-          $this->assertTrue($feature->name == $this->FeatureName);
-        }
+  public function testLoadFeatures()
+  {
+      $registry = new GadgetFeatureRegistry('');
+      if (file_put_contents($this->FeatureScript, $this->JsFeaturesFileContent)) {
+          if (file_exists($this->FeatureScript) && is_readable($this->FeatureScript)) {
+              $features = $this->JsFeatureLoader->loadFeatures($this->FeatureScript, $registry);
+              foreach ($features as $feature) {
+                  $this->assertTrue($feature->name == $this->FeatureName);
+              }
+          }
+      } else {
+          $this->fail('Error creating the dummie fail');
       }
-    } else {
-      $this->fail('Error creating the dummie fail');
-    }
-  
   }
-
 }
-

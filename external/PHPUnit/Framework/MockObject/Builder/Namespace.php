@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Namespace.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Builder/Match.php';
 
@@ -56,21 +57,24 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * This interface relates to PHPUnit_Framework_MockObject_Builder_Identity.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 3.0.0
  */
-interface PHPUnit_Framework_MockObject_Builder_Namespace {
-
-  /**
+interface PHPUnit_Framework_MockObject_Builder_Namespace
+{
+    /**
    * Looks up the match builder with identification $id and returns it.
    *
    * @param string $id The identifiction of the match builder.
+   *
    * @return PHPUnit_Framework_MockObject_Builder_Match
    */
   public function lookupId($id);
@@ -85,4 +89,3 @@ interface PHPUnit_Framework_MockObject_Builder_Namespace {
    */
   public function registerId($id, PHPUnit_Framework_MockObject_Builder_Match $builder);
 }
-?>

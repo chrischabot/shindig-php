@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * Auth test case.
  */
-class AuthTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class AuthTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var Auth
    */
   private $Auth;
@@ -31,26 +31,29 @@ class AuthTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->Auth = new Auth();
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->Auth = new Auth();
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->Auth = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->Auth = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests Auth::parse()
+   * Tests Auth::parse().
    */
-  public function testParse() {
-    $this->assertEquals(Auth::$AUTHENTICATED, Auth::parse('authenticated'));
-    $this->assertEquals(Auth::$SIGNED, Auth::parse('signed'));
-    $this->assertEquals(Auth::$NONE, Auth::parse('none'));
-    $this->assertEquals(Auth::$NONE, Auth::parse('foo'));
+  public function testParse()
+  {
+      $this->assertEquals(Auth::$AUTHENTICATED, Auth::parse('authenticated'));
+      $this->assertEquals(Auth::$SIGNED, Auth::parse('signed'));
+      $this->assertEquals(Auth::$NONE, Auth::parse('none'));
+      $this->assertEquals(Auth::$NONE, Auth::parse('foo'));
   }
 }

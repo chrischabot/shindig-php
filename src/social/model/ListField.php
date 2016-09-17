@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,42 +21,51 @@
 /**
  * Base class for plural fields, defining the standard value/type/primary sub-fields.
  */
-class ListField implements ComplexField {
-  public $value;
-  public $type;
-  public $primary;
+class ListField implements ComplexField
+{
+    public $value;
+    public $type;
+    public $primary;
 
-  public function __construct($value, $type, $primary = null) {
-    $this->value = $value;
-    $this->type = $type;
-    $this->primary = $primary;
-  }
+    public function __construct($value, $type, $primary = null)
+    {
+        $this->value = $value;
+        $this->type = $type;
+        $this->primary = $primary;
+    }
 
-  public function getValue() {
-    return $this->value;
-  }
+    public function getValue()
+    {
+        return $this->value;
+    }
 
-  public function setValue($value) {
-    $this->value = $value;
-  }
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
 
-  public function getType() {
-    return $this->type;
-  }
+    public function getType()
+    {
+        return $this->type;
+    }
 
-  public function setType($type) {
-    $this->type = $type;
-  }
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
 
-  public function getPrimary() {
-    return $this->primary;
-  }
+    public function getPrimary()
+    {
+        return $this->primary;
+    }
 
-  public function setPrimary($primary) {
-    $this->primary = $primary ? true : null;
-  }
+    public function setPrimary($primary)
+    {
+        $this->primary = $primary ? true : null;
+    }
 
-  public function getPrimarySubValue() {
-    return $this->getValue();
-  }
+    public function getPrimarySubValue()
+    {
+        return $this->getValue();
+    }
 }

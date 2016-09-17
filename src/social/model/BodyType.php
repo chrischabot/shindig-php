@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -20,57 +20,69 @@
 
 /**
  * see
- * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.BodyType
+ * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.BodyType.
  */
-class BodyType implements ComplexField {
-  public $build;
-  public $eyeColor;
-  public $hairColor;
-  public $height;
-  public $weight;
+class BodyType implements ComplexField
+{
+    public $build;
+    public $eyeColor;
+    public $hairColor;
+    public $height;
+    public $weight;
 
-  public function getBuild() {
-    return $this->build;
-  }
+    public function getBuild()
+    {
+        return $this->build;
+    }
 
-  public function setBuild($build) {
-    $this->build = $build;
-  }
+    public function setBuild($build)
+    {
+        $this->build = $build;
+    }
 
-  public function getEyeColor() {
-    return $this->eyeColor;
-  }
+    public function getEyeColor()
+    {
+        return $this->eyeColor;
+    }
 
-  public function setEyeColor($eyeColor) {
-    $this->eyeColor = $eyeColor;
-  }
+    public function setEyeColor($eyeColor)
+    {
+        $this->eyeColor = $eyeColor;
+    }
 
-  public function getHairColor() {
-    return $this->hairColor;
-  }
+    public function getHairColor()
+    {
+        return $this->hairColor;
+    }
 
-  public function setHairColor($hairColor) {
-    $this->hairColor = $hairColor;
-  }
+    public function setHairColor($hairColor)
+    {
+        $this->hairColor = $hairColor;
+    }
 
-  public function getHeight() {
-    return $this->height;
-  }
+    public function getHeight()
+    {
+        return $this->height;
+    }
 
-  public function setHeight($height) {
-    $this->height = $height;
-  }
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
 
-  public function getWeight() {
-    return $this->weight;
-  }
+    public function getWeight()
+    {
+        return $this->weight;
+    }
 
-  public function setWeight($weight) {
-    $this->weight = $weight;
-  }
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+    }
 
-  public function getPrimarySubValue() {
-    // FIXME: is primary sub-field specified for bodyType in the spec??
+    public function getPrimarySubValue()
+    {
+        // FIXME: is primary sub-field specified for bodyType in the spec??
     return $this->getBuild();
-  }
+    }
 }

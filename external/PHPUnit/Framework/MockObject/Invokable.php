@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Invokable.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Invocation.php';
 require_once 'PHPUnit/Framework/MockObject/Verifiable.php';
@@ -58,34 +59,37 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * of this class.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 3.0.0
  */
-interface PHPUnit_Framework_MockObject_Invokable extends PHPUnit_Framework_MockObject_Verifiable {
-
-  /**
+interface PHPUnit_Framework_MockObject_Invokable extends PHPUnit_Framework_MockObject_Verifiable
+{
+    /**
    * Invokes the invocation object $invocation so that it can be checked for
    * expectations or matched against stubs.
    *
-   * @return Object
    * @param PHPUnit_Framework_MockObject_Invocation $invocation The invocation object passed from
    *                                                              mock object.
+   *
+   * @return object
    */
   public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation);
 
   /**
    * Checks if the invocation matches.
    *
-   * @return bool
    * @param PHPUnit_Framework_MockObject_Invocation $invocation The invocation object passed from
    *                                                              mock object.
+   *
+   * @return bool
    */
   public function matches(PHPUnit_Framework_MockObject_Invocation $invocation);
 }
-?>

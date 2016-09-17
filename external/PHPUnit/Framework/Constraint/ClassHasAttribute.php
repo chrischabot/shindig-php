@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ClassHasAttribute.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Type.php';
@@ -57,44 +58,49 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * The attribute name is passed in the constructor.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.0
  */
-class PHPUnit_Framework_Constraint_ClassHasAttribute extends PHPUnit_Framework_Constraint {
-  protected $attributeName;
+class PHPUnit_Framework_Constraint_ClassHasAttribute extends PHPUnit_Framework_Constraint
+{
+    protected $attributeName;
 
-  public function __construct($attributeName) {
-    $this->attributeName = $attributeName;
-  }
+    public function __construct($attributeName)
+    {
+        $this->attributeName = $attributeName;
+    }
 
   /**
    * Evaluates the constraint for parameter $other. Returns TRUE if the
    * constraint is met, FALSE otherwise.
    *
    * @param mixed $other Value or object to evaluate.
+   *
    * @return bool
    */
-  public function evaluate($other) {
-    $class = new ReflectionClass($other);
-    
-    return $class->hasProperty($this->attributeName);
+  public function evaluate($other)
+  {
+      $class = new ReflectionClass($other);
+
+      return $class->hasProperty($this->attributeName);
   }
 
   /**
    * Returns a string representation of the constraint.
    *
    * @return string
-   * @access public
    */
-  public function toString() {
-    return sprintf('has attribute "%s"', 
+  public function toString()
+  {
+      return sprintf('has attribute "%s"',
 
     $this->attributeName);
   }
 }
-?>

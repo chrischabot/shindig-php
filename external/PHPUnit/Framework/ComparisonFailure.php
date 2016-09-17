@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,221 +35,219 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ComparisonFailure.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Type.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-if (! class_exists('PHPUnit_Framework_ComparisonFailure', FALSE)) {
+if (!class_exists('PHPUnit_Framework_ComparisonFailure', false)) {
 
   /**
    * Thrown when an assertion for string equality failed.
    *
    * @category   Testing
-   * @package    PHPUnit
+   *
    * @author     Jan Borsodi <jb@ez.no>
    * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
    * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+   *
    * @version    Release: 3.2.9
+   *
    * @link       http://www.phpunit.de/
    * @since      Class available since Release 2.0.0
    */
-  abstract class PHPUnit_Framework_ComparisonFailure extends PHPUnit_Framework_AssertionFailedError {
-    /**
+  abstract class PHPUnit_Framework_ComparisonFailure extends PHPUnit_Framework_AssertionFailedError
+  {
+      /**
      * Expected value of the retrieval which does not match $actual.
+     *
      * @var mixed
      */
     protected $expected;
-    
+
     /**
      * Actually retrieved value which does not match $expected.
+     *
      * @var mixed
      */
     protected $actual;
-    
+
     /**
-     * @var boolean
+     * @var bool
      */
     protected $identical;
-    
+
     /**
      * Optional message which is placed in front of the first line
      * returned by toString().
+     *
      * @var string
      */
     protected $message;
-    
+
     /**
-     * @var boolean
+     * @var bool
      */
-    protected static $hasDiff = NULL;
+    protected static $hasDiff = null;
 
     /**
      * Initialises with the expected value and the actual value.
      *
-     * @param mixed $expected Expected value retrieved.
-     * @param mixed $actual Actual value retrieved.
-     * @param boolean $identical
-     * @param string $message A string which is prefixed on all returned lines
-     *                       in the difference output.
+     * @param mixed  $expected  Expected value retrieved.
+     * @param mixed  $actual    Actual value retrieved.
+     * @param bool   $identical
+     * @param string $message   A string which is prefixed on all returned lines
+     *                          in the difference output.
      */
-    public function __construct($expected, $actual, $identical = FALSE, $message = '') {
-      $this->expected = $expected;
-      $this->actual = $actual;
-      $this->identical = $identical;
-      $this->message = $message;
+    public function __construct($expected, $actual, $identical = false, $message = '')
+    {
+        $this->expected = $expected;
+        $this->actual = $actual;
+        $this->identical = $identical;
+        $this->message = $message;
     }
 
-    public function getActual() {
-      return $this->actual;
-    }
+      public function getActual()
+      {
+          return $this->actual;
+      }
 
-    public function getExpected() {
-      return $this->expected;
-    }
+      public function getExpected()
+      {
+          return $this->expected;
+      }
 
-    public function identical() {
-      return $this->identical;
-    }
+      public function identical()
+      {
+          return $this->identical;
+      }
 
     /**
      * Figures out which diff class to use for the input types then
      * instantiates that class and returns the object.
+     *
      * @note The diff is type sensitive, if the type differs only the types
      *       are shown.
      *
-     * @param mixed $expected Expected value retrieved.
-     * @param mixed $actual Actual value retrieved.
-     * @param string $message A string which is prefixed on all returned lines
-     *                       in the difference output.
+     * @param mixed  $expected Expected value retrieved.
+     * @param mixed  $actual   Actual value retrieved.
+     * @param string $message  A string which is prefixed on all returned lines
+     *                         in the difference output.
+     *
      * @return PHPUnit_Framework_ComparisonFailure
      */
-    public static function diffIdentical($expected, $actual, $message = '') {
-      if (gettype($expected) !== gettype($actual)) {
-        return new PHPUnit_Framework_ComparisonFailure_Type($expected, $actual, TRUE, $message);
-      } 
-
-      elseif (is_string($expected)) {
-        return new PHPUnit_Framework_ComparisonFailure_String($expected, $actual, TRUE, $message);
-      } 
-
-      elseif (is_null($expected) || is_scalar($expected)) {
-        return new PHPUnit_Framework_ComparisonFailure_Scalar($expected, $actual, TRUE, $message);
-      } 
-
-      elseif (is_array($expected)) {
-        return new PHPUnit_Framework_ComparisonFailure_Array($expected, $actual, TRUE, $message);
-      } 
-
-      elseif (is_object($expected)) {
-        return new PHPUnit_Framework_ComparisonFailure_Object($expected, $actual, TRUE, $message);
-      }
+    public static function diffIdentical($expected, $actual, $message = '')
+    {
+        if (gettype($expected) !== gettype($actual)) {
+            return new PHPUnit_Framework_ComparisonFailure_Type($expected, $actual, true, $message);
+        } elseif (is_string($expected)) {
+            return new PHPUnit_Framework_ComparisonFailure_String($expected, $actual, true, $message);
+        } elseif (is_null($expected) || is_scalar($expected)) {
+            return new PHPUnit_Framework_ComparisonFailure_Scalar($expected, $actual, true, $message);
+        } elseif (is_array($expected)) {
+            return new PHPUnit_Framework_ComparisonFailure_Array($expected, $actual, true, $message);
+        } elseif (is_object($expected)) {
+            return new PHPUnit_Framework_ComparisonFailure_Object($expected, $actual, true, $message);
+        }
     }
 
     /**
      * Figures out which diff class to use for the input types then
      * instantiates that class and returns the object.
+     *
      * @note The diff is not type sensitive, if the type differs the $actual
      *       value will be converted to the same type as the $expected.
      *
-     * @param mixed $expected Expected value retrieved.
-     * @param mixed $actual Actual value retrieved.
-     * @param string $message A string which is prefixed on all returned lines
-     *                       in the difference output.
+     * @param mixed  $expected Expected value retrieved.
+     * @param mixed  $actual   Actual value retrieved.
+     * @param string $message  A string which is prefixed on all returned lines
+     *                         in the difference output.
+     *
      * @return PHPUnit_Framework_ComparisonFailure
      */
-    public static function diffEqual($expected, $actual, $message = '') {
-      if (is_string($expected) && ! is_object($actual)) {
-        return new PHPUnit_Framework_ComparisonFailure_String($expected, $actual, FALSE, $message);
-      } 
-
-      elseif (is_null($expected) || is_scalar($expected)) {
-        return new PHPUnit_Framework_ComparisonFailure_Scalar($expected, $actual, FALSE, $message);
-      } 
-
-      elseif (is_array($expected)) {
-        return new PHPUnit_Framework_ComparisonFailure_Array($expected, $actual, FALSE, $message);
-      } 
-
-      elseif (is_object($expected)) {
-        return new PHPUnit_Framework_ComparisonFailure_Object($expected, $actual, FALSE, $message);
-      }
+    public static function diffEqual($expected, $actual, $message = '')
+    {
+        if (is_string($expected) && !is_object($actual)) {
+            return new PHPUnit_Framework_ComparisonFailure_String($expected, $actual, false, $message);
+        } elseif (is_null($expected) || is_scalar($expected)) {
+            return new PHPUnit_Framework_ComparisonFailure_Scalar($expected, $actual, false, $message);
+        } elseif (is_array($expected)) {
+            return new PHPUnit_Framework_ComparisonFailure_Array($expected, $actual, false, $message);
+        } elseif (is_object($expected)) {
+            return new PHPUnit_Framework_ComparisonFailure_Object($expected, $actual, false, $message);
+        }
     }
 
-    protected function diff($expected, $actual) {
-      $expectedFile = tempnam('/tmp', 'expected');
-      file_put_contents($expectedFile, $expected);
-      
-      $actualFile = tempnam('/tmp', 'actual');
-      file_put_contents($actualFile, $actual);
-      
-      $buffer = shell_exec(sprintf('diff -u %s %s', $expectedFile, $actualFile));
-      
-      unlink($expectedFile);
-      unlink($actualFile);
-      
-      if (! empty($buffer)) {
-        $buffer = explode("\n", $buffer);
-        
-        $buffer[0] = "--- Expected";
-        $buffer[1] = "+++ Actual";
-        
-        return implode("\n", $buffer);
-      }
-      
-      return '';
-    }
+      protected function diff($expected, $actual)
+      {
+          $expectedFile = tempnam('/tmp', 'expected');
+          file_put_contents($expectedFile, $expected);
 
-    public static function hasDiff() {
-      if (self::$hasDiff === NULL) {
-        self::$hasDiff = FALSE;
-        
-        $binary = 'diff';
-        
-        if (substr(php_uname('s'), 0, 7) == 'Windows') {
-          $binary .= '.exe';
-        }
-        
-        if (isset($_ENV['PATH'])) {
-          $paths = explode(PATH_SEPARATOR, $_ENV['PATH']);
-        } 
+          $actualFile = tempnam('/tmp', 'actual');
+          file_put_contents($actualFile, $actual);
 
-        else if (isset($_ENV['Path'])) {
-          $paths = explode(PATH_SEPARATOR, $_ENV['Path']);
-        } 
+          $buffer = shell_exec(sprintf('diff -u %s %s', $expectedFile, $actualFile));
 
-        else if (isset($_SERVER['PATH'])) {
-          $paths = explode(PATH_SEPARATOR, $_SERVER['PATH']);
-        } 
+          unlink($expectedFile);
+          unlink($actualFile);
 
-        else {
-          $paths = array();
-        }
-        
-        foreach ($paths as $path) {
-          if (file_exists($path . DIRECTORY_SEPARATOR . $binary) && is_executable($path . DIRECTORY_SEPARATOR . $binary)) {
-            self::$hasDiff = TRUE;
-            break;
+          if (!empty($buffer)) {
+              $buffer = explode("\n", $buffer);
+
+              $buffer[0] = '--- Expected';
+              $buffer[1] = '+++ Actual';
+
+              return implode("\n", $buffer);
           }
-        }
-      }
-      
-      return self::$hasDiff;
-    }
-  }
 
+          return '';
+      }
+
+      public static function hasDiff()
+      {
+          if (self::$hasDiff === null) {
+              self::$hasDiff = false;
+
+              $binary = 'diff';
+
+              if (substr(php_uname('s'), 0, 7) == 'Windows') {
+                  $binary .= '.exe';
+              }
+
+              if (isset($_ENV['PATH'])) {
+                  $paths = explode(PATH_SEPARATOR, $_ENV['PATH']);
+              } elseif (isset($_ENV['Path'])) {
+                  $paths = explode(PATH_SEPARATOR, $_ENV['Path']);
+              } elseif (isset($_SERVER['PATH'])) {
+                  $paths = explode(PATH_SEPARATOR, $_SERVER['PATH']);
+              } else {
+                  $paths = [];
+              }
+
+              foreach ($paths as $path) {
+                  if (file_exists($path.DIRECTORY_SEPARATOR.$binary) && is_executable($path.DIRECTORY_SEPARATOR.$binary)) {
+                      self::$hasDiff = true;
+                      break;
+                  }
+              }
+          }
+
+          return self::$hasDiff;
+      }
+  }
 }
 
 require_once 'PHPUnit/Framework/ComparisonFailure/Array.php';
@@ -257,4 +255,3 @@ require_once 'PHPUnit/Framework/ComparisonFailure/Object.php';
 require_once 'PHPUnit/Framework/ComparisonFailure/Scalar.php';
 require_once 'PHPUnit/Framework/ComparisonFailure/String.php';
 require_once 'PHPUnit/Framework/ComparisonFailure/Type.php';
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,43 +35,46 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: IDatabaseOperation.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * Provides a basic interface and functionality for executing database 
+ * Provides a basic interface and functionality for executing database
  * operations against a connection using a specific dataSet.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-interface PHPUnit_Extensions_Database_Operation_IDatabaseOperation {
-
-  /**
-   * Executes the database operation against the given $connection for the 
+interface PHPUnit_Extensions_Database_Operation_IDatabaseOperation
+{
+    /**
+   * Executes the database operation against the given $connection for the
    * given $dataSet.
    *
    * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
    * @param PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet
+   *
    * @throws PHPUnit_Extensions_Database_Operation_Exception
    */
   public function execute(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection, PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet);
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Timer.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -52,80 +53,83 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Utility class for timing.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Util_Timer {
-  protected static $startTimes = array();
+class PHPUnit_Util_Timer
+{
+    protected static $startTimes = [];
 
   /**
    * Starts the timer.
    *
-   * @access public
    * @static
    */
-  public static function start() {
-    array_push(self::$startTimes, microtime(TRUE));
+  public static function start()
+  {
+      array_push(self::$startTimes, microtime(true));
   }
 
   /**
    * Returns the currently elapsed time.
    *
    * @return float
-   * @access public
    * @static
    */
-  public static function current() {
-    return microtime(TRUE) - self::$startTimes[count(self::$startTimes) - 1];
+  public static function current()
+  {
+      return microtime(true) - self::$startTimes[count(self::$startTimes) - 1];
   }
 
   /**
    * Stops the timer and returns the elapsed time.
    *
-   * @access public
    * @static
    */
-  public static function stop() {
-    return microtime(TRUE) - array_pop(self::$startTimes);
+  public static function stop()
+  {
+      return microtime(true) - array_pop(self::$startTimes);
   }
 
   /**
    * Formats elapsed time (in seconds) to a string.
    *
    * @param  float $time
+   *
    * @return float
-   * @access public
    * @static
    */
-  public static function secondsToTimeString($time) {
-    $buffer = '';
-    
-    $hours = sprintf('%02d', ($time >= 3600) ? floor($time / 3600) : 0);
-    $minutes = sprintf('%02d', ($time >= 60) ? floor($time / 60) - 60 * $hours : 0);
-    $seconds = sprintf('%02d', $time - 60 * 60 * $hours - 60 * $minutes);
-    
-    if ($hours == 0 && $minutes == 0) {
-      $seconds = sprintf('%1d', $seconds);
-      
-      $buffer .= $seconds . ' second';
-      
-      if ($seconds != '1') {
-        $buffer .= 's';
+  public static function secondsToTimeString($time)
+  {
+      $buffer = '';
+
+      $hours = sprintf('%02d', ($time >= 3600) ? floor($time / 3600) : 0);
+      $minutes = sprintf('%02d', ($time >= 60) ? floor($time / 60) - 60 * $hours : 0);
+      $seconds = sprintf('%02d', $time - 60 * 60 * $hours - 60 * $minutes);
+
+      if ($hours == 0 && $minutes == 0) {
+          $seconds = sprintf('%1d', $seconds);
+
+          $buffer .= $seconds.' second';
+
+          if ($seconds != '1') {
+              $buffer .= 's';
+          }
+      } else {
+          if ($hours > 0) {
+              $buffer = $hours.':';
+          }
+
+          $buffer .= $minutes.':'.$seconds;
       }
-    } else {
-      if ($hours > 0) {
-        $buffer = $hours . ':';
-      }
-      
-      $buffer .= $minutes . ':' . $seconds;
-    }
-    
-    return $buffer;
+
+      return $buffer;
   }
 }
-?>

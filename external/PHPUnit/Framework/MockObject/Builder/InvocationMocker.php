@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: InvocationMocker.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Builder/MethodNameMatch.php';
 require_once 'PHPUnit/Framework/MockObject/Matcher.php';
@@ -61,87 +62,97 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * with the test case PHPUnit_Framework_MockObject_TestCase.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Jan Borsodi <jb@ez.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_MockObject_Builder_InvocationMocker implements PHPUnit_Framework_MockObject_Builder_MethodNameMatch {
-  protected $collection;
-  
-  protected $matcher;
+class PHPUnit_Framework_MockObject_Builder_InvocationMocker implements PHPUnit_Framework_MockObject_Builder_MethodNameMatch
+{
+    protected $collection;
 
-  public function __construct(PHPUnit_Framework_MockObject_Stub_MatcherCollection $collection, PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher) {
-    $this->collection = $collection;
-    $this->matcher = new PHPUnit_Framework_MockObject_Matcher($invocationMatcher);
-    
-    $this->collection->addMatcher($this->matcher);
-  }
+    protected $matcher;
 
-  public function getMatcher() {
-    return $this->matcher;
-  }
+    public function __construct(PHPUnit_Framework_MockObject_Stub_MatcherCollection $collection, PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher)
+    {
+        $this->collection = $collection;
+        $this->matcher = new PHPUnit_Framework_MockObject_Matcher($invocationMatcher);
 
-  public function id($id) {
-    $this->collection->registerId($id, $this);
-    
-    return $this;
-  }
-
-  public function will(PHPUnit_Framework_MockObject_Stub $stub) {
-    $this->matcher->stub = $stub;
-    
-    return $this;
-  }
-
-  public function after($id) {
-    $this->matcher->afterMatchBuilderId = $id;
-    
-    return $this;
-  }
-
-  public function with() {
-    $args = func_get_args();
-    
-    if ($this->matcher->methodNameMatcher === NULL) {
-      throw new RuntimeException('Method name matcher is not defined, cannot define parameter matcher without one');
+        $this->collection->addMatcher($this->matcher);
     }
-    
-    if ($this->matcher->parametersMatcher !== NULL) {
-      throw new RuntimeException('Parameter matcher is already defined, cannot redefine');
-    }
-    
-    $this->matcher->parametersMatcher = new PHPUnit_Framework_MockObject_Matcher_Parameters($args);
-    
-    return $this;
-  }
 
-  public function withAnyParameters() {
-    if ($this->matcher->methodNameMatcher === NULL) {
-      throw new RuntimeException('Method name matcher is not defined, cannot define parameter matcher without one');
+    public function getMatcher()
+    {
+        return $this->matcher;
     }
-    
-    if ($this->matcher->parametersMatcher !== NULL) {
-      throw new RuntimeException('Parameter matcher is already defined, cannot redefine');
-    }
-    
-    $this->matcher->parametersMatcher = new PHPUnit_Framework_MockObject_Matcher_AnyParameters();
-    
-    return $this;
-  }
 
-  public function method($constraint) {
-    if ($this->matcher->methodNameMatcher !== NULL) {
-      throw new RuntimeException('Method name matcher is already defined, cannot redefine');
+    public function id($id)
+    {
+        $this->collection->registerId($id, $this);
+
+        return $this;
     }
-    
-    $this->matcher->methodNameMatcher = new PHPUnit_Framework_MockObject_Matcher_MethodName($constraint);
-    
-    return $this;
-  }
+
+    public function will(PHPUnit_Framework_MockObject_Stub $stub)
+    {
+        $this->matcher->stub = $stub;
+
+        return $this;
+    }
+
+    public function after($id)
+    {
+        $this->matcher->afterMatchBuilderId = $id;
+
+        return $this;
+    }
+
+    public function with()
+    {
+        $args = func_get_args();
+
+        if ($this->matcher->methodNameMatcher === null) {
+            throw new RuntimeException('Method name matcher is not defined, cannot define parameter matcher without one');
+        }
+
+        if ($this->matcher->parametersMatcher !== null) {
+            throw new RuntimeException('Parameter matcher is already defined, cannot redefine');
+        }
+
+        $this->matcher->parametersMatcher = new PHPUnit_Framework_MockObject_Matcher_Parameters($args);
+
+        return $this;
+    }
+
+    public function withAnyParameters()
+    {
+        if ($this->matcher->methodNameMatcher === null) {
+            throw new RuntimeException('Method name matcher is not defined, cannot define parameter matcher without one');
+        }
+
+        if ($this->matcher->parametersMatcher !== null) {
+            throw new RuntimeException('Parameter matcher is already defined, cannot redefine');
+        }
+
+        $this->matcher->parametersMatcher = new PHPUnit_Framework_MockObject_Matcher_AnyParameters();
+
+        return $this;
+    }
+
+    public function method($constraint)
+    {
+        if ($this->matcher->methodNameMatcher !== null) {
+            throw new RuntimeException('Method name matcher is already defined, cannot redefine');
+        }
+
+        $this->matcher->methodNameMatcher = new PHPUnit_Framework_MockObject_Matcher_MethodName($constraint);
+
+        return $this;
+    }
 }
-?>

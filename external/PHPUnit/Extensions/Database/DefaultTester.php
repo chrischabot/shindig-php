@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id:DefaultDatabaseTester.php 1254 2008-09-02 04:36:15Z mlively $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -52,21 +53,23 @@ require_once 'PHPUnit/Extensions/Database/AbstractTester.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * This is the default implementation of the database tester. It receives its 
+ * This is the default implementation of the database tester. It receives its
  * connection object from the constructor.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DefaultTester extends PHPUnit_Extensions_Database_AbstractTester {
-  
-  /**
+class PHPUnit_Extensions_Database_DefaultTester extends PHPUnit_Extensions_Database_AbstractTester
+{
+    /**
    * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
    */
   protected $connection;
@@ -76,8 +79,9 @@ class PHPUnit_Extensions_Database_DefaultTester extends PHPUnit_Extensions_Datab
    *
    * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
    */
-  public function __construct(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection) {
-    $this->connection = $connection;
+  public function __construct(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection)
+  {
+      $this->connection = $connection;
   }
 
   /**
@@ -85,8 +89,8 @@ class PHPUnit_Extensions_Database_DefaultTester extends PHPUnit_Extensions_Datab
    *
    * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
    */
-  public function getConnection() {
-    return $this->connection;
+  public function getConnection()
+  {
+      return $this->connection;
   }
 }
-?>

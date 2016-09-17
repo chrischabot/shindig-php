@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * Locale test case.
  */
-class LocaleTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class LocaleTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var Locale
    */
   private $Locale;
@@ -31,50 +31,58 @@ class LocaleTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->Locale = new Locale('EN', 'US');
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->Locale = new Locale('EN', 'US');
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->Locale = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->Locale = null;
+      parent::tearDown();
   }
 
   /**
    * Constructs the test case.
    */
-  public function __construct() {}
-
-  /**
-   * Tests Locale->__construct()
-   */
-  public function test__construct() {
-    $this->Locale->__construct('EN', 'US');
+  public function __construct()
+  {
   }
 
   /**
-   * Tests Locale->equals()
+   * Tests Locale->__construct().
    */
-  public function testEquals() {
-    $locale = new Locale('EN', 'US');
-    $this->assertTrue($this->Locale->equals($locale));
+  public function test__construct()
+  {
+      $this->Locale->__construct('EN', 'US');
   }
 
   /**
-   * Tests Locale->getCountry()
+   * Tests Locale->equals().
    */
-  public function testGetCountry() {
-    $this->assertEquals('US', $this->Locale->getCountry());
+  public function testEquals()
+  {
+      $locale = new Locale('EN', 'US');
+      $this->assertTrue($this->Locale->equals($locale));
   }
 
   /**
-   * Tests Locale->getLanguage()
+   * Tests Locale->getCountry().
    */
-  public function testGetLanguage() {
-    $this->assertEquals('EN', $this->Locale->getLanguage());
+  public function testGetCountry()
+  {
+      $this->assertEquals('US', $this->Locale->getCountry());
+  }
+
+  /**
+   * Tests Locale->getLanguage().
+   */
+  public function testGetLanguage()
+  {
+      $this->assertEquals('EN', $this->Locale->getLanguage());
   }
 }

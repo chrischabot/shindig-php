@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id:FilteredDataSet.php 1254 2008-09-02 04:36:15Z mlively $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -55,18 +56,20 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Provides access to a database instance as a data set.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DB_FilteredDataSet extends PHPUnit_Extensions_Database_DB_DataSet {
-  
-  /**
-   * @var Array
+class PHPUnit_Extensions_Database_DB_FilteredDataSet extends PHPUnit_Extensions_Database_DB_DataSet
+{
+    /**
+   * @var array
    */
   protected $tableNames;
 
@@ -75,18 +78,19 @@ class PHPUnit_Extensions_Database_DB_FilteredDataSet extends PHPUnit_Extensions_
    *
    * @param PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection $databaseConnection
    */
-  public function __construct(PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection $databaseConnection, Array $tableNames) {
-    parent::__construct($databaseConnection);
-    $this->tableNames = $tableNames;
+  public function __construct(PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection $databaseConnection, array $tableNames)
+  {
+      parent::__construct($databaseConnection);
+      $this->tableNames = $tableNames;
   }
 
   /**
-   * Returns a list of table names for the database
-   * 
-   * @return Array
+   * Returns a list of table names for the database.
+   *
+   * @return array
    */
-  public function getTableNames() {
-    return $this->tableNames;
+  public function getTableNames()
+  {
+      return $this->tableNames;
   }
 }
-?>

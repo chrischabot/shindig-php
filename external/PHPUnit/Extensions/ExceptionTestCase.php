@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,34 +35,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ExceptionTestCase.php 2152 2008-01-17 11:17:12Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-trigger_error("Class PHPUnit_Extensions_ExceptionTestCase is deprecated. " . "It will be removed in PHPUnit 3.3. " . "The functionality has been merged into PHPUnit_Framework_TestCase.");
+trigger_error('Class PHPUnit_Extensions_ExceptionTestCase is deprecated. '.'It will be removed in PHPUnit 3.3. '.'The functionality has been merged into PHPUnit_Framework_TestCase.');
 
 /**
  * A TestCase that expects a specified Exception to be thrown.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-abstract class PHPUnit_Extensions_ExceptionTestCase extends PHPUnit_Framework_TestCase {
+abstract class PHPUnit_Extensions_ExceptionTestCase extends PHPUnit_Framework_TestCase
+{
 }
-?>

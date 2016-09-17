@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,25 +17,25 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-
-class File {
-
-  public static function exists($file) {
-    // only really check if check_file_exists == true, big performance hit on production systems, but also much safer :)
+class File
+{
+    public static function exists($file)
+    {
+        // only really check if check_file_exists == true, big performance hit on production systems, but also much safer :)
     if (Config::get('check_file_exists')) {
-      return file_exists($file);
+        return file_exists($file);
     } else {
-      return true;
+        return true;
     }
-  }
+    }
 
-  public static function readable($file) {
-    // only really check if check_file_exists == true, big performance hit on production systems, but also much safer :)
+    public static function readable($file)
+    {
+        // only really check if check_file_exists == true, big performance hit on production systems, but also much safer :)
     if (Config::get('check_file_exists')) {
-      return is_readable($file);
+        return is_readable($file);
     } else {
-      return true;
+        return true;
     }
-  }
+    }
 }

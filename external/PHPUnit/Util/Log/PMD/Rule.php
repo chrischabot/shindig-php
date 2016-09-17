@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Rule.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Util/Metrics.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -53,33 +54,38 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Abstract base class for PMD rule classes.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-abstract class PHPUnit_Util_Log_PMD_Rule {
-  protected $threshold;
-  protected $priority;
+abstract class PHPUnit_Util_Log_PMD_Rule
+{
+    protected $threshold;
+    protected $priority;
 
-  public function __construct($threshold, $priority = 1) {
-    $this->threshold = $threshold;
-    $this->priority = $priority;
-  }
+    public function __construct($threshold, $priority = 1)
+    {
+        $this->threshold = $threshold;
+        $this->priority = $priority;
+    }
 
-  public function getName() {
-    $name = explode('_', get_class($this));
-    
-    return array_pop($name);
-  }
+    public function getName()
+    {
+        $name = explode('_', get_class($this));
 
-  public function getPriority() {
-    return $this->priority;
-  }
+        return array_pop($name);
+    }
 
-  abstract public function apply(PHPUnit_Util_Metrics $metrics);
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    abstract public function apply(PHPUnit_Util_Metrics $metrics);
 }
-?>

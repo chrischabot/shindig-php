@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,105 +17,115 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+abstract class DataRequestHandler
+{
+    private static $GET_SYNONYMS = ['get'];
+    private static $CREATE_SYNONYMS = ['put', 'create'];
+    private static $UPDATE_SYNONYMS = ['post', 'update'];
+    private static $DELETE_SYNONYMS = ['delete'];
 
-abstract class DataRequestHandler {
-  
-  private static $GET_SYNONYMS = array("get");
-  private static $CREATE_SYNONYMS = array("put", "create");
-  private static $UPDATE_SYNONYMS = array("post", "update");
-  private static $DELETE_SYNONYMS = array("delete");
-
-  public function handleItem(RequestItem $requestItem) {
-    try {
-      $token = $requestItem->getToken();
-      $method = strtolower($requestItem->getMethod());
-      if ($token->isAnonymous() && ! in_array($method, self::$GET_SYNONYMS)) {
-        // Anonymous requests are only allowed to GET data (not create/edit/delete)
+    public function handleItem(RequestItem $requestItem)
+    {
+        try {
+            $token = $requestItem->getToken();
+            $method = strtolower($requestItem->getMethod());
+            if ($token->isAnonymous() && !in_array($method, self::$GET_SYNONYMS)) {
+                // Anonymous requests are only allowed to GET data (not create/edit/delete)
         throw new SocialSpiException("[$method] not allowed for anonymous users", ResponseError::$BAD_REQUEST);
-      } elseif (in_array($method, self::$GET_SYNONYMS)) {
-        $parameters = $requestItem->getParameters();
-        if (in_array("@supportedFields", $parameters)) {
-          $response = $this->getSupportedFields($parameters);
-        } else {
-          $response = $this->handleGet($requestItem);
+            } elseif (in_array($method, self::$GET_SYNONYMS)) {
+                $parameters = $requestItem->getParameters();
+                if (in_array('@supportedFields', $parameters)) {
+                    $response = $this->getSupportedFields($parameters);
+                } else {
+                    $response = $this->handleGet($requestItem);
+                }
+            } elseif (in_array($method, self::$UPDATE_SYNONYMS)) {
+                $response = $this->handlePost($requestItem);
+            } elseif (in_array($method, self::$DELETE_SYNONYMS)) {
+                $response = $this->handleDelete($requestItem);
+            } elseif (in_array($method, self::$CREATE_SYNONYMS)) {
+                $response = $this->handlePut($requestItem);
+            } else {
+                throw new SocialSpiException('Unserviced Http method type', ResponseError::$BAD_REQUEST);
+            }
+        } catch (SocialSpiException $e) {
+            $response = new ResponseItem($e->getCode(), $e->getMessage());
+        } catch (Exception $e) {
+            $response = new ResponseItem(ResponseError::$INTERNAL_ERROR, 'Internal error: '.$e->getMessage());
         }
-      } elseif (in_array($method, self::$UPDATE_SYNONYMS)) {
-        $response = $this->handlePost($requestItem);
-      } elseif (in_array($method, self::$DELETE_SYNONYMS)) {
-        $response = $this->handleDelete($requestItem);
-      } elseif (in_array($method, self::$CREATE_SYNONYMS)) {
-        $response = $this->handlePut($requestItem);
-      } else {
-        throw new SocialSpiException("Unserviced Http method type", ResponseError::$BAD_REQUEST);
-      }
-    } catch (SocialSpiException $e) {
-      $response = new ResponseItem($e->getCode(), $e->getMessage());
-    } catch (Exception $e) {
-      $response = new ResponseItem(ResponseError::$INTERNAL_ERROR, "Internal error: " . $e->getMessage());
-    }
-    return $response;
-  }
 
-  static public function getAppId($appId, SecurityToken $token) {
-    if ($appId == '@app') {
-      return $token->getAppId();
-    } else {
-      return $appId;
+        return $response;
     }
-  }
 
-  static public function convertToObject($string) {
-    //TODO should detect if it's atom/xml or json here really. assuming json for now
+    public static function getAppId($appId, SecurityToken $token)
+    {
+        if ($appId == '@app') {
+            return $token->getAppId();
+        } else {
+            return $appId;
+        }
+    }
+
+    public static function convertToObject($string)
+    {
+        //TODO should detect if it's atom/xml or json here really. assuming json for now
     $decoded = json_decode($string);
-    if ($decoded == $string) {
-      throw new Exception("Invalid JSON syntax");
+        if ($decoded == $string) {
+            throw new Exception('Invalid JSON syntax');
+        }
+
+        return $decoded;
     }
-    return $decoded;
-  }
 
   /**
-   *  To support people/@supportedFields and activity/@supportedFields 
+   *  To support people/@supportedFields and activity/@supportedFields.
+   *
    *  @param parameters url parameters to get request type(people/activity)
    */
-  public function getSupportedFields($parameters) {
-    $context = new GadgetContext('GADGET');
-    $container = $context->getContainer();
-    $containerConfig = new ContainerConfig(Config::get('container_path'));
-    $config = $containerConfig->getConfig($container, 'gadgets.features');
-    $version = $this->getOpenSocialVersion($config);
-    $supportedFields = $config[$version]['supportedFields'];
-    if (in_array('people', $parameters)) {
-      $ret = $supportedFields['person'];
-    } else {
-      $ret = $supportedFields['activity'];
-    }
-    return new ResponseItem(null, null, $ret);
+  public function getSupportedFields($parameters)
+  {
+      $context = new GadgetContext('GADGET');
+      $container = $context->getContainer();
+      $containerConfig = new ContainerConfig(Config::get('container_path'));
+      $config = $containerConfig->getConfig($container, 'gadgets.features');
+      $version = $this->getOpenSocialVersion($config);
+      $supportedFields = $config[$version]['supportedFields'];
+      if (in_array('people', $parameters)) {
+          $ret = $supportedFields['person'];
+      } else {
+          $ret = $supportedFields['activity'];
+      }
+
+      return new ResponseItem(null, null, $ret);
   }
 
   /**
-   *  To get OpenSocial version for getting supportedFields 
+   *  To get OpenSocial version for getting supportedFields.
+   *
    *  @param config configuration values from container's js files
    */
-  private function getOpenSocialVersion($config) {
-    $str = "opensocial-";
-    $version = array();
-    foreach ($config as $key => $value) {
-      if (substr($str, 0, strlen($key)) == $str) {
-        $version[] = $key;
+  private function getOpenSocialVersion($config)
+  {
+      $str = 'opensocial-';
+      $version = [];
+      foreach ($config as $key => $value) {
+          if (substr($str, 0, strlen($key)) == $str) {
+              $version[] = $key;
+          }
       }
-    }
-    if (! count($version)) {
-      throw new Exception("Invalid container configuration, opensocial-x.y key not found");
-    }
-    rsort($version);
-    return $version[0];
+      if (!count($version)) {
+          throw new Exception('Invalid container configuration, opensocial-x.y key not found');
+      }
+      rsort($version);
+
+      return $version[0];
   }
 
-  abstract public function handleDelete(RequestItem $requestItem);
+    abstract public function handleDelete(RequestItem $requestItem);
 
-  abstract public function handleGet(RequestItem $requestItem);
+    abstract public function handleGet(RequestItem $requestItem);
 
-  abstract public function handlePost(RequestItem $requestItem);
+    abstract public function handlePost(RequestItem $requestItem);
 
-  abstract public function handlePut(RequestItem $requestItem);
+    abstract public function handlePut(RequestItem $requestItem);
 }

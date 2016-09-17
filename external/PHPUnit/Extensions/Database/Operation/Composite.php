@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Composite.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -53,51 +54,54 @@ require_once 'PHPUnit/Extensions/Database/Operation/Exception.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * This class facilitates combining database operations. To create a composite 
- * operation pass an array of classes that implement 
- * PHPUnit_Extensions_Database_Operation_IDatabaseOperation and they will be 
+ * This class facilitates combining database operations. To create a composite
+ * operation pass an array of classes that implement
+ * PHPUnit_Extensions_Database_Operation_IDatabaseOperation and they will be
  * executed in that order against all data sets.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_Operation_Composite implements PHPUnit_Extensions_Database_Operation_IDatabaseOperation {
-  
-  /**
+class PHPUnit_Extensions_Database_Operation_Composite implements PHPUnit_Extensions_Database_Operation_IDatabaseOperation
+{
+    /**
    * @var array
    */
-  protected $operations = array();
+  protected $operations = [];
 
   /**
    * Creates a composite operation.
    *
    * @param array $operations
    */
-  public function __construct(Array $operations) {
-    foreach ($operations as $operation) {
-      if ($operation instanceof PHPUnit_Extensions_Database_Operation_IDatabaseOperation) {
-        $this->operations[] = $operation;
-      } else {
-        throw new InvalidArgumentException("Only database operation instances can be passed to a composite database operation.");
+  public function __construct(array $operations)
+  {
+      foreach ($operations as $operation) {
+          if ($operation instanceof PHPUnit_Extensions_Database_Operation_IDatabaseOperation) {
+              $this->operations[] = $operation;
+          } else {
+              throw new InvalidArgumentException('Only database operation instances can be passed to a composite database operation.');
+          }
       }
-    }
   }
 
-  public function execute(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection, PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet) {
-    try {
-      foreach ($this->operations as $operation) {
-        /* @var $operation PHPUnit_Extensions_Database_Operation_IDatabaseOperation */
+    public function execute(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection, PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet)
+    {
+        try {
+            foreach ($this->operations as $operation) {
+                /* @var $operation PHPUnit_Extensions_Database_Operation_IDatabaseOperation */
         $operation->execute($connection, $dataSet);
-      }
-    } catch (PHPUnit_Extensions_Database_Operation_Exception $e) {
-      throw new PHPUnit_Extensions_Database_Operation_Exception("COMPOSITE[{$e->getOperation()}]", $e->getQuery(), $e->getArgs(), $e->getTable(), $e->getError());
+            }
+        } catch (PHPUnit_Extensions_Database_Operation_Exception $e) {
+            throw new PHPUnit_Extensions_Database_Operation_Exception("COMPOSITE[{$e->getOperation()}]", $e->getQuery(), $e->getArgs(), $e->getTable(), $e->getError());
+        }
     }
-  }
 }
-?>

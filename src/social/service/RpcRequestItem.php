@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -19,67 +19,76 @@
  */
 
 /**
- * A JSON-RPC specific implementation of RequestItem
+ * A JSON-RPC specific implementation of RequestItem.
  */
-class RpcRequestItem extends RequestItem {
-  
-  private $data;
+class RpcRequestItem extends RequestItem
+{
+    private $data;
 
-  public function __construct($rpc, SecurityToken $token) {
-    parent::__construct($rpc['method'], $rpc['method'], $token);
-    if (isset($rpc->params)) {
-      $this->data = $rpc['params'];
-    } else {
-      $this->data = array();
+    public function __construct($rpc, SecurityToken $token)
+    {
+        parent::__construct($rpc['method'], $rpc['method'], $token);
+        if (isset($rpc->params)) {
+            $this->data = $rpc['params'];
+        } else {
+            $this->data = [];
+        }
     }
-  }
 
-  public function getService($rpcMethod = null) {
-    if ($rpcMethod != null) {
-      return substr($rpcMethod, 0, strpos($rpcMethod, '.'));
-    } else {
-      return substr($this->service, 0, strpos($this->service, '.'));
+    public function getService($rpcMethod = null)
+    {
+        if ($rpcMethod != null) {
+            return substr($rpcMethod, 0, strpos($rpcMethod, '.'));
+        } else {
+            return substr($this->service, 0, strpos($this->service, '.'));
+        }
     }
-  }
 
-  public function getOperation($rpcMethod = null) {
-    if ($rpcMethod != null) {
-      $op = substr($rpcMethod, strpos($rpcMethod, '.') + 1);
-    } else {
-      $op = substr($this->operation, strpos($this->operation, '.') + 1);
+    public function getOperation($rpcMethod = null)
+    {
+        if ($rpcMethod != null) {
+            $op = substr($rpcMethod, strpos($rpcMethod, '.') + 1);
+        } else {
+            $op = substr($this->operation, strpos($this->operation, '.') + 1);
+        }
+
+        return $op;
     }
-    return $op;
-  }
 
-  public function getMethod($rpcMethod = null) {
-    return $this->getOperation($rpcMethod);
-  }
-
-  public function getParameters() {
-    return $this->data;
-  }
-
-  public function getParameter($paramName, $defaultValue = null) {
-    if (isset($this->data[$paramName])) {
-      return $this->data[$paramName];
-    } else {
-      return $defaultValue;
+    public function getMethod($rpcMethod = null)
+    {
+        return $this->getOperation($rpcMethod);
     }
-  }
 
-  public function getListParameter($paramName) {
-    if (isset($this->data[$paramName])) {
-      if (is_array($this->data[$paramName])) {
-        return $this->data[$paramName];
-      } else {
-        // Allow up-conversion of non-array to array params.
-        return array($this->data[$paramName]);
-      }
-    } else {
-      return array();
+    public function getParameters()
+    {
+        return $this->data;
     }
-  }
 
-  public function applyUrlTemplate($urlTemplate) {  // No params in the URL
-  }
+    public function getParameter($paramName, $defaultValue = null)
+    {
+        if (isset($this->data[$paramName])) {
+            return $this->data[$paramName];
+        } else {
+            return $defaultValue;
+        }
+    }
+
+    public function getListParameter($paramName)
+    {
+        if (isset($this->data[$paramName])) {
+            if (is_array($this->data[$paramName])) {
+                return $this->data[$paramName];
+            } else {
+                // Allow up-conversion of non-array to array params.
+        return [$this->data[$paramName]];
+            }
+        } else {
+            return [];
+        }
+    }
+
+    public function applyUrlTemplate($urlTemplate)
+    {  // No params in the URL
+    }
 }

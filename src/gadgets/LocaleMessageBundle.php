@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -19,22 +19,26 @@
  */
 
 /**
- * Used by the LocaleSpec to extract from the xml the locales inline
+ * Used by the LocaleSpec to extract from the xml the locales inline.
  * */
-class LocalMessageBundle {
-  private $name;
-  private $desc;
+class LocalMessageBundle
+{
+    private $name;
+    private $desc;
 
-  public function __construct($name, $desc) {
-    $this->name = $name;
-    $this->desc = $desc;
-  }
+    public function __construct($name, $desc)
+    {
+        $this->name = $name;
+        $this->desc = $desc;
+    }
 
-  public function getName() {
-    return $this->name;
-  }
+    public function getName()
+    {
+        return $this->name;
+    }
 
-  public function getDesc() {
-    return $this->desc;
-  }
+    public function getDesc()
+    {
+        return $this->desc;
+    }
 }

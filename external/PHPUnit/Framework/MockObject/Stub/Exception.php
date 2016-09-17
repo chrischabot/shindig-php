@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,16 +35,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Oliver Schlicht <o.schlicht@bitExpert.de>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Exception.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/MockObject/Invocation.php';
 require_once 'PHPUnit/Framework/MockObject/Stub.php';
@@ -55,30 +56,35 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Stubs a method by raising a user-defined exception.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Oliver Schlicht <o.schlicht@bitExpert.de>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.0
  */
-class PHPUnit_Framework_MockObject_Stub_Exception implements PHPUnit_Framework_MockObject_Stub {
-  protected $exception;
+class PHPUnit_Framework_MockObject_Stub_Exception implements PHPUnit_Framework_MockObject_Stub
+{
+    protected $exception;
 
-  public function __construct(Exception $exception) {
-    $this->exception = $exception;
-  }
+    public function __construct(Exception $exception)
+    {
+        $this->exception = $exception;
+    }
 
-  public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation) {
-    throw $this->exception;
-  }
+    public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation)
+    {
+        throw $this->exception;
+    }
 
-  public function toString() {
-    return sprintf('raise user-specified exception %s', 
+    public function toString()
+    {
+        return sprintf('raise user-specified exception %s',
 
     PHPUnit_Util_Type::toString($this->exception));
-  }
+    }
 }
-?>

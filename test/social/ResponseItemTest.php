@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * ResponseItem test case.
  */
-class ResponseItemTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class ResponseItemTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var ResponseItem
    */
   private $ResponseItem;
@@ -31,71 +31,79 @@ class ResponseItemTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->ResponseItem = new ResponseItem('error', 'errorMessage', array('foo' => null, 'bar' => 1));
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->ResponseItem = new ResponseItem('error', 'errorMessage', ['foo' => null, 'bar' => 1]);
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->ResponseItem = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->ResponseItem = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests ResponseItem->__construct()
+   * Tests ResponseItem->__construct().
    */
-  public function test__construct() {
-    $this->ResponseItem->__construct('error', 'errorMessage', array('foo' => null, 'bar' => 1));
+  public function test__construct()
+  {
+      $this->ResponseItem->__construct('error', 'errorMessage', ['foo' => null, 'bar' => 1]);
   }
 
   /**
-   * Tests ResponseItem->getError()
+   * Tests ResponseItem->getError().
    */
-  public function testGetError() {
-    $this->assertEquals('error', $this->ResponseItem->getError());
+  public function testGetError()
+  {
+      $this->assertEquals('error', $this->ResponseItem->getError());
   }
 
   /**
-   * Tests ResponseItem->getErrorMessage()
+   * Tests ResponseItem->getErrorMessage().
    */
-  public function testGetErrorMessage() {
-    $this->assertEquals('errorMessage', $this->ResponseItem->getErrorMessage());
-  
+  public function testGetErrorMessage()
+  {
+      $this->assertEquals('errorMessage', $this->ResponseItem->getErrorMessage());
   }
 
   /**
-   * Tests ResponseItem->getResponse()
+   * Tests ResponseItem->getResponse().
    */
-  public function testGetResponse() {
-    $expected = array('bar' => 1);
-    $this->assertEquals($expected, $this->ResponseItem->getResponse());
+  public function testGetResponse()
+  {
+      $expected = ['bar' => 1];
+      $this->assertEquals($expected, $this->ResponseItem->getResponse());
   }
 
   /**
-   * Tests ResponseItem->setError()
+   * Tests ResponseItem->setError().
    */
-  public function testSetError() {
-    $this->ResponseItem->setError('seterror');
-    $this->assertEquals('seterror', $this->ResponseItem->getError());
+  public function testSetError()
+  {
+      $this->ResponseItem->setError('seterror');
+      $this->assertEquals('seterror', $this->ResponseItem->getError());
   }
 
   /**
-   * Tests ResponseItem->setErrorMessage()
+   * Tests ResponseItem->setErrorMessage().
    */
-  public function testSetErrorMessage() {
-    $this->ResponseItem->setErrorMessage('seterrormessage');
-    $this->assertEquals('seterrormessage', $this->ResponseItem->getErrorMessage());
+  public function testSetErrorMessage()
+  {
+      $this->ResponseItem->setErrorMessage('seterrormessage');
+      $this->assertEquals('seterrormessage', $this->ResponseItem->getErrorMessage());
   }
 
   /**
-   * Tests ResponseItem->setResponse()
+   * Tests ResponseItem->setResponse().
    */
-  public function testSetResponse() {
-    $expected = array('bar' => 2);
-    $this->ResponseItem->setResponse($expected);
-    $this->assertEquals($expected, $this->ResponseItem->getResponse());
+  public function testSetResponse()
+  {
+      $expected = ['bar' => 2];
+      $this->ResponseItem->setResponse($expected);
+      $this->assertEquals($expected, $this->ResponseItem->getResponse());
   }
 }

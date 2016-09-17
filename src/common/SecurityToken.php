@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -23,16 +23,20 @@
  * An abstract representation of a signing token.
  * Use in conjunction with @code SecurityTokenDecoder.
  */
-abstract class SecurityToken {
+abstract class SecurityToken
+{
+    public static function createFromToken($token, $maxage)
+    {
+    }
 
-  static public function createFromToken($token, $maxage) {}
-
-  static public function createFromValues($owner, $viewer, $app, $domain, $appUrl, $moduleId) {}
+    public static function createFromValues($owner, $viewer, $app, $domain, $appUrl, $moduleId)
+    {
+    }
 
   /**
-   * is this an anonymous token? Always check this before using the owner/viewer/etc
-   * 
-   * @return boolean if it's anonymous
+   * is this an anonymous token? Always check this before using the owner/viewer/etc.
+   *
+   * @return bool if it's anonymous
    */
   abstract public function isAnonymous();
 

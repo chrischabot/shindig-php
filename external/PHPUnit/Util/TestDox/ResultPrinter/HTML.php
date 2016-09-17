@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: HTML.php 2141 2008-01-17 10:49:39Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/TestDox/ResultPrinter.php';
 
@@ -53,67 +54,66 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Prints TestDox documentation in HTML format.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_ResultPrinter {
-  /**
-   * @var    boolean
-   * @access protected
+class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_ResultPrinter
+{
+    /**
+   * @var    bool
    */
-  protected $printsHTML = TRUE;
+  protected $printsHTML = true;
 
   /**
    * Handler for 'start run' event.
-   *
-   * @access protected
    */
-  protected function startRun() {
-    $this->write('<html><body>');
+  protected function startRun()
+  {
+      $this->write('<html><body>');
   }
 
   /**
    * Handler for 'start class' event.
    *
    * @param  string $name
-   * @access protected
    */
-  protected function startClass($name) {
-    $this->write('<h2>' . $name . '</h2><ul>');
+  protected function startClass($name)
+  {
+      $this->write('<h2>'.$name.'</h2><ul>');
   }
 
   /**
    * Handler for 'on test' event.
    *
    * @param  string $name
-   * @access protected
    */
-  protected function onTest($name) {
-    $this->write('<li>' . $name . '</li>');
+  protected function onTest($name)
+  {
+      $this->write('<li>'.$name.'</li>');
   }
 
   /**
    * Handler for 'end class' event.
    *
    * @param  string $name
-   * @access protected
    */
-  protected function endClass($name) {
-    $this->write('</ul>');
+  protected function endClass($name)
+  {
+      $this->write('</ul>');
   }
 
   /**
    * Handler for 'end run' event.
-   *
-   * @access protected
    */
-  protected function endRun() {
-    $this->write('</body></html>');
+  protected function endRun()
+  {
+      $this->write('</body></html>');
   }
 }
-?>

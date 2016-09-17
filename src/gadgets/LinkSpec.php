@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,27 +17,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class LinkSpec
+{
+    public $rel;
+    public $href;
+    public $method;
 
-class LinkSpec {
-  public $rel;
-  public $href;
-  public $method;
+    public function __construct($rel, $href, $method = 'GET')
+    {
+        $this->rel = $rel;
+        $this->href = $href;
+        $this->method = $method;
+    }
 
-  public function __construct($rel, $href, $method = 'GET') {
-    $this->rel = $rel;
-    $this->href = $href;
-    $this->method = $method;
-  }
+    public function getRel()
+    {
+        return $this->rel;
+    }
 
-  public function getRel() {
-    return $this->rel;
-  }
+    public function getHref()
+    {
+        return $this->href;
+    }
 
-  public function getHref() {
-    return $this->href;
-  }
-
-  public function getMethod() {
-    return $this->method;
-  }
+    public function getMethod()
+    {
+        return $this->method;
+    }
 }

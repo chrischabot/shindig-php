@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: XML.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -52,44 +53,46 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * XML helpers.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Util_XML {
+class PHPUnit_Util_XML
+{
+    public static function load($filename, $html = false)
+    {
+        $document = new DOMDocument();
 
-  public static function load($filename, $html = FALSE) {
-    $document = new DOMDocument();
-    
-    if (is_readable($filename)) {
-      libxml_use_internal_errors(TRUE);
-      
-      if (! $html) {
-        $loaded = @$document->load($filename);
-      } else {
-        $loaded = @$document->loadHTMLFile($filename);
-      }
-      
-      if ($loaded === FALSE) {
-        $message = '';
-        
-        foreach (libxml_get_errors() as $error) {
-          $message .= $error->message;
+        if (is_readable($filename)) {
+            libxml_use_internal_errors(true);
+
+            if (!$html) {
+                $loaded = @$document->load($filename);
+            } else {
+                $loaded = @$document->loadHTMLFile($filename);
+            }
+
+            if ($loaded === false) {
+                $message = '';
+
+                foreach (libxml_get_errors() as $error) {
+                    $message .= $error->message;
+                }
+
+                throw new RuntimeException(sprintf('Could not load "%s".%s',
+
+        $filename, $message != '' ? "\n".$message : ''));
+            }
+        } else {
+            throw new RuntimeException(sprintf('Could not read "%s".', $filename));
         }
-        
-        throw new RuntimeException(sprintf('Could not load "%s".%s', 
 
-        $filename, $message != '' ? "\n" . $message : ''));
-      }
-    } else {
-      throw new RuntimeException(sprintf('Could not read "%s".', $filename));
+        return $document;
     }
-    
-    return $document;
-  }
 }
-?>

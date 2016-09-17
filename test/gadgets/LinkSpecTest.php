@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * LinkSpec test case.
  */
-class LinkSpecTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class LinkSpecTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var LinkSpec
    */
   private $LinkSpec;
@@ -31,44 +31,50 @@ class LinkSpecTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->LinkSpec = new LinkSpec('rel', 'href', 'method');
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->LinkSpec = new LinkSpec('rel', 'href', 'method');
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->LinkSpec = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->LinkSpec = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests LinkSpec->__construct()
+   * Tests LinkSpec->__construct().
    */
-  public function test__construct() {
-    $this->LinkSpec = new LinkSpec('rel', 'href', 'method');
+  public function test__construct()
+  {
+      $this->LinkSpec = new LinkSpec('rel', 'href', 'method');
   }
 
   /**
-   * Tests LinkSpec->getHref()
+   * Tests LinkSpec->getHref().
    */
-  public function testGetHref() {
-    $this->assertEquals('href', $this->LinkSpec->getHref());
+  public function testGetHref()
+  {
+      $this->assertEquals('href', $this->LinkSpec->getHref());
   }
 
   /**
-   * Tests LinkSpec->getMethod()
+   * Tests LinkSpec->getMethod().
    */
-  public function testGetMethod() {
-    $this->assertEquals('method', $this->LinkSpec->getMethod());
+  public function testGetMethod()
+  {
+      $this->assertEquals('method', $this->LinkSpec->getMethod());
   }
 
   /**
-   * Tests LinkSpec->getRel()
+   * Tests LinkSpec->getRel().
    */
-  public function testGetRel() {
-    $this->assertEquals('rel', $this->LinkSpec->getRel());
+  public function testGetRel()
+  {
+      $this->assertEquals('rel', $this->LinkSpec->getRel());
   }
 }

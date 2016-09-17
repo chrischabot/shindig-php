@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Report.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/CodeCoverage.php';
@@ -53,20 +54,21 @@ require_once 'PHPUnit/Util/Report/Node/File.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  * @abstract
  */
-abstract class PHPUnit_Util_Report {
-  public static $templatePath;
+abstract class PHPUnit_Util_Report
+{
+    public static $templatePath;
 
   /**
    * Renders the report.
@@ -74,55 +76,53 @@ abstract class PHPUnit_Util_Report {
    * @param  PHPUnit_Framework_TestResult $result
    * @param  string                       $target
    * @param  string                       $charset
-   * @param  boolean                      $yui
-   * @param  boolean                      $highlight
-   * @param  integer                      $lowUpperBound
-   * @param  integer                      $highLowerBound
-   * @access public
+   * @param  bool                      $yui
+   * @param  bool                      $highlight
+   * @param  int                      $lowUpperBound
+   * @param  int                      $highLowerBound
    * @static
    */
-  public static function render(PHPUnit_Framework_TestResult $result, $target, $charset = 'ISO-8859-1', $yui = TRUE, $highlight = FALSE, $lowUpperBound = 35, $highLowerBound = 70) {
-    self::$templatePath = sprintf('%s%sReport%sTemplate%s', 
+  public static function render(PHPUnit_Framework_TestResult $result, $target, $charset = 'ISO-8859-1', $yui = true, $highlight = false, $lowUpperBound = 35, $highLowerBound = 70)
+  {
+      self::$templatePath = sprintf('%s%sReport%sTemplate%s',
 
     dirname(__FILE__), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
-    
-    $codeCoverageInformation = $result->getCodeCoverageInformation();
-    $files = PHPUnit_Util_CodeCoverage::getSummary($codeCoverageInformation);
-    $commonPath = self::reducePaths($files);
-    $items = self::buildDirectoryStructure($files);
-    
-    $root = new PHPUnit_Util_Report_Node_Directory($commonPath, NULL);
-    
-    self::addItems($root, $items, $files, $yui, $highlight);
-    self::copyFiles($target);
-    
-    $root->render($target, $result->topTestSuite()->getName(), $charset, $highlight, $lowUpperBound, $highLowerBound);
+
+      $codeCoverageInformation = $result->getCodeCoverageInformation();
+      $files = PHPUnit_Util_CodeCoverage::getSummary($codeCoverageInformation);
+      $commonPath = self::reducePaths($files);
+      $items = self::buildDirectoryStructure($files);
+
+      $root = new PHPUnit_Util_Report_Node_Directory($commonPath, null);
+
+      self::addItems($root, $items, $files, $yui, $highlight);
+      self::copyFiles($target);
+
+      $root->render($target, $result->topTestSuite()->getName(), $charset, $highlight, $lowUpperBound, $highLowerBound);
   }
 
   /**
    * @param  PHPUnit_Util_Report_Node_Directory $root
    * @param  array   $items
    * @param  array   $files
-   * @param  boolean $yui
-   * @param  boolean $highlight
-   * @access protected
+   * @param  bool $yui
+   * @param  bool $highlight
    * @static
    */
-  protected static function addItems(PHPUnit_Util_Report_Node_Directory $root, array $items, array $files, $yui, $highlight) {
-    foreach ($items as $key => $value) {
-      if (substr($key, - 2) == '/f') {
-        try {
-          $file = $root->addFile(substr($key, 0, - 2), $value, $yui, $highlight);
-        } 
-
-        catch (RuntimeException $e) {
-          continue;
-        }
-      } else {
-        $child = $root->addDirectory($key);
-        self::addItems($child, $value, $files, $yui, $highlight);
+  protected static function addItems(PHPUnit_Util_Report_Node_Directory $root, array $items, array $files, $yui, $highlight)
+  {
+      foreach ($items as $key => $value) {
+          if (substr($key, -2) == '/f') {
+              try {
+                  $file = $root->addFile(substr($key, 0, -2), $value, $yui, $highlight);
+              } catch (RuntimeException $e) {
+                  continue;
+              }
+          } else {
+              $child = $root->addDirectory($key);
+              self::addItems($child, $value, $files, $yui, $highlight);
+          }
       }
-    }
   }
 
   /**
@@ -166,32 +166,33 @@ abstract class PHPUnit_Util_Report {
    * </code>
    *
    * @param  array $files
+   *
    * @return array
-   * @access protected
    * @static
    */
-  protected static function buildDirectoryStructure($files) {
-    $result = array();
-    
-    foreach ($files as $path => $file) {
-      $path = explode('/', $path);
-      $pointer = &$result;
-      $max = count($path);
-      
-      for ($i = 0; $i < $max; $i ++) {
-        if ($i == ($max - 1)) {
-          $type = '/f';
-        } else {
-          $type = '';
-        }
-        
-        $pointer = &$pointer[$path[$i] . $type];
+  protected static function buildDirectoryStructure($files)
+  {
+      $result = [];
+
+      foreach ($files as $path => $file) {
+          $path = explode('/', $path);
+          $pointer = &$result;
+          $max = count($path);
+
+          for ($i = 0; $i < $max; $i++) {
+              if ($i == ($max - 1)) {
+                  $type = '/f';
+              } else {
+                  $type = '';
+              }
+
+              $pointer = &$pointer[$path[$i].$type];
+          }
+
+          $pointer = $file;
       }
-      
-      $pointer = $file;
-    }
-    
-    return $result;
+
+      return $result;
   }
 
   /**
@@ -232,83 +233,83 @@ abstract class PHPUnit_Util_Report {
    * </code>
    *
    * @param  array $files
+   *
    * @return string
-   * @access protected
    * @static
    */
-  protected static function reducePaths(&$files) {
-    if (empty($files)) {
-      return '.';
-    }
-    
-    $commonPath = '';
-    $paths = array_keys($files);
-    
-    if (count($files) == 1) {
-      $commonPath = dirname($paths[0]);
-      $files[basename($paths[0])] = $files[$paths[0]];
-      
-      unset($files[$paths[0]]);
-      
+  protected static function reducePaths(&$files)
+  {
+      if (empty($files)) {
+          return '.';
+      }
+
+      $commonPath = '';
+      $paths = array_keys($files);
+
+      if (count($files) == 1) {
+          $commonPath = dirname($paths[0]);
+          $files[basename($paths[0])] = $files[$paths[0]];
+
+          unset($files[$paths[0]]);
+
+          return $commonPath;
+      }
+
+      $max = count($paths);
+
+      for ($i = 0; $i < $max; $i++) {
+          $paths[$i] = explode(DIRECTORY_SEPARATOR, $paths[$i]);
+
+          if (empty($paths[$i][0])) {
+              $paths[$i][0] = DIRECTORY_SEPARATOR;
+          }
+      }
+
+      $done = false;
+
+      $max = count($paths);
+
+      while (!$done) {
+          for ($i = 0; $i < $max - 1; $i++) {
+              if (!isset($paths[$i][0]) || !isset($paths[$i + 1][0]) || $paths[$i][0] != $paths[$i + 1][0]) {
+                  $done = true;
+                  break;
+              }
+          }
+
+          if (!$done) {
+              $commonPath .= $paths[0][0].(($paths[0][0] != DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '');
+
+              for ($i = 0; $i < $max; $i++) {
+                  array_shift($paths[$i]);
+              }
+          }
+      }
+
+      $original = array_keys($files);
+      $max = count($original);
+
+      for ($i = 0; $i < $max; $i++) {
+          $files[implode('/', $paths[$i])] = $files[$original[$i]];
+          unset($files[$original[$i]]);
+      }
+
+      ksort($files);
+
       return $commonPath;
-    }
-    
-    $max = count($paths);
-    
-    for ($i = 0; $i < $max; $i ++) {
-      $paths[$i] = explode(DIRECTORY_SEPARATOR, $paths[$i]);
-      
-      if (empty($paths[$i][0])) {
-        $paths[$i][0] = DIRECTORY_SEPARATOR;
-      }
-    }
-    
-    $done = FALSE;
-    
-    $max = count($paths);
-    
-    while (! $done) {
-      for ($i = 0; $i < $max - 1; $i ++) {
-        if (! isset($paths[$i][0]) || ! isset($paths[$i + 1][0]) || $paths[$i][0] != $paths[$i + 1][0]) {
-          $done = TRUE;
-          break;
-        }
-      }
-      
-      if (! $done) {
-        $commonPath .= $paths[0][0] . (($paths[0][0] != DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '');
-        
-        for ($i = 0; $i < $max; $i ++) {
-          array_shift($paths[$i]);
-        }
-      }
-    }
-    
-    $original = array_keys($files);
-    $max = count($original);
-    
-    for ($i = 0; $i < $max; $i ++) {
-      $files[join('/', $paths[$i])] = $files[$original[$i]];
-      unset($files[$original[$i]]);
-    }
-    
-    ksort($files);
-    
-    return $commonPath;
   }
 
   /**
    * @param  string $target
-   * @access protected
    * @static
    */
-  protected static function copyFiles($target) {
-    $files = array('butter.png', 'chameleon.png', 'close12_1.gif', 'container.css', 'container-min.js', 
-        'glass.png', 'scarlet_red.png', 'snow.png', 'style.css', 'yahoo-dom-event.js');
-    
-    foreach ($files as $file) {
-      copy(self::$templatePath . $file, $target . $file);
-    }
+  protected static function copyFiles($target)
+  {
+      $files = ['butter.png', 'chameleon.png', 'close12_1.gif', 'container.css', 'container-min.js',
+        'glass.png', 'scarlet_red.png', 'snow.png', 'style.css', 'yahoo-dom-event.js', ];
+
+      foreach ($files as $file) {
+          copy(self::$templatePath.$file, $target.$file);
+      }
   }
 }
-?>

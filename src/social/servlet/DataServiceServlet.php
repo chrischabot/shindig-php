@@ -7,7 +7,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -18,61 +18,66 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+class DataServiceServlet extends ApiServlet
+{
+    protected static $FORMAT_PARAM = 'format';
+    protected static $ATOM_FORMAT = 'atom';
+    protected static $XML_FORMAT = 'atom';
 
-class DataServiceServlet extends ApiServlet {
-  
-  protected static $FORMAT_PARAM = "format";
-  protected static $ATOM_FORMAT = "atom";
-  protected static $XML_FORMAT = "atom";
-  
-  public static $PEOPLE_ROUTE = "people";
-  public static $ACTIVITY_ROUTE = "activities";
-  public static $APPDATA_ROUTE = "appdata";
-  public static $MESSAGE_ROUTE = "messages";
+    public static $PEOPLE_ROUTE = 'people';
+    public static $ACTIVITY_ROUTE = 'activities';
+    public static $APPDATA_ROUTE = 'appdata';
+    public static $MESSAGE_ROUTE = 'messages';
 
-  public function doGet() {
-    $this->doPost();
-  }
-
-  public function doPut() {
-    $this->doPost();
-  }
-
-  public function doDelete() {
-    $this->doPost();
-  }
-
-  public function doPost() {
-    $xrdsLocation = Config::get('xrds_location');
-    if ($xrdsLocation) {
-      header("X-XRDS-Location: $xrdsLocation", false);
+    public function doGet()
+    {
+        $this->doPost();
     }
-    try {
-      $token = $this->getSecurityToken();
-      if ($token == null) {
-        $this->sendSecurityError();
-        return;
-      }
-      $inputConverter = $this->getInputConverterForRequest();
-      $outputConverter = $this->getOutputConverterForRequest();
-      $this->handleSingleRequest($token, $inputConverter, $outputConverter);
-    } catch (Exception $e) {
-      $code = '500 Internal Server Error';
-      header("HTTP/1.0 $code", true);
-      echo "<h1>$code - Internal Server Error</h1>\n" . $e->getMessage();
-      if (Config::get('debug')) {
-        echo "\n\n<br>\nDebug backtrace:\n<br>\n<pre>\n";
-        echo $e->getTraceAsString();
-        echo "\n</pre>\n";
-      }
-    }
-  }
 
-  public function sendError(ResponseItem $responseItem) {
-    $unauthorized = false;
-    $errorMessage = $responseItem->getErrorMessage();
-    $errorCode = $responseItem->getError();
-    switch ($errorCode) {
+    public function doPut()
+    {
+        $this->doPost();
+    }
+
+    public function doDelete()
+    {
+        $this->doPost();
+    }
+
+    public function doPost()
+    {
+        $xrdsLocation = Config::get('xrds_location');
+        if ($xrdsLocation) {
+            header("X-XRDS-Location: $xrdsLocation", false);
+        }
+        try {
+            $token = $this->getSecurityToken();
+            if ($token == null) {
+                $this->sendSecurityError();
+
+                return;
+            }
+            $inputConverter = $this->getInputConverterForRequest();
+            $outputConverter = $this->getOutputConverterForRequest();
+            $this->handleSingleRequest($token, $inputConverter, $outputConverter);
+        } catch (Exception $e) {
+            $code = '500 Internal Server Error';
+            header("HTTP/1.0 $code", true);
+            echo "<h1>$code - Internal Server Error</h1>\n".$e->getMessage();
+            if (Config::get('debug')) {
+                echo "\n\n<br>\nDebug backtrace:\n<br>\n<pre>\n";
+                echo $e->getTraceAsString();
+                echo "\n</pre>\n";
+            }
+        }
+    }
+
+    public function sendError(ResponseItem $responseItem)
+    {
+        $unauthorized = false;
+        $errorMessage = $responseItem->getErrorMessage();
+        $errorCode = $responseItem->getError();
+        switch ($errorCode) {
       case ResponseError::$BAD_REQUEST:
         $code = '400 Bad Request';
         break;
@@ -94,89 +99,109 @@ class DataServiceServlet extends ApiServlet {
         $code = '500 Internal Server Error';
         break;
     }
-    @header("HTTP/1.0 $code", true);
-    if ($unauthorized) {
-      header("WWW-Authenticate: OAuth realm", true);
+        @header("HTTP/1.0 $code", true);
+        if ($unauthorized) {
+            header('WWW-Authenticate: OAuth realm', true);
+        }
+        echo "$code - $errorMessage";
+        die();
     }
-    echo "$code - $errorMessage";
-    die();
-  }
 
   /**
-   * Handler for non-batch requests (REST only has non-batch requests)
+   * Handler for non-batch requests (REST only has non-batch requests).
    */
-  private function handleSingleRequest(SecurityToken $token, $inputConverter, $outputConverter) {
-    $servletRequest = array(
-        'url' => substr($_SERVER["REQUEST_URI"], strlen(Config::get('web_prefix') . '/social/rest')));
-    if (isset($GLOBALS['HTTP_RAW_POST_DATA'])) {
-      $servletRequest['postData'] = $GLOBALS['HTTP_RAW_POST_DATA'];
-      if (get_magic_quotes_gpc()) {
-        $servletRequest['postData'] = stripslashes($servletRequest['postData']);
+  private function handleSingleRequest(SecurityToken $token, $inputConverter, $outputConverter)
+  {
+      $servletRequest = [
+        'url' => substr($_SERVER['REQUEST_URI'], strlen(Config::get('web_prefix').'/social/rest')), ];
+      if (isset($GLOBALS['HTTP_RAW_POST_DATA'])) {
+          $servletRequest['postData'] = $GLOBALS['HTTP_RAW_POST_DATA'];
+          if (get_magic_quotes_gpc()) {
+              $servletRequest['postData'] = stripslashes($servletRequest['postData']);
+          }
       }
-    }
-    $servletRequest['params'] = array_merge($_GET, $_POST);
-    $requestItem = RestRequestItem::createWithRequest($servletRequest, $token, $inputConverter, $outputConverter);
-    $responseItem = $this->getResponseItem($this->handleRequestItem($requestItem));
-    if ($responseItem->getError() == null) {
-      $response = $responseItem->getResponse();
-      if (! ($response instanceof DataCollection) && ! ($response instanceof RestfulCollection) && count($response)) {
-        $response = array("entry" => $response);
-        $responseItem->setResponse($response);
+      $servletRequest['params'] = array_merge($_GET, $_POST);
+      $requestItem = RestRequestItem::createWithRequest($servletRequest, $token, $inputConverter, $outputConverter);
+      $responseItem = $this->getResponseItem($this->handleRequestItem($requestItem));
+      if ($responseItem->getError() == null) {
+          $response = $responseItem->getResponse();
+          if (!($response instanceof DataCollection) && !($response instanceof RestfulCollection) && count($response)) {
+              $response = ['entry' => $response];
+              $responseItem->setResponse($response);
+          }
+          $outputConverter->outputResponse($responseItem, $requestItem);
+      } else {
+          $this->sendError($responseItem);
       }
-      $outputConverter->outputResponse($responseItem, $requestItem);
-    } else {
-      $this->sendError($responseItem);
-    }
   }
 
   /**
-   * Returns the output converter to use
+   * Returns the output converter to use.
    *
    * @return OutputConverter
    */
-  private function getOutputConverterForRequest() {
-    $outputFormat = strtolower(trim(! empty($_POST[self::$FORMAT_PARAM]) ? $_POST[self::$FORMAT_PARAM] : (! empty($_GET[self::$FORMAT_PARAM]) ? $_GET[self::$FORMAT_PARAM] : 'json')));
-    switch ($outputFormat) {
+  private function getOutputConverterForRequest()
+  {
+      $outputFormat = strtolower(trim(!empty($_POST[self::$FORMAT_PARAM]) ? $_POST[self::$FORMAT_PARAM] : (!empty($_GET[self::$FORMAT_PARAM]) ? $_GET[self::$FORMAT_PARAM] : 'json')));
+      switch ($outputFormat) {
       case 'xml':
-        if (!Config::get('debug')) $this->setContentType('application/xml');
+        if (!Config::get('debug')) {
+            $this->setContentType('application/xml');
+        }
+
         return new OutputXmlConverter();
       case 'atom':
-        if (!Config::get('debug')) $this->setContentType('application/atom+xml');
+        if (!Config::get('debug')) {
+            $this->setContentType('application/atom+xml');
+        }
+
         return new OutputAtomConverter();
       case 'json':
-        if (!Config::get('debug')) $this->setContentType('application/json');
+        if (!Config::get('debug')) {
+            $this->setContentType('application/json');
+        }
+
         return new OutputJsonConverter();
       default:
         // if no output format is set, see if we can match an input format header
         // if not, default to json
         if (isset($_SERVER['CONTENT_TYPE'])) {
-          switch ($_SERVER['CONTENT_TYPE']) {
+            switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/atom+xml':
-              if (!Config::get('debug')) $this->setContentType('application/atom+xml');
+              if (!Config::get('debug')) {
+                  $this->setContentType('application/atom+xml');
+              }
+
               return new OutputAtomConverter();
             case 'application/xml':
-              if (!Config::get('debug')) $this->setContentType('application/xml');
+              if (!Config::get('debug')) {
+                  $this->setContentType('application/xml');
+              }
+
               return new OutputXmlConverter();
             default:
             case 'application/json':
-              if (!Config::get('debug')) $this->setContentType('application/json');
+              if (!Config::get('debug')) {
+                  $this->setContentType('application/json');
+              }
+
               return new OutputJsonConverter();
           }
         }
         break;
     }
     // just to satisfy the code scanner, code is actually unreachable
-    return null;
   }
 
   /**
-   * Returns the input converter to use
+   * Returns the input converter to use.
    *
    * @return InputConverter
    */
-  private function getInputConverterForRequest() {
-    $inputFormat = $this->getInputRequestFormat();
-    switch ($inputFormat) {
+  private function getInputConverterForRequest()
+  {
+      $inputFormat = $this->getInputRequestFormat();
+      switch ($inputFormat) {
       case 'xml':
         return new InputXmlConverter();
       case 'atom':
@@ -190,16 +215,17 @@ class DataServiceServlet extends ApiServlet {
 
   /**
    * Tries to guess the input format based on the Content-Type
-   * header, of if none is set, the format query param
+   * header, of if none is set, the format query param.
    *
    * @return string request format to use
    */
-  private function getInputRequestFormat() {
-    // input format is defined by the Content-Type header
+  private function getInputRequestFormat()
+  {
+      // input format is defined by the Content-Type header
     // if that isn't set we use the &format= param
     // if that isn't set, we default to json
     if (isset($_SERVER['CONTENT_TYPE'])) {
-      switch ($_SERVER['CONTENT_TYPE']) {
+        switch ($_SERVER['CONTENT_TYPE']) {
         case 'application/atom+xml':
           return 'atom';
         case 'application/xml':
@@ -209,23 +235,25 @@ class DataServiceServlet extends ApiServlet {
           return 'json';
       }
     } else {
-      // if no Content-Type header is set, we assume the input format will be the same as the &format=<foo> param
+        // if no Content-Type header is set, we assume the input format will be the same as the &format=<foo> param
       // if that isn't set either, we assume json
-      return strtolower(trim(! empty($_POST[self::$FORMAT_PARAM]) ? $_POST[self::$FORMAT_PARAM] : (! empty($_GET[self::$FORMAT_PARAM]) ? $_GET[self::$FORMAT_PARAM] : 'json')));
+      return strtolower(trim(!empty($_POST[self::$FORMAT_PARAM]) ? $_POST[self::$FORMAT_PARAM] : (!empty($_GET[self::$FORMAT_PARAM]) ? $_GET[self::$FORMAT_PARAM] : 'json')));
     }
     // just to satisfy the code scanner, code is actually unreachable
-    return null;
   }
 
   /**
-   * Returns the route to use (activities, people, appdata, messages)
+   * Returns the route to use (activities, people, appdata, messages).
    *
    * @param string $pathInfo
+   *
    * @return string the route name
    */
-  private function getRouteFromParameter($pathInfo) {
-    $pathInfo = substr($pathInfo, 1);
-    $indexOfNextPathSeparator = strpos($pathInfo, "/");
-    return $indexOfNextPathSeparator !== false ? substr($pathInfo, 0, $indexOfNextPathSeparator) : $pathInfo;
+  private function getRouteFromParameter($pathInfo)
+  {
+      $pathInfo = substr($pathInfo, 1);
+      $indexOfNextPathSeparator = strpos($pathInfo, '/');
+
+      return $indexOfNextPathSeparator !== false ? substr($pathInfo, 0, $indexOfNextPathSeparator) : $pathInfo;
   }
 }

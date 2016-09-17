@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: DefaultTableMetaData.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -52,38 +53,40 @@ require_once 'PHPUnit/Extensions/Database/DataSet/AbstractTableMetaData.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * The default implementation of table meta data
+ * The default implementation of table meta data.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData extends PHPUnit_Extensions_Database_DataSet_AbstractTableMetaData {
-
-  /**
+class PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData extends PHPUnit_Extensions_Database_DataSet_AbstractTableMetaData
+{
+    /**
    * Creates a new default table meta data object.
    *
    * @param string $tableName
    * @param array $columns
    * @param array $primaryKeys
    */
-  public function __construct($tableName, Array $columns, Array $primaryKeys = array()) {
-    $this->tableName = $tableName;
-    $this->columns = $columns;
-    $this->primaryKeys = array();
-    
-    foreach ($primaryKeys as $columnName) {
-      if (! in_array($columnName, $this->columns)) {
-        throw new InvalidArgumentException("Primary key column passed that is not in the column list.");
-      } else {
-        $this->primaryKeys[] = $columnName;
+  public function __construct($tableName, array $columns, array $primaryKeys = [])
+  {
+      $this->tableName = $tableName;
+      $this->columns = $columns;
+      $this->primaryKeys = [];
+
+      foreach ($primaryKeys as $columnName) {
+          if (!in_array($columnName, $this->columns)) {
+              throw new InvalidArgumentException('Primary key column passed that is not in the column list.');
+          } else {
+              $this->primaryKeys[] = $columnName;
+          }
       }
-    }
   }
 }
-?>

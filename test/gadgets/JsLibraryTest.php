@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,23 +21,23 @@
 /**
  * JsLibrary test case.
  */
-class JsLibraryTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class JsLibraryTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var JsLibrary
    */
   private $JsLibrary;
-  
+
   /**
    * @var type
    */
   private $type = 'URL';
-  
+
   /**
    * @var content
    */
   private $content = '';
-  
+
   /**
    * @var featureName
    */
@@ -46,36 +46,36 @@ class JsLibraryTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->JsLibrary = new JsLibrary($this->type, $this->content, $this->featureName);
-  
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->JsLibrary = new JsLibrary($this->type, $this->content, $this->featureName);
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->JsLibrary = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->JsLibrary = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests JsLibrary->getContent()
+   * Tests JsLibrary->getContent().
    */
-  public function testGetContent() {
-    $content = trim($this->JsLibrary->getContent());
-    $this->assertEquals($this->content, $content);
+  public function testGetContent()
+  {
+      $content = trim($this->JsLibrary->getContent());
+      $this->assertEquals($this->content, $content);
   }
 
   /**
-   * Tests JsLibrary->toString()
+   * Tests JsLibrary->toString().
    */
-  public function testToString() {
-    $output = $this->JsLibrary->toString();
-    $this->assertEquals("<script src=\"" . $this->JsLibrary->getContent() . "\"></script>", $output);
-  
+  public function testToString()
+  {
+      $output = $this->JsLibrary->toString();
+      $this->assertEquals('<script src="'.$this->JsLibrary->getContent().'"></script>', $output);
   }
-
 }
-

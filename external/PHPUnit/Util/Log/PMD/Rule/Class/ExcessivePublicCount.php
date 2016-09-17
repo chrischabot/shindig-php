@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,44 +35,46 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: ExcessivePublicCount.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Util/Log/PMD/Rule/Class.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * 
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-class PHPUnit_Util_Log_PMD_Rule_Class_ExcessivePublicCount extends PHPUnit_Util_Log_PMD_Rule_Class {
-
-  public function __construct($threshold = 45, $priority = 1) {
-    parent::__construct($threshold);
-  }
-
-  public function apply(PHPUnit_Util_Metrics $metrics) {
-    $publicMethods = $metrics->getPublicMethods();
-    
-    if ($publicMethods > $this->threshold) {
-      return sprintf("Class has %d public methods.\n" . 'A large number of public methods and attributes ' . 'declared in a class can indicate the class may need ' . 'to be broken up as increased effort will be required ' . 'to thoroughly test it.', $publicMethods);
+class PHPUnit_Util_Log_PMD_Rule_Class_ExcessivePublicCount extends PHPUnit_Util_Log_PMD_Rule_Class
+{
+    public function __construct($threshold = 45, $priority = 1)
+    {
+        parent::__construct($threshold);
     }
-  }
+
+    public function apply(PHPUnit_Util_Metrics $metrics)
+    {
+        $publicMethods = $metrics->getPublicMethods();
+
+        if ($publicMethods > $this->threshold) {
+            return sprintf("Class has %d public methods.\n".'A large number of public methods and attributes '.'declared in a class can indicate the class may need '.'to be broken up as increased effort will be required '.'to thoroughly test it.', $publicMethods);
+        }
+    }
 }
-?>

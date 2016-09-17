@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,50 +35,54 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: DoubleTestCase.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
- *
- *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class DoubleTestCase implements PHPUnit_Framework_Test {
-  protected $testCase;
+class DoubleTestCase implements PHPUnit_Framework_Test
+{
+    protected $testCase;
 
-  public function __construct(PHPUnit_Framework_TestCase $testCase) {
-    $this->testCase = $testCase;
-  }
+    public function __construct(PHPUnit_Framework_TestCase $testCase)
+    {
+        $this->testCase = $testCase;
+    }
 
-  public function count() {
-    return 2;
-  }
+    public function count()
+    {
+        return 2;
+    }
 
-  public function run(PHPUnit_Framework_TestResult $result = NULL) {
-    $result->startTest($this);
-    
-    $this->testCase->runBare();
-    $this->testCase->runBare();
-    
-    $result->endTest($this, 0);
-  }
+    public function run(PHPUnit_Framework_TestResult $result = null)
+    {
+        $result->startTest($this);
+
+        $this->testCase->runBare();
+        $this->testCase->runBare();
+
+        $result->endTest($this, 0);
+    }
 }
-?>

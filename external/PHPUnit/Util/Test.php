@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: Test.php 1997 2007-12-27 05:07:58Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
-
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -52,80 +53,80 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Test helpers.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Util_Test {
-
-  /**
+class PHPUnit_Util_Test
+{
+    /**
    * @param  PHPUnit_Framework_Test $test
-   * @param  boolean                $asString
+   * @param  bool                $asString
+   *
    * @return mixed
-   * @access public
    * @static
    */
-  public static function describe(PHPUnit_Framework_Test $test, $asString = TRUE) {
-    if ($asString) {
-      if ($test instanceof PHPUnit_Framework_SelfDescribing) {
-        return $test->toString();
+  public static function describe(PHPUnit_Framework_Test $test, $asString = true)
+  {
+      if ($asString) {
+          if ($test instanceof PHPUnit_Framework_SelfDescribing) {
+              return $test->toString();
+          } else {
+              return get_class($test);
+          }
       } else {
-        return get_class($test);
+          if ($test instanceof PHPUnit_Framework_TestCase) {
+              return [get_class($test), $test->getName()];
+          } elseif ($test instanceof PHPUnit_Framework_SelfDescribing) {
+              return ['', $test->toString()];
+          } else {
+              return ['', get_class($test)];
+          }
       }
-    } else {
-      if ($test instanceof PHPUnit_Framework_TestCase) {
-        return array(get_class($test), $test->getName());
-      } 
-
-      else if ($test instanceof PHPUnit_Framework_SelfDescribing) {
-        return array('', $test->toString());
-      } 
-
-      else {
-        return array('', get_class($test));
-      }
-    }
   }
 
   /**
    * @param  PHPUnit_Framework_Test       $test
    * @param  PHPUnit_Framework_TestResult $result
+   *
    * @return mixed
-   * @access public
    * @static
    */
-  public static function lookupResult(PHPUnit_Framework_Test $test, PHPUnit_Framework_TestResult $result) {
-    $testName = self::describe($test);
-    
-    foreach ($result->errors() as $error) {
-      if ($testName == self::describe($error->failedTest())) {
-        return $error;
+  public static function lookupResult(PHPUnit_Framework_Test $test, PHPUnit_Framework_TestResult $result)
+  {
+      $testName = self::describe($test);
+
+      foreach ($result->errors() as $error) {
+          if ($testName == self::describe($error->failedTest())) {
+              return $error;
+          }
       }
-    }
-    
-    foreach ($result->failures() as $failure) {
-      if ($testName == self::describe($failure->failedTest())) {
-        return $failure;
+
+      foreach ($result->failures() as $failure) {
+          if ($testName == self::describe($failure->failedTest())) {
+              return $failure;
+          }
       }
-    }
-    
-    foreach ($result->notImplemented() as $notImplemented) {
-      if ($testName == self::describe($notImplemented->failedTest())) {
-        return $notImplemented;
+
+      foreach ($result->notImplemented() as $notImplemented) {
+          if ($testName == self::describe($notImplemented->failedTest())) {
+              return $notImplemented;
+          }
       }
-    }
-    
-    foreach ($result->skipped() as $skipped) {
-      if ($testName == self::describe($skipped->failedTest())) {
-        return $skipped;
+
+      foreach ($result->skipped() as $skipped) {
+          if ($testName == self::describe($skipped->failedTest())) {
+              return $skipped;
+          }
       }
-    }
-    
-    return PHPUnit_Runner_BaseTestRunner::STATUS_PASSED;
+
+      return PHPUnit_Runner_BaseTestRunner::STATUS_PASSED;
   }
 
   /**
@@ -133,42 +134,43 @@ class PHPUnit_Util_Test {
    *
    * @param  string $className
    * @param  string $methodName
+   *
    * @return array
-   * @access public
    * @static
+   *
    * @since  Method available since Release 3.2.0
    */
-  public static function getLinesToBeCovered($className, $methodName) {
-    $result = array();
-    
-    try {
-      $class = new ReflectionClass($className);
-      $method = new ReflectionMethod($className, $methodName);
-      $docComment = $class->getDocComment() . $method->getDocComment();
-      
-      if (preg_match_all('/@covers[\s]+([\:\.\w]+)/', $docComment, $matches)) {
-        foreach ($matches[1] as $method) {
-          if (strpos($method, '::') !== FALSE) {
-            list($className, $methodName) = explode('::', $method);
-            
-            $_method = new ReflectionMethod($className, $methodName);
-            $fileName = $_method->getFileName();
-            $startLine = $_method->getStartLine();
-            $endLine = $_method->getEndLine();
-            
-            if (! isset($result[$fileName])) {
-              $result[$fileName] = array();
-            }
-            
-            $result[$fileName] = array_merge($result[$fileName], range($startLine, $endLine));
-          }
-        }
-      }
-    } 
+  public static function getLinesToBeCovered($className, $methodName)
+  {
+      $result = [];
 
-    catch (ReflectionException $e) {}
-    
-    return $result;
+      try {
+          $class = new ReflectionClass($className);
+          $method = new ReflectionMethod($className, $methodName);
+          $docComment = $class->getDocComment().$method->getDocComment();
+
+          if (preg_match_all('/@covers[\s]+([\:\.\w]+)/', $docComment, $matches)) {
+              foreach ($matches[1] as $method) {
+                  if (strpos($method, '::') !== false) {
+                      list($className, $methodName) = explode('::', $method);
+
+                      $_method = new ReflectionMethod($className, $methodName);
+                      $fileName = $_method->getFileName();
+                      $startLine = $_method->getStartLine();
+                      $endLine = $_method->getEndLine();
+
+                      if (!isset($result[$fileName])) {
+                          $result[$fileName] = [];
+                      }
+
+                      $result[$fileName] = array_merge($result[$fileName], range($startLine, $endLine));
+                  }
+              }
+          }
+      } catch (ReflectionException $e) {
+      }
+
+      return $result;
   }
 
   /**
@@ -176,19 +178,21 @@ class PHPUnit_Util_Test {
    *
    * @param  Reflector $reflector
    * @param  array     $groups
+   *
    * @return array
-   * @access public
    * @static
+   *
    * @since  Method available since Release 3.2.0
    */
-  public static function getGroups(Reflector $reflector, array $groups = array()) {
-    $docComment = $reflector->getDocComment();
-    
-    if (preg_match_all('/@group[\s]+([\.\w]+)/', $docComment, $matches)) {
-      $groups = array_merge($groups, $matches[1]);
-    }
-    
-    return $groups;
+  public static function getGroups(Reflector $reflector, array $groups = [])
+  {
+      $docComment = $reflector->getDocComment();
+
+      if (preg_match_all('/@group[\s]+([\.\w]+)/', $docComment, $matches)) {
+          $groups = array_merge($groups, $matches[1]);
+      }
+
+      return $groups;
   }
 
   /**
@@ -196,33 +200,33 @@ class PHPUnit_Util_Test {
    *
    * @param  string $className
    * @param  string $methodName
+   *
    * @return array
-   * @access public
    * @static
+   *
    * @since  Method available since Release 3.2.0
    */
-  public static function getProvidedData($className, $methodName) {
-    $method = new ReflectionMethod($className, $methodName);
-    $docComment = $method->getDocComment();
-    
-    if (preg_match('/@dataProvider[\s]+([:\.\w]+)/', $docComment, $matches)) {
-      try {
-        $dataProvider = explode('::', $matches[1]);
-        $dataProviderMethodName = array_pop($dataProvider);
-        
-        if (! empty($dataProvider)) {
-          $dataProviderClassName = join('::', $dataProvider);
-        } else {
-          $dataProviderClassName = $className;
-        }
-        
-        $dataProviderMethod = new ReflectionMethod($dataProviderClassName, $dataProviderMethodName);
-        
-        return $dataProviderMethod->invoke(NULL);
-      } 
+  public static function getProvidedData($className, $methodName)
+  {
+      $method = new ReflectionMethod($className, $methodName);
+      $docComment = $method->getDocComment();
 
-      catch (ReflectionException $e) {}
-    }
+      if (preg_match('/@dataProvider[\s]+([:\.\w]+)/', $docComment, $matches)) {
+          try {
+              $dataProvider = explode('::', $matches[1]);
+              $dataProviderMethodName = array_pop($dataProvider);
+
+              if (!empty($dataProvider)) {
+                  $dataProviderClassName = implode('::', $dataProvider);
+              } else {
+                  $dataProviderClassName = $className;
+              }
+
+              $dataProviderMethod = new ReflectionMethod($dataProviderClassName, $dataProviderMethodName);
+
+              return $dataProviderMethod->invoke(null);
+          } catch (ReflectionException $e) {
+          }
+      }
   }
 }
-?>

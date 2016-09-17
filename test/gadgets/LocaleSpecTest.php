@@ -6,7 +6,7 @@
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License.  You may obtain a copy of the License at.
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,9 +21,9 @@
 /**
  * LocaleSpec test case.
  */
-class LocaleSpecTest extends PHPUnit_Framework_TestCase {
-  
-  /**
+class LocaleSpecTest extends PHPUnit_Framework_TestCase
+{
+    /**
    * @var LocaleSpec
    */
   private $LocaleSpec;
@@ -31,48 +31,54 @@ class LocaleSpecTest extends PHPUnit_Framework_TestCase {
   /**
    * Prepares the environment before running a test.
    */
-  protected function setUp() {
-    parent::setUp();
-    $this->LocaleSpec = new LocaleSpec();
-    $this->LocaleSpec->url = 'url';
-    $this->LocaleSpec->locale = 'locale';
-    $this->LocaleSpec->rightToLeft = 'rtl';
-    $this->LocaleSpec->localeMessageBundles = array('foo');
+  protected function setUp()
+  {
+      parent::setUp();
+      $this->LocaleSpec = new LocaleSpec();
+      $this->LocaleSpec->url = 'url';
+      $this->LocaleSpec->locale = 'locale';
+      $this->LocaleSpec->rightToLeft = 'rtl';
+      $this->LocaleSpec->localeMessageBundles = ['foo'];
   }
 
   /**
    * Cleans up the environment after running a test.
    */
-  protected function tearDown() {
-    $this->LocaleSpec = null;
-    parent::tearDown();
+  protected function tearDown()
+  {
+      $this->LocaleSpec = null;
+      parent::tearDown();
   }
 
   /**
-   * Tests LocaleSpec->getLocale()
+   * Tests LocaleSpec->getLocale().
    */
-  public function testGetLocale() {
-    $this->assertEquals('locale', $this->LocaleSpec->getLocale());
+  public function testGetLocale()
+  {
+      $this->assertEquals('locale', $this->LocaleSpec->getLocale());
   }
 
   /**
-   * Tests LocaleSpec->getLocaleMessageBundles()
+   * Tests LocaleSpec->getLocaleMessageBundles().
    */
-  public function testGetLocaleMessageBundles() {
-    $this->assertEquals(array('foo'), $this->LocaleSpec->getLocaleMessageBundles());
+  public function testGetLocaleMessageBundles()
+  {
+      $this->assertEquals(['foo'], $this->LocaleSpec->getLocaleMessageBundles());
   }
 
   /**
-   * Tests LocaleSpec->getURI()
+   * Tests LocaleSpec->getURI().
    */
-  public function testGetURI() {
-    $this->assertEquals('url', $this->LocaleSpec->getURI());
+  public function testGetURI()
+  {
+      $this->assertEquals('url', $this->LocaleSpec->getURI());
   }
 
   /**
-   * Tests LocaleSpec->isRightToLeft()
+   * Tests LocaleSpec->isRightToLeft().
    */
-  public function testIsRightToLeft() {
-    $this->assertEquals('rtl', $this->LocaleSpec->isRightToLeft());
+  public function testIsRightToLeft()
+  {
+      $this->assertEquals('rtl', $this->LocaleSpec->isRightToLeft());
   }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,9 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed
+ *
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: Rss.php 8064 2008-02-16 10:58:39Z thomas $
  */
 
@@ -29,12 +30,13 @@ require_once 'external/Zend/Feed/Entry/Abstract.php';
  * Concrete class for working with RSS items.
  *
  * @category   Zend
- * @package    Zend_Feed
+ *
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Feed_Entry_Rss extends Zend_Feed_Entry_Abstract {
-  /**
+class Zend_Feed_Entry_Rss extends Zend_Feed_Entry_Abstract
+{
+    /**
    * Root XML element for RSS items.
    *
    * @var string
@@ -46,12 +48,15 @@ class Zend_Feed_Entry_Rss extends Zend_Feed_Entry_Abstract {
    * to content:encoded element.
    *
    * @param  string $var The property to access.
+   *
    * @return mixed
    */
-  public function __get($var) {
-    switch ($var) {
+  public function __get($var)
+  {
+      switch ($var) {
       case 'content':
         $prefix = $this->_element->lookupPrefix('http://purl.org/rss/1.0/modules/content/');
+
         return parent::__get("$prefix:encoded");
       default:
         return parent::__get($var);
@@ -64,10 +69,12 @@ class Zend_Feed_Entry_Rss extends Zend_Feed_Entry_Abstract {
    *
    * @param  string $var The property to change.
    * @param  string $val The property's new value.
+   *
    * @return void
    */
-  public function __set($var, $value) {
-    switch ($var) {
+  public function __set($var, $value)
+  {
+      switch ($var) {
       case 'content':
         parent::__set('content:encoded', $value);
         break;
@@ -81,10 +88,12 @@ class Zend_Feed_Entry_Rss extends Zend_Feed_Entry_Abstract {
    * to content:encoded element.
    *
    * @param  string $var
-   * @return boolean
+   *
+   * @return bool
    */
-  public function __isset($var) {
-    switch ($var) {
+  public function __isset($var)
+  {
+      switch ($var) {
       case 'content':
         // don't use other callback to prevent invalid returned value
         return $this->content() !== null;
@@ -101,12 +110,15 @@ class Zend_Feed_Entry_Rss extends Zend_Feed_Entry_Abstract {
    *
    * @param  string $var    The element to get the string value of.
    * @param  mixed  $unused This parameter is not used.
+   *
    * @return mixed The node's value, null, or an array of nodes.
    */
-  public function __call($var, $unused) {
-    switch ($var) {
+  public function __call($var, $unused)
+  {
+      switch ($var) {
       case 'content':
         $prefix = $this->_element->lookupPrefix('http://purl.org/rss/1.0/modules/content/');
+
         return parent::__call("$prefix:encoded", $unused);
       default:
         return parent::__call($var, $unused);

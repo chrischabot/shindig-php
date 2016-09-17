@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit
+ * PHPUnit.
  *
  * Copyright (c) 2002-2008, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -35,15 +35,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    SVN: $Id: AbstractTableMetaData.php 1985 2007-12-26 18:11:55Z sb $
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
@@ -55,30 +56,32 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * Provides basic functionality for table meta data.
  *
  * @category   Testing
- * @package    PHPUnit
+ *
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version    Release: 3.2.9
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
-abstract class PHPUnit_Extensions_Database_DataSet_AbstractTableMetaData implements PHPUnit_Extensions_Database_DataSet_ITableMetaData {
-  
-  /**
+abstract class PHPUnit_Extensions_Database_DataSet_AbstractTableMetaData implements PHPUnit_Extensions_Database_DataSet_ITableMetaData
+{
+    /**
    * The names of all columns in the table.
-   * 
-   * @var Array
+   *
+   * @var array
    */
   protected $columns;
-  
+
   /**
    * The names of all the primary keys in the table.
-   * 
-   * @var Array
+   *
+   * @var array
    */
   protected $primaryKeys;
-  
+
   /**
    * @var string
    */
@@ -89,8 +92,9 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractTableMetaData impleme
    *
    * @return array
    */
-  public function getColumns() {
-    return $this->columns;
+  public function getColumns()
+  {
+      return $this->columns;
   }
 
   /**
@@ -98,8 +102,9 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractTableMetaData impleme
    *
    * @return array
    */
-  public function getPrimaryKeys() {
-    return $this->primaryKeys;
+  public function getPrimaryKeys()
+  {
+      return $this->primaryKeys;
   }
 
   /**
@@ -107,8 +112,9 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractTableMetaData impleme
    *
    * @return string
    */
-  public function getTableName() {
-    return $this->tableName;
+  public function getTableName()
+  {
+      return $this->tableName;
   }
 
   /**
@@ -116,16 +122,16 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractTableMetaData impleme
    *
    * @param PHPUnit_Extensions_Database_DataSet_ITableMetaData $other
    */
-  public function assertEquals(PHPUnit_Extensions_Database_DataSet_ITableMetaData $other) {
-    if ($this->getTableName() != $other->getTableName()) {
-      throw new Exception("Expected table name of {$this->getTableName()}, has a name of {$other->getTableName()}");
-    }
-    
-    if ($this->getColumns() != $other->getColumns()) {
-      throw new Exception("Expected following columns: " . implode(', ', $this->getColumns()) . "; has columns: " . implode(', ', $other->getColumns()));
-    }
-    
-    return TRUE;
+  public function assertEquals(PHPUnit_Extensions_Database_DataSet_ITableMetaData $other)
+  {
+      if ($this->getTableName() != $other->getTableName()) {
+          throw new Exception("Expected table name of {$this->getTableName()}, has a name of {$other->getTableName()}");
+      }
+
+      if ($this->getColumns() != $other->getColumns()) {
+          throw new Exception('Expected following columns: '.implode(', ', $this->getColumns()).'; has columns: '.implode(', ', $other->getColumns()));
+      }
+
+      return true;
   }
 }
-?>
